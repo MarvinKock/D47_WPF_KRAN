@@ -57,6 +57,7 @@ namespace D47_WPF_Kran
             erstelle_Rahmen(20, 20, 14, 256);
             erstelle_Rahmen(580, 580, 14, 256);
             erstelle_KranSchlitten(60, 60, 14, 256);
+            erstelle_Laufband();
         }
 
         //Erstellt den Rahmen des Kranes
@@ -113,8 +114,22 @@ namespace D47_WPF_Kran
         }
 
         //Erstellt das Laufband und die dazugehörigen Lager
-        public void erstelle_Laufband(int x1, int x2, int y1, int y2)
+        public void erstelle_Laufband()
         {
+            double width = 15.0;
+
+            erstelle_Lager(275.0, 175.0);
+            erstelle_Lager(300.0, 200.0);
+            erstelle_Lager(350.0, 200.0);
+            erstelle_Lager(400.0, 200.0);
+
+            Rectangle laufband = new Rectangle();
+            laufband.Fill = Brushes.LightGray;
+            laufband.Width = 150.0;
+            laufband.Height = 25.0;
+            laufband.SetValue(Canvas.LeftProperty, 300.0);
+            laufband.SetValue(Canvas.TopProperty, 175.0);
+            this.Children.Add(laufband);
 
 
         }
@@ -125,5 +140,18 @@ namespace D47_WPF_Kran
         {
 
         }
+
+        public void erstelle_Lager(double x, double y)
+        {
+            Rectangle lager = new Rectangle();
+            lager.Fill = Brushes.SaddleBrown;
+            lager.Width = 25.0;
+            lager.Height = 25.0;
+            lager.SetValue(Canvas.TopProperty, y);
+            lager.SetValue(Canvas.LeftProperty, x);
+            this.Children.Add(lager);
+        }
+
+       
     }
 }
