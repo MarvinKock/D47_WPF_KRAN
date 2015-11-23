@@ -58,13 +58,10 @@ namespace D47_WPF_Kran
             erstelle_Rahmen(20, 580, 250, 250);
             erstelle_Rahmen(20, 20, 14, 256);
             erstelle_Rahmen(580, 580, 14, 256);
-            Rectangle kran = new Rectangle();
-            kran.Fill = Brushes.SaddleBrown;
-            kran.Width = 15.0;
-            kran.Height = 15.0;
-            kran.SetValue(Canvas.TopProperty, 100.0);
-            kran.SetValue(Canvas.LeftProperty, 100.0);
-            this.Children.Add(kran);
+            
+
+            erstelle_KranSchlitten(60, 60, 14, 256);
+
         }
 
         public void erstelle_Rahmen(int x1, int x2, int y1, int y2)
@@ -78,6 +75,53 @@ namespace D47_WPF_Kran
             linie.Stroke = Brushes.Tomato;
             linie.StrokeThickness = 12;
             this.Children.Add(linie);
+        }
+
+        public void erstelle_KranSchlitten(int x1, int x2, int y1, int y2)
+        {
+            double width = 30.0;
+            Line linie = new Line();
+
+            linie.X1 = x1;
+            linie.X2 = x2;
+            linie.Y1 = y1;
+            linie.Y2 = y2;
+
+            linie.Fill = Brushes.Black;
+            linie.Stroke = Brushes.LightSalmon;
+            linie.StrokeThickness = 5;
+            this.Children.Add(linie);
+
+            Line linie2 = new Line();
+
+            linie2.X1 = x1 + width;
+            linie2.X2 = x2 + width;
+            linie2.Y1 = y1 ;
+            linie2.Y2 = y2 ;
+
+            linie2.Fill = Brushes.Black;
+            linie2.Stroke = Brushes.LightSalmon;
+            linie2.StrokeThickness = 5;
+            this.Children.Add(linie2);
+
+            Rectangle kran = new Rectangle();
+            kran.Fill = Brushes.SaddleBrown;
+            kran.Width = width;
+            kran.Height = 40.0;
+            kran.SetValue(Canvas.TopProperty, 100.0);
+            kran.SetValue(Canvas.LeftProperty, (double)x1);
+            this.Children.Add(kran);
+        }
+
+        public void erstelle_Laufband(int x1, int x2, int y1, int y2)
+        {
+
+
+        }
+
+        public void erstelle_Kiste(int x1, int x2, int y1, int y2)
+        {
+
         }
     }
 }
