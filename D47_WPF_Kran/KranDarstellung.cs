@@ -46,11 +46,9 @@ namespace D47_WPF_Kran
     /// </summary>
     public class KranDarstellung : Canvas
     {
-        static KranDarstellung()
-        {
-            
-        }
-
+        
+        //Konstruktor
+        //Erstellt das Aussehen des CustumControls
         public KranDarstellung()
         {
             this.Background = Brushes.Bisque;
@@ -58,12 +56,11 @@ namespace D47_WPF_Kran
             erstelle_Rahmen(20, 580, 250, 250);
             erstelle_Rahmen(20, 20, 14, 256);
             erstelle_Rahmen(580, 580, 14, 256);
-            
-
             erstelle_KranSchlitten(60, 60, 14, 256);
-
         }
 
+        //Erstellt den Rahmen des Kranes
+        //Übergabe der Koordinaten
         public void erstelle_Rahmen(int x1, int x2, int y1, int y2)
         {
             Line linie = new Line();
@@ -77,6 +74,8 @@ namespace D47_WPF_Kran
             this.Children.Add(linie);
         }
 
+        //Erstellt den Kranschlitten und die Befestigung
+        //Übergabe der Koordinaten
         public void erstelle_KranSchlitten(int x1, int x2, int y1, int y2)
         {
             double width = 30.0;
@@ -88,7 +87,7 @@ namespace D47_WPF_Kran
             linie.Y2 = y2;
 
             linie.Fill = Brushes.Black;
-            linie.Stroke = Brushes.LightSalmon;
+            linie.Stroke = Brushes.Gray;
             linie.StrokeThickness = 5;
             this.Children.Add(linie);
 
@@ -100,12 +99,12 @@ namespace D47_WPF_Kran
             linie2.Y2 = y2 ;
 
             linie2.Fill = Brushes.Black;
-            linie2.Stroke = Brushes.LightSalmon;
+            linie2.Stroke = Brushes.Gray;
             linie2.StrokeThickness = 5;
             this.Children.Add(linie2);
 
             Rectangle kran = new Rectangle();
-            kran.Fill = Brushes.SaddleBrown;
+            kran.Fill = Brushes.Black;
             kran.Width = width;
             kran.Height = 40.0;
             kran.SetValue(Canvas.TopProperty, 100.0);
@@ -113,12 +112,15 @@ namespace D47_WPF_Kran
             this.Children.Add(kran);
         }
 
+        //Erstellt das Laufband und die dazugehörigen Lager
         public void erstelle_Laufband(int x1, int x2, int y1, int y2)
         {
 
 
         }
 
+        //Erstellen der Kiste
+        //Übergabe der Start-Koordinaten
         public void erstelle_Kiste(int x1, int x2, int y1, int y2)
         {
 
