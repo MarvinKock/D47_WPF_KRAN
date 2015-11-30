@@ -56,7 +56,20 @@ namespace D47_WPF_Kran
             erstelle_Rahmen(20, 580, 250, 250);
             erstelle_Rahmen(20, 20, 14, 256);
             erstelle_Rahmen(580, 580, 14, 256);
-            erstelle_KranSchlitten(60, 60, 14, 256);
+
+            
+            
+
+            Rectangle kran = new Rectangle();
+            this.Children.Add(kran);
+            Line schiene_links = new Line();
+            this.Children.Add(schiene_links);
+            Line schiene_rechts = new Line();
+            this.Children.Add(schiene_rechts);
+            
+           
+            Kran KranPic = new Kran(60, 60, 14, 256, kran, schiene_links, schiene_rechts);
+            //erstelle_KranSchlitten(60, 60, 14, 256);
             erstelle_Laufband();
         }
 
