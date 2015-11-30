@@ -60,16 +60,15 @@ namespace D47_WPF_Kran
             
             
 
-            Rectangle kran = new Rectangle();
-            this.Children.Add(kran);
+            
             Line schiene_links = new Line();
             this.Children.Add(schiene_links);
             Line schiene_rechts = new Line();
             this.Children.Add(schiene_rechts);
-            
+            Rectangle kran = new Rectangle();
+            this.Children.Add(kran);
            
             Kran KranPic = new Kran(60, 60, 14, 256, kran, schiene_links, schiene_rechts);
-            //erstelle_KranSchlitten(60, 60, 14, 256);
             erstelle_Laufband();
         }
 
@@ -90,58 +89,24 @@ namespace D47_WPF_Kran
 
         //Erstellt den Kranschlitten und die Befestigung
         //Übergabe der Koordinaten
-        public void erstelle_KranSchlitten(int x1, int x2, int y1, int y2)
-        {
-            double width = 30.0;
-            Line linie = new Line();
-
-            linie.X1 = x1;
-            linie.X2 = x2;
-            linie.Y1 = y1;
-            linie.Y2 = y2;
-
-            linie.Fill = Brushes.Black;
-            linie.Stroke = Brushes.Gray;
-            linie.StrokeThickness = 5;
-            this.Children.Add(linie);
-
-            Line linie2 = new Line();
-
-            linie2.X1 = x1 + width;
-            linie2.X2 = x2 + width;
-            linie2.Y1 = y1 ;
-            linie2.Y2 = y2 ;
-
-            linie2.Fill = Brushes.Black;
-            linie2.Stroke = Brushes.Gray;
-            linie2.StrokeThickness = 5;
-            this.Children.Add(linie2);
-
-            Rectangle kran = new Rectangle();
-            kran.Fill = Brushes.Black;
-            kran.Width = width;
-            kran.Height = 40.0;
-            kran.SetValue(Canvas.TopProperty, 100.0);
-            kran.SetValue(Canvas.LeftProperty, (double)x1);
-            this.Children.Add(kran);
-        }
+        
 
         //Erstellt das Laufband und die dazugehörigen Lager
         public void erstelle_Laufband()
         {
             double width = 15.0;
 
-            erstelle_Lager(275.0, 175.0);
-            erstelle_Lager(300.0, 200.0);
-            erstelle_Lager(350.0, 200.0);
-            erstelle_Lager(400.0, 200.0);
+            erstelle_Lager(260.0, 130.0);
+            erstelle_Lager(300.0, 170.0);
+            erstelle_Lager(350.0, 170.0);
+            erstelle_Lager(400.0, 170.0);
 
             Rectangle laufband = new Rectangle();
             laufband.Fill = Brushes.LightGray;
             laufband.Width = 150.0;
-            laufband.Height = 25.0;
+            laufband.Height = 40.0;
             laufband.SetValue(Canvas.LeftProperty, 300.0);
-            laufband.SetValue(Canvas.TopProperty, 175.0);
+            laufband.SetValue(Canvas.TopProperty, 130.0);
             this.Children.Add(laufband);
 
 
@@ -158,8 +123,8 @@ namespace D47_WPF_Kran
         {
             Rectangle lager = new Rectangle();
             lager.Fill = Brushes.SaddleBrown;
-            lager.Width = 25.0;
-            lager.Height = 25.0;
+            lager.Width = 40.0;
+            lager.Height = 40.0;
             lager.SetValue(Canvas.TopProperty, y);
             lager.SetValue(Canvas.LeftProperty, x);
             this.Children.Add(lager);
