@@ -136,7 +136,6 @@ namespace D47_WPF_Kran
         public void moveKran()
         {
             KranPic.bewegungXrichtungPositiv();
-
         }
     }
 }
