@@ -133,6 +133,10 @@ namespace D47_WPF_Kran
             this.Children.Add(lager);
         }
 
-       
+        public void moveKran()
+        {
+            KranPic.bewegungXrichtungPositiv();
+
+        }
     }
 }

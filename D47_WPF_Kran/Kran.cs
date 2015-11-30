@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 
 namespace D47_WPF_Kran
 {
-    class Kran
+    public class Kran
     {
         double width = 30.0;
         double height = 40.0;
@@ -25,6 +25,9 @@ namespace D47_WPF_Kran
         int y2_right;
         private int xKoordinate;
         private int yKoordinate;
+        Rectangle kran;
+        Line links;
+        Line rechts;
 
 
         public Kran(int x1, int x2, int y1, int y2, Rectangle kran, Line links, Line rechts)
@@ -37,6 +40,9 @@ namespace D47_WPF_Kran
                  this.y2_left = y2;
                  this.y1_right = y1;
                  this.y2_right = y2;
+                 this.kran = kran;
+                 this.links = links;
+                 this.rechts = rechts;
 
                  links.X1 = this.x1_left;
                  links.X2 = this.x2_left;
@@ -89,8 +95,7 @@ namespace D47_WPF_Kran
         {
             this.yKoordinate--;
         }
-
-
+       
 
     }
 
