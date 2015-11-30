@@ -20,30 +20,34 @@ namespace D47_WPF_Kran
             this.kiste = kiste;
             this.xKoordinate = x;
             this.yKoordinate = y;
-            kiste.Fill = Brushes.Brown;
-            kiste.Width = kiste.Height = 37.0;
-            kiste.SetValue(Canvas.LeftProperty, x);
-            kiste.SetValue(Canvas.TopProperty, y);
+            this.kiste.Fill = Brushes.Brown;
+            this.kiste.Width = kiste.Height = 37.0;
+            this.kiste.SetValue(Canvas.LeftProperty, x);
+            this.kiste.SetValue(Canvas.TopProperty, y);
         }
 
         public void bewegungXrichtungPositiv()
         {
             this.xKoordinate++;
+            this.kiste.SetValue(Canvas.LeftProperty, this.xKoordinate);
         }
 
         public void bewegungXrichtungNegativ()
         {
             this.xKoordinate--;
+            this.kiste.SetValue(Canvas.LeftProperty, this.xKoordinate);
         }
 
         public void bewegungYrichtungPositiv()
         {
             this.yKoordinate++;
+            this.kiste.SetValue(Canvas.TopProperty, this.yKoordinate);
         }
 
         public void bewegungYrichtungNegativ()
         {
             this.yKoordinate--;
+            this.kiste.SetValue(Canvas.TopProperty, this.yKoordinate);
         }
     }
 }
