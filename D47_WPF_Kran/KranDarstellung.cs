@@ -57,9 +57,9 @@ namespace D47_WPF_Kran
             erstelle_Rahmen(20, 20, 14, 256);
             erstelle_Rahmen(580, 580, 14, 256);
 
-            
-            
 
+
+            erstelle_Kiste(100.0, 100.0);
             
             Line schiene_links = new Line();
             this.Children.Add(schiene_links);
@@ -114,9 +114,15 @@ namespace D47_WPF_Kran
 
         //Erstellen der Kiste
         //Übergabe der Start-Koordinaten
-        public void erstelle_Kiste(int x1, int x2, int y1, int y2)
+        public void erstelle_Kiste(double x, double y)
         {
-
+            Rectangle kiste = new Rectangle();
+            kiste.Fill = Brushes.Brown;
+            kiste.Width = kiste.Height = 37.0;
+            kiste.SetValue(Canvas.LeftProperty, x);
+            kiste.SetValue(Canvas.TopProperty, y);
+            this.Children.Add(kiste);
+            Kiste kistePic = new Kiste(x, y, kiste);  
         }
 
         public void erstelle_Lager(double x, double y)
