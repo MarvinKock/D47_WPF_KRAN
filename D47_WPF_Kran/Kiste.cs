@@ -9,16 +9,12 @@ namespace D47_WPF_Kran
 {
     class Kiste
     {
-        private int breite;
-        private int hoehe;
         private Rectangle kiste;
-        private int xKoordinate;
-        private int yKoordinate;
+        private double xKoordinate;
+        private double yKoordinate;
 
-        public Kiste(int breite, int hoehe, int x, int y, Rectangle kiste)
+        public Kiste(double x, double y, Rectangle kiste)
         {
-            this.breite = breite;
-            this.hoehe = hoehe;
             this.kiste = kiste;
             this.xKoordinate = x;
             this.yKoordinate = y;
