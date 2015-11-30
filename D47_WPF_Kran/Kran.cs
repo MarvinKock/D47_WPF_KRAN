@@ -23,8 +23,8 @@ namespace D47_WPF_Kran
         int y2_left;
         int y1_right;
         int y2_right;
-        private int xKoordinate;
-        private int yKoordinate;
+        //private int xKoordinate = 0;
+       // private int yKoordinate = 0;
         Rectangle kran;
         Line links;
         Line rechts;
@@ -78,22 +78,28 @@ namespace D47_WPF_Kran
 
         public void bewegungXrichtungPositiv()
         {
-            this.xKoordinate++;
+            this.leftProperty++;
+            this.x1_left++;
+
+            kran.SetValue(Canvas.LeftProperty, this.leftProperty);
+            kran.SetValue(Canvas.TopProperty, this.topProperty);
+            links.SetValue(Canvas.LeftProperty, (double)this.x1_left);
+            rechts.SetValue(Canvas.LeftProperty, (double)this.x1_right);
         }
 
         public void bewegungXrichtungNegativ()
         {
-            this.xKoordinate--;
+            this.leftProperty--;
         }
 
         public void bewegungYrichtungPositiv()
         {
-            this.yKoordinate++;
+            this.topProperty++;
         }
 
         public void bewegungYrichtungNegativ()
         {
-            this.yKoordinate--;
+            this.topProperty--;
         }
        
 
