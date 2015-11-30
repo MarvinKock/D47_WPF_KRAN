@@ -20,9 +20,15 @@ namespace D47_WPF_Kran
     /// </summary>
     public partial class MainWindow : Window
     {
+        KranDarstellung kran = new KranDarstellung();
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void KranLinks_Click(object sender, RoutedEventArgs e)
+        {
+            kran.KranPic.bewegungXrichtungPositiv();
         }
     }
 }

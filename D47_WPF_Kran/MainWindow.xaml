@@ -3,7 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:D47_WPF_Kran"
         Title="MainWindow" Height="600" Width="700" ResizeMode="NoResize">
-    <Grid>
-        <local:KranDarstellung x:Name="Kran"></local:KranDarstellung>
-    </Grid>
+
+        <DockPanel LastChildFill="True">
+        <StackPanel>
+            <local:KranDarstellung x:Name="Kran" DockPanel.Dock="Top"></local:KranDarstellung>
+            <Button Name="KranLinks" Click="KranLinks_Click">Kran nach links</Button>
+        </StackPanel>
+    </DockPanel>
+
 </Window>

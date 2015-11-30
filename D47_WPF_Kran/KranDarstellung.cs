@@ -46,7 +46,7 @@ namespace D47_WPF_Kran
     /// </summary>
     public class KranDarstellung : Canvas
     {
-        
+        public Kran KranPic;
         //Konstruktor
         //Erstellt das Aussehen des CustumControls
         public KranDarstellung()
@@ -68,7 +68,7 @@ namespace D47_WPF_Kran
             Rectangle kran = new Rectangle();
             this.Children.Add(kran);
            
-            Kran KranPic = new Kran(60, 60, 14, 256, kran, schiene_links, schiene_rechts);
+            this.KranPic = new Kran(60, 60, 14, 256, kran, schiene_links, schiene_rechts);
             erstelle_Laufband();
         }
 
@@ -117,10 +117,7 @@ namespace D47_WPF_Kran
         public void erstelle_Kiste(double x, double y)
         {
             Rectangle kiste = new Rectangle();
-            kiste.Fill = Brushes.Brown;
-            kiste.Width = kiste.Height = 37.0;
-            kiste.SetValue(Canvas.LeftProperty, x);
-            kiste.SetValue(Canvas.TopProperty, y);
+            
             this.Children.Add(kiste);
             Kiste kistePic = new Kiste(x, y, kiste);  
         }
