@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -145,34 +146,37 @@ namespace D47_WPF_Kran
             this.Children.Add(lager);
         }
 
-        public void moveKran()
+        public void moveKranLeft()
         {
             if (this.Dispatcher.CheckAccess())
             {
-                KranPic.leftProperty += 1.0;
-                KranPic.x1_left += 1.0;
-                KranPic.x1_right += 1.0;
-
-                KranPic.links.X1++;
-                KranPic.links.X2++;
-                KranPic.rechts.X2++;
-                KranPic.rechts.X1++;
-
-                Console.WriteLine("{0}--{1}--{2}", KranPic.leftProperty, KranPic.x1_left, KranPic.x1_right);
-
-                KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
-                KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
-                this.p.SetValue(Canvas.LeftProperty, 200.0);
+                KranPic.bewegungXrichtungPositiv();
+                zeichner();
             }
             else
             {
                 MoveKranHandler handler =
-                         new MoveKranHandler(this.moveKran);   // TryMoveBall
-
-
-
+                         new MoveKranHandler(this.moveKranLeft);   // TryMoveBall
                 this.Dispatcher.BeginInvoke(handler);
             }
+        }
+
+        private void zeichner()
+        {
+            /*KranPic.leftProperty += 1.0;
+            KranPic.x1_left += 1.0;
+            KranPic.x1_right += 1.0;*/
+
+            KranPic.links.X1 = KranPic.x1_left;
+            KranPic.links.X2 = KranPic.x2_left;
+            KranPic.rechts.X1 = KranPic.x1_right;
+            KranPic.rechts.X2 = KranPic.x2_right;
+
+            Console.WriteLine("{0}--{1}--{2}", KranPic.leftProperty, KranPic.x1_left, KranPic.x1_right);
+
+            KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
+            KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
+            this.p.SetValue(Canvas.LeftProperty, 200.0);
         }
     }
 }

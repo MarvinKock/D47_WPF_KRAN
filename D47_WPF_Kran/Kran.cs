@@ -84,11 +84,13 @@ namespace D47_WPF_Kran
 
         public void bewegungXrichtungPositiv()
         {
-            /*this.leftProperty += 10.0;
-            this.x1_left += 10;
-            this.x1_right += 10;
+            this.leftProperty += 1.0;
+            this.x1_left += 1;
+            this.x1_right += 1;
+            this.x2_left += 1;
+            this.x2_right += 1;
 
-            Console.WriteLine("{0}--{1}--{2}", this.leftProperty, this.x1_left, this.x1_right);*/
+            //Console.WriteLine("{0}--{1}--{2}", this.leftProperty, this.x1_left, this.x1_right);
         }
 
         public void bewegungXrichtungNegativ()

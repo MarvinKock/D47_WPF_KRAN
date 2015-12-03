@@ -16,13 +16,20 @@ using System.Windows.Shapes;
 
 namespace D47_WPF_Kran
 {
-    
+    enum button
+    {
+        Rechts,
+        Links,
+        Hoch,
+        Runter
+    }
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         public bool isRunning = false;
+        private button buttonClick;
         public MainWindow()
         {
             InitializeComponent();
@@ -31,15 +38,14 @@ namespace D47_WPF_Kran
         private void KranLinks_Click(object sender, RoutedEventArgs e)
         {
             Thread t;
-           
-                // erster Start
-               ThreadStart ts = new ThreadStart(MoveElevatorPara);
-                t = new Thread(ts);
-                isRunning = true;
+                    
+            // erster Start
+            ThreadStart ts = new ThreadStart(MoveElevatorPara);
+            t = new Thread(ts);
+            isRunning = true;
                 
-                t.Start();
-
-           
+            t.Start();
+            buttonClick = button.Links;  
         }
 
         private void MoveElevatorPara()//(object o)
@@ -47,9 +53,10 @@ namespace D47_WPF_Kran
 
             while (this.isRunning == true)
             {
-                Kran.moveKran();
+                if(buttonClick == button.Links)
+                    Kran.moveKranLeft();
                // Console.WriteLine("da");
-                Thread.Sleep(500);
+                Thread.Sleep(30);
 
             }
 
