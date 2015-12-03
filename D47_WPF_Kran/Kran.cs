@@ -81,6 +81,12 @@ namespace D47_WPF_Kran
             
         }
 
+        public void testRand()
+        {
+            if (this.x1_left == 1)
+                ;
+        }
+
 
         public void bewegungXrichtungPositiv()
         {

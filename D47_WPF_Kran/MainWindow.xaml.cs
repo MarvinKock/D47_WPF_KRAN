@@ -37,55 +37,67 @@ namespace D47_WPF_Kran
 
         private void KranLinks_Click(object sender, RoutedEventArgs e)
         {
-            Thread t;
-                    
-            // erster Start
-            ThreadStart ts = new ThreadStart(MoveElevatorPara);
-            t = new Thread(ts);
-            isRunning = true;
-                
-            t.Start();
+            if (isRunning == false)
+            {
+                Thread t;
+
+                // erster Start
+                ThreadStart ts = new ThreadStart(MoveElevatorPara);
+                t = new Thread(ts);
+                isRunning = true;
+
+                t.Start();
+            }
             buttonClick = button.Links;  
         }
 
 
         private void KranTop_Click(object sender, RoutedEventArgs e)
         {
-            Thread t;
+            if (isRunning == false)
+            {
+                Thread t;
 
-            // erster Start
-            ThreadStart ts = new ThreadStart(MoveElevatorPara);
-            t = new Thread(ts);
-            isRunning = true;
+                // erster Start
+                ThreadStart ts = new ThreadStart(MoveElevatorPara);
+                t = new Thread(ts);
+                isRunning = true;
 
-            t.Start();
+                t.Start();
+            }
             buttonClick = button.Hoch; 
         }
 
         private void KranRechts_Click(object sender, RoutedEventArgs e)
         {
-            Thread t;
+            if (isRunning == false)
+            {
+                Thread t;
 
-            // erster Start
-            ThreadStart ts = new ThreadStart(MoveElevatorPara);
-            t = new Thread(ts);
-            isRunning = true;
+                // erster Start
+                ThreadStart ts = new ThreadStart(MoveElevatorPara);
+                t = new Thread(ts);
+                isRunning = true;
 
-            t.Start();
+                t.Start();
+            }
             buttonClick = button.Rechts; 
         }
 
         private void KranBottom_Click(object sender, RoutedEventArgs e)
         {
-            Thread t;
+            if (isRunning == false)
+            {
+                Thread t;
 
-            // erster Start
-            ThreadStart ts = new ThreadStart(MoveElevatorPara);
-            t = new Thread(ts);
-            isRunning = true;
+                // erster Start
+                ThreadStart ts = new ThreadStart(MoveElevatorPara);
+                t = new Thread(ts);
+                isRunning = true;
 
-            t.Start();
-            buttonClick = button.Runter; 
+                t.Start();
+            }
+            buttonClick = button.Runter;
         }
 
         private void MoveElevatorPara()//(object o)

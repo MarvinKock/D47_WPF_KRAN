@@ -52,16 +52,20 @@ namespace D47_WPF_Kran
         public Kran KranPic;
         Rectangle kran;
         Rectangle p;
+        private int xRahmen = 20;
+        private int yRahmen = 20;
+        private int hoeheRahmen = 230;
+        private int breiteRahmen = 560;
        
         //Konstruktor
         //Erstellt das Aussehen des CustumControls
         public KranDarstellung()
         {
             this.Background = Brushes.Bisque;
-            erstelle_Rahmen(20, 580, 20, 20);
-            erstelle_Rahmen(20, 580, 250, 250);
-            erstelle_Rahmen(20, 20, 14, 256);
-            erstelle_Rahmen(580, 580, 14, 256);
+            erstelle_Rahmen(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen, this.yRahmen);
+            erstelle_Rahmen(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen + this.hoeheRahmen, this.yRahmen + this.hoeheRahmen);
+            erstelle_Rahmen(this.xRahmen, this.xRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
+            erstelle_Rahmen(this.xRahmen + this.breiteRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
 
 
            p  = new Rectangle();
