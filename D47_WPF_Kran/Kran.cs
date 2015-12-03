@@ -13,21 +13,21 @@ namespace D47_WPF_Kran
     {
         double width = 30.0;
         double height = 40.0;
-        double topProperty = 100.0;
-        double leftProperty = 0.0;
-        int x1_left;
-        int x2_left;
-        int x1_right;
-        int x2_right;
-        int y1_left;
-        int y2_left;
-        int y1_right;
-        int y2_right;
+        public double topProperty = 100.0;
+        public double leftProperty = 0.0;
+        public int x1_left;
+        public int x2_left;
+        public int x1_right;
+        public int x2_right;
+        public int y1_left;
+        public int y2_left;
+        public int y1_right;
+        public int y2_right;
         //private int xKoordinate = 0;
        // private int yKoordinate = 0;
-        Rectangle kran;
-        Line links;
-        Line rechts;
+        public Rectangle kran;
+        public Line links;
+        public Line rechts;
 
 
         public Kran(int x1, int x2, int y1, int y2, Rectangle kran, Line links, Line rechts)
@@ -40,6 +40,7 @@ namespace D47_WPF_Kran
                  this.y2_left = y2;
                  this.y1_right = y1;
                  this.y2_right = y2;
+
                  this.kran = kran;
                  this.links = links;
                  this.rechts = rechts;
@@ -73,18 +74,19 @@ namespace D47_WPF_Kran
             kran.SetValue(Canvas.TopProperty, topProperty);
             kran.SetValue(Canvas.LeftProperty, leftProperty);
             //this.Children.Add(kran);
+
+           
+            
         }
 
 
         public void bewegungXrichtungPositiv()
         {
-            this.leftProperty++;
-            this.x1_left++;
+            this.leftProperty += 10.0;
+            this.x1_left += 10;
+            this.x1_right += 10;
 
-            kran.SetValue(Canvas.LeftProperty, this.leftProperty);
-            kran.SetValue(Canvas.TopProperty, this.topProperty);
-            links.SetValue(Canvas.LeftProperty, (double)this.x1_left);
-            rechts.SetValue(Canvas.LeftProperty, (double)this.x1_right);
+            Console.WriteLine("{0}--{1}--{2}", this.leftProperty, this.x1_left, this.x1_right);
         }
 
         public void bewegungXrichtungNegativ()

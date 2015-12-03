@@ -44,9 +44,14 @@ namespace D47_WPF_Kran
     ///     <MyNamespace:KranDarstellung/>
     ///
     /// </summary>
+    /// 
+     public delegate void MoveKranHandler();
     public class KranDarstellung : Canvas
     {
         public Kran KranPic;
+        Rectangle kran;
+        Rectangle p;
+       
         //Konstruktor
         //Erstellt das Aussehen des CustumControls
         public KranDarstellung()
@@ -58,6 +63,13 @@ namespace D47_WPF_Kran
             erstelle_Rahmen(580, 580, 14, 256);
 
 
+           p  = new Rectangle();
+           p.Width = 50;
+           p.Height = 50;
+           p.SetValue(KranDarstellung.TopProperty, 100.0);
+           p.SetValue(KranDarstellung.LeftProperty, 100.0);
+           p.Fill = Brushes.Blue;
+           this.Children.Add(p);
 
             erstelle_Kiste(100.0, 100.0);
             
@@ -65,7 +77,7 @@ namespace D47_WPF_Kran
             this.Children.Add(schiene_links);
             Line schiene_rechts = new Line();
             this.Children.Add(schiene_rechts);
-            Rectangle kran = new Rectangle();
+            this.kran = new Rectangle();
             this.Children.Add(kran);
            
             this.KranPic = new Kran(60, 60, 14, 256, kran, schiene_links, schiene_rechts);
@@ -105,8 +117,8 @@ namespace D47_WPF_Kran
             laufband.Fill = Brushes.LightGray;
             laufband.Width = 150.0;
             laufband.Height = 40.0;
-            laufband.SetValue(Canvas.LeftProperty, 300.0);
-            laufband.SetValue(Canvas.TopProperty, 130.0);
+            laufband.SetValue(KranDarstellung.LeftProperty, 300.0);
+            laufband.SetValue(KranDarstellung.TopProperty, 130.0);
             this.Children.Add(laufband);
 
 
@@ -135,7 +147,29 @@ namespace D47_WPF_Kran
 
         public void moveKran()
         {
-            KranPic.bewegungXrichtungPositiv();
+            if (this.Dispatcher.CheckAccess())
+            {
+                KranPic.leftProperty += 1.0;
+                KranPic.x1_left += 1;
+                KranPic.x1_right += 1;
+
+                Console.WriteLine("{0}--{1}--{2}", KranPic.leftProperty, KranPic.x1_left, KranPic.x1_right);
+                this.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
+                KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
+                KranPic.links.SetValue(Canvas.LeftProperty, (double)KranPic.x1_left);
+                KranPic.rechts.SetValue(Canvas.LeftProperty, (double)KranPic.x1_right);
+
+                this.p.SetValue(Canvas.LeftProperty, 200.0);
+            }
+            else
+            {
+                MoveKranHandler handler =
+                         new MoveKranHandler(this.moveKran);   // TryMoveBall
+
+
+
+                this.Dispatcher.BeginInvoke(handler);
+            }
         }
     }
 }
