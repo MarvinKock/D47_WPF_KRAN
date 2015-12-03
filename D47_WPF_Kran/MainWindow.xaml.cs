@@ -48,14 +48,60 @@ namespace D47_WPF_Kran
             buttonClick = button.Links;  
         }
 
+
+        private void KranTop_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t;
+
+            // erster Start
+            ThreadStart ts = new ThreadStart(MoveElevatorPara);
+            t = new Thread(ts);
+            isRunning = true;
+
+            t.Start();
+            buttonClick = button.Hoch; 
+        }
+
+        private void KranRechts_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t;
+
+            // erster Start
+            ThreadStart ts = new ThreadStart(MoveElevatorPara);
+            t = new Thread(ts);
+            isRunning = true;
+
+            t.Start();
+            buttonClick = button.Rechts; 
+        }
+
+        private void KranBottom_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t;
+
+            // erster Start
+            ThreadStart ts = new ThreadStart(MoveElevatorPara);
+            t = new Thread(ts);
+            isRunning = true;
+
+            t.Start();
+            buttonClick = button.Runter; 
+        }
+
         private void MoveElevatorPara()//(object o)
         {
 
             while (this.isRunning == true)
             {
-                if(buttonClick == button.Links)
+                if (buttonClick == button.Links)
                     Kran.moveKranLeft();
-               // Console.WriteLine("da");
+                if (buttonClick == button.Rechts)
+                    Kran.moveKranRechts();
+                if (buttonClick == button.Hoch)
+                    Kran.moveKranHoch();
+                if (buttonClick == button.Runter)
+                    Kran.moveKranRunter();
+                // Console.WriteLine("da");
                 Thread.Sleep(30);
 
             }

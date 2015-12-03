@@ -95,17 +95,21 @@ namespace D47_WPF_Kran
 
         public void bewegungXrichtungNegativ()
         {
-            this.leftProperty--;
+            this.leftProperty -= 1.0;
+            this.x1_left -= 1;
+            this.x1_right -= 1;
+            this.x2_left -= 1;
+            this.x2_right -= 1;
         }
 
         public void bewegungYrichtungPositiv()
         {
-            this.topProperty++;
+            this.topProperty += 1.0;
         }
 
         public void bewegungYrichtungNegativ()
         {
-            this.topProperty--;
+            this.topProperty -= 1.0;
         }
        
 

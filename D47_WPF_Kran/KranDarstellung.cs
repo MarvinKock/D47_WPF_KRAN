@@ -150,13 +150,58 @@ namespace D47_WPF_Kran
         {
             if (this.Dispatcher.CheckAccess())
             {
-                KranPic.bewegungXrichtungPositiv();
+                KranPic.bewegungXrichtungNegativ();
                 zeichner();
             }
             else
             {
                 MoveKranHandler handler =
                          new MoveKranHandler(this.moveKranLeft);   // TryMoveBall
+                this.Dispatcher.BeginInvoke(handler);
+            }
+        }
+
+        public void moveKranRechts()
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                KranPic.bewegungXrichtungPositiv();
+                zeichner();
+            }
+            else
+            {
+                MoveKranHandler handler =
+                         new MoveKranHandler(this.moveKranRechts);   // TryMoveBall
+                this.Dispatcher.BeginInvoke(handler);
+            }
+        }
+
+        public void moveKranHoch()
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                KranPic.bewegungYrichtungNegativ();
+                zeichner();
+            }
+            else
+            {
+                MoveKranHandler handler =
+                         new MoveKranHandler(this.moveKranHoch);   // TryMoveBall
+                this.Dispatcher.BeginInvoke(handler);
+            }
+        }
+
+        public void moveKranRunter()
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                KranPic.bewegungYrichtungPositiv();
+                zeichner();
+            }
+            else
+            {
+                MoveKranHandler handler =
+                         new MoveKranHandler(this.moveKranRunter);   // TryMoveBall
                 this.Dispatcher.BeginInvoke(handler);
             }
         }
