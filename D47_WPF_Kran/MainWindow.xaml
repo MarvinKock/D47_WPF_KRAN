@@ -14,7 +14,7 @@
                 <Button Name="KranRechts" Click="KranRechts_Click"  Height="50" Width="50">--&gt;</Button>
             </StackPanel>
             <Button Name="KranBottom" Click="KranBottom_Click"  Height="50" Width="100">\/</Button>
-            <Button Name="KranStop" Click="KranStop_Click"  Height="50" Width="100">Stop</Button>
+            
         </StackPanel>
     </DockPanel>
 
