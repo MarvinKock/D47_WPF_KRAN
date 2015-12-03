@@ -4,10 +4,16 @@
         xmlns:local="clr-namespace:D47_WPF_Kran"
         Title="MainWindow" Height="600" Width="700" >
 
-        <DockPanel LastChildFill="True">
-        <StackPanel>
-            <local:KranDarstellung x:Name="Kran" DockPanel.Dock="Top"></local:KranDarstellung>
-            <Button Name="KranLinks" Click="KranLinks_Click">Kran nach links</Button>
+    <DockPanel >
+
+        <local:KranDarstellung x:Name="Kran" DockPanel.Dock="Top"></local:KranDarstellung>
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Grid.Row="500" Orientation="Vertical">
+            <Button Name="KranTop" Click="KranLinks_Click" Height="50" Width="100">/\</Button>
+            <StackPanel HorizontalAlignment="Right" Grid.Row="500" Orientation="Horizontal">
+                <Button Name="KranLinks" Click="KranLinks_Click" Height="50" Width="50">&lt;--</Button>
+                <Button Name="KranRechts" Click="KranLinks_Click" Height="50" Width="50">--&gt;</Button>
+            </StackPanel>
+            <Button Name="KranBottom" Click="KranLinks_Click" Height="50" Width="100">\/</Button>
         </StackPanel>
     </DockPanel>
 
