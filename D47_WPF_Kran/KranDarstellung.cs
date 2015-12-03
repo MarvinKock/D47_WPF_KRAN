@@ -150,15 +150,18 @@ namespace D47_WPF_Kran
             if (this.Dispatcher.CheckAccess())
             {
                 KranPic.leftProperty += 1.0;
-                KranPic.x1_left += 1;
-                KranPic.x1_right += 1;
+                KranPic.x1_left += 1.0;
+                KranPic.x1_right += 1.0;
+
+                KranPic.links.X1++;
+                KranPic.links.X2++;
+                KranPic.rechts.X2++;
+                KranPic.rechts.X1++;
 
                 Console.WriteLine("{0}--{1}--{2}", KranPic.leftProperty, KranPic.x1_left, KranPic.x1_right);
-                this.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
-                KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
-                KranPic.links.SetValue(Canvas.LeftProperty, (double)KranPic.x1_left);
-                KranPic.rechts.SetValue(Canvas.LeftProperty, (double)KranPic.x1_right);
 
+                KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
+                KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
                 this.p.SetValue(Canvas.LeftProperty, 200.0);
             }
             else

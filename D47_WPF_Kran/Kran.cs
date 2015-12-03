@@ -15,14 +15,14 @@ namespace D47_WPF_Kran
         double height = 40.0;
         public double topProperty = 100.0;
         public double leftProperty = 0.0;
-        public int x1_left;
-        public int x2_left;
-        public int x1_right;
-        public int x2_right;
-        public int y1_left;
-        public int y2_left;
-        public int y1_right;
-        public int y2_right;
+        public double x1_left;
+        public double x2_left;
+        public double x1_right;
+        public double x2_right;
+        public double y1_left;
+        public double y2_left;
+        public double y1_right;
+        public double y2_right;
         //private int xKoordinate = 0;
        // private int yKoordinate = 0;
         public Rectangle kran;
@@ -30,12 +30,12 @@ namespace D47_WPF_Kran
         public Line rechts;
 
 
-        public Kran(int x1, int x2, int y1, int y2, Rectangle kran, Line links, Line rechts)
+        public Kran(double x1, double x2, double y1, double y2, Rectangle kran, Line links, Line rechts)
         {
                  this.x1_left = x1;
                  this.x2_left = x2;
-                 this.x1_right = x1 + (int)width;
-                 this.x2_right = x2 + (int)width;
+                 this.x1_right = x1 + width;
+                 this.x2_right = x2 + width;
                  this.y1_left = y1;
                  this.y2_left = y2;
                  this.y1_right = y1;
@@ -44,6 +44,8 @@ namespace D47_WPF_Kran
                  this.kran = kran;
                  this.links = links;
                  this.rechts = rechts;
+
+                 Console.WriteLine("{0}----{1}", this.x1_left, this.x1_right);
 
                  links.X1 = this.x1_left;
                  links.X2 = this.x2_left;
@@ -82,11 +84,11 @@ namespace D47_WPF_Kran
 
         public void bewegungXrichtungPositiv()
         {
-            this.leftProperty += 10.0;
+            /*this.leftProperty += 10.0;
             this.x1_left += 10;
             this.x1_right += 10;
 
-            Console.WriteLine("{0}--{1}--{2}", this.leftProperty, this.x1_left, this.x1_right);
+            Console.WriteLine("{0}--{1}--{2}", this.leftProperty, this.x1_left, this.x1_right);*/
         }
 
         public void bewegungXrichtungNegativ()

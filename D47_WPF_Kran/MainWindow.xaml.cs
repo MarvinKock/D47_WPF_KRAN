@@ -48,8 +48,8 @@ namespace D47_WPF_Kran
             while (this.isRunning == true)
             {
                 Kran.moveKran();
-                Console.WriteLine("da");
-                Thread.Sleep(10);
+               // Console.WriteLine("da");
+                Thread.Sleep(500);
 
             }
 
