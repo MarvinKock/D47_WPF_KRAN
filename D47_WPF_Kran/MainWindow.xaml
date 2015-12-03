@@ -7,13 +7,14 @@
     <DockPanel >
 
         <local:KranDarstellung x:Name="Kran" DockPanel.Dock="Top"></local:KranDarstellung>
-        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Grid.Row="500" Orientation="Vertical">
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Grid.Row="500" Orientation="Vertical" Margin="0,15,0,0">
             <Button Name="KranTop" Click="KranTop_Click"  Height="50" Width="100">/\</Button>
             <StackPanel HorizontalAlignment="Right" Grid.Row="500" Orientation="Horizontal">
                 <Button Name="KranLinks" Click="KranLinks_Click" Height="50" Width="50">&lt;--</Button>
                 <Button Name="KranRechts" Click="KranRechts_Click"  Height="50" Width="50">--&gt;</Button>
             </StackPanel>
             <Button Name="KranBottom" Click="KranBottom_Click"  Height="50" Width="100">\/</Button>
+            <Button Name="KranStop" Click="KranStop_Click"  Height="50" Width="100">Stop</Button>
         </StackPanel>
     </DockPanel>
 
