@@ -111,9 +111,16 @@ namespace D47_WPF_Kran
 
         public bool testRechts()
         {
-            if (this.x2_right == (this.xRahmen + this.breiteRahmen - this.breiteHalterung - this.breiteRahmen / 2))
+            if (this.x2_right == (this.xRahmen + this.RahmenBreite - this.breiteHalterung ))
+            {
+                
+                Console.WriteLine("Rechts");
                 return true;
+            }
+            int test = this.xRahmen + this.breiteRahmen - this.breiteHalterung - this.breiteRahmen / 2;
+            Console.WriteLine("{0}", test);
 
+            //Console.WriteLine("<<<< Test Rechts >>>>");
             return false;
         }
 
