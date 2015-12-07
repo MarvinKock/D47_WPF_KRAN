@@ -62,6 +62,8 @@ namespace D47_WPF_Kran
         public KranDarstellung()
         {
             this.Background = Brushes.Bisque;
+            this.Height = 270;
+            this.Width = 600;
             erstelle_Rahmen(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen, this.yRahmen);
             erstelle_Rahmen(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen + this.hoeheRahmen, this.yRahmen + this.hoeheRahmen);
             erstelle_Rahmen(this.xRahmen, this.xRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);

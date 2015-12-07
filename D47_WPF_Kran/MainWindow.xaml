@@ -2,11 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:D47_WPF_Kran"
-        Title="MainWindow" Height="600" Width="700" >
+        Title="MainWindow" Height="600" Width="720" >
 
-    <DockPanel >
+    <DockPanel LastChildFill="True">
 
-        <local:KranDarstellung x:Name="Kran" DockPanel.Dock="Top"></local:KranDarstellung>
+        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+            <local:KranDarstellung x:Name="Kran" ></local:KranDarstellung>
+            <local:Seitenansicht x:Name="Seitenansicht" ></local:Seitenansicht>
+        </StackPanel>
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Grid.Row="500" Orientation="Vertical" Margin="0,15,0,0">
             <Button Name="KranTop" PreviewMouseDown="KranTop_Click" PreviewMouseUp="KranStop_Click" Height="50" Width="100">/\</Button>
             <StackPanel HorizontalAlignment="Right" Grid.Row="500" Orientation="Horizontal">
