@@ -48,7 +48,7 @@ namespace D47_WPF_Kran
 
                 t.Start();
             }
-            buttonClick = button.Links;  
+            buttonClick = button.Links;
         }
 
 
@@ -65,7 +65,7 @@ namespace D47_WPF_Kran
 
                 t.Start();
             }
-            buttonClick = button.Hoch; 
+            buttonClick = button.Hoch;
         }
 
         private void KranRechts_Click(object sender, RoutedEventArgs e)
@@ -81,7 +81,7 @@ namespace D47_WPF_Kran
 
                 t.Start();
             }
-            buttonClick = button.Rechts; 
+            buttonClick = button.Rechts;
         }
 
         private void KranBottom_Click(object sender, RoutedEventArgs e)
@@ -107,16 +107,16 @@ namespace D47_WPF_Kran
             {
                 //if (Kran.KranPic.testRand() == false)
                 //{
-                    if (buttonClick == button.Links)
-                        Kran.moveKranLeft();
-                    if (buttonClick == button.Rechts)
-                        Kran.moveKranRechts();
-                    if (buttonClick == button.Hoch)
-                        Kran.moveKranHoch();
-                    if (buttonClick == button.Runter)
-                        Kran.moveKranRunter();
-                    // Console.WriteLine("da");
-                    Thread.Sleep(30);
+                if (buttonClick == button.Links)
+                    Kran.moveKranLeft();
+                if (buttonClick == button.Rechts)
+                    Kran.moveKranRechts();
+                if (buttonClick == button.Hoch)
+                    Kran.moveKranHoch();
+                if (buttonClick == button.Runter)
+                    Kran.moveKranRunter();
+                // Console.WriteLine("da");
+                Thread.Sleep(30);
                 //}
                 //else
                 //{
@@ -127,5 +127,11 @@ namespace D47_WPF_Kran
 
             //this.ReachedFloor.Invoke(elevatorAtFloor);
         }
+
+        private void KranStop_Click(object sender, MouseButtonEventArgs e)
+        {
+            isRunning = false;
+        }
+
     }
 }
