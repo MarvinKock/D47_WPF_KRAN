@@ -133,5 +133,27 @@ namespace D47_WPF_Kran
             isRunning = false;
         }
 
+        private void RadioButton_Changed(object sender, RoutedEventArgs e)
+        {
+           if(sender == Manuell)
+           {
+               KranTop.Visibility = System.Windows.Visibility.Visible;
+               KranRechts.Visibility = System.Windows.Visibility.Visible;
+               KranLinks.Visibility = System.Windows.Visibility.Visible;
+               KranBottom.Visibility = System.Windows.Visibility.Visible;
+               Kranarm_Down.Visibility = System.Windows.Visibility.Visible;
+               Kranarm_Up.Visibility = System.Windows.Visibility.Visible;
+           }
+           if (sender == Beobachten)
+           {
+               KranTop.Visibility = System.Windows.Visibility.Hidden;
+               KranRechts.Visibility = System.Windows.Visibility.Hidden;
+               KranLinks.Visibility = System.Windows.Visibility.Hidden;
+               KranBottom.Visibility = System.Windows.Visibility.Hidden;
+               Kranarm_Down.Visibility = System.Windows.Visibility.Hidden;
+               Kranarm_Up.Visibility = System.Windows.Visibility.Hidden;
+           }
+        }
+
     }
 }

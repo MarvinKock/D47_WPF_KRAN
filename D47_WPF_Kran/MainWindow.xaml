@@ -14,6 +14,15 @@
                 <Button Name="KranRechts" PreviewMouseDown="KranRechts_Click" PreviewMouseUp="KranStop_Click" Height="50" Width="50">--&gt;</Button>
             </StackPanel>
             <Button Name="KranBottom" PreviewMouseDown="KranBottom_Click" PreviewMouseUp="KranStop_Click"  Height="50" Width="100">\/</Button>
+            <StackPanel Margin="5,10,0,0">
+                <RadioButton Name="Beobachten"  Click="RadioButton_Changed">Beobachten</RadioButton>
+                <RadioButton Name="Manuell" Click="RadioButton_Changed" Margin="0,10,0,0">Manuell</RadioButton>
+            </StackPanel>
+            <Button Visibility="Hidden" Height="50"></Button>
+            <StackPanel Margin="0,0,0,0">
+                <Button Name="Kranarm_Up" Height="50">Kranarm /\</Button>
+                <Button Name="Kranarm_Down" Height="50">Kranarm \/</Button>
+            </StackPanel>
         </StackPanel>
     </DockPanel>
 
