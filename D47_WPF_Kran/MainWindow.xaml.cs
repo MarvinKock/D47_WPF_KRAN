@@ -105,16 +105,23 @@ namespace D47_WPF_Kran
 
             while (this.isRunning == true)
             {
-                if (buttonClick == button.Links)
-                    Kran.moveKranLeft();
-                if (buttonClick == button.Rechts)
-                    Kran.moveKranRechts();
-                if (buttonClick == button.Hoch)
-                    Kran.moveKranHoch();
-                if (buttonClick == button.Runter)
-                    Kran.moveKranRunter();
-                // Console.WriteLine("da");
-                Thread.Sleep(30);
+                //if (Kran.KranPic.testRand() == false)
+                //{
+                    if (buttonClick == button.Links)
+                        Kran.moveKranLeft();
+                    if (buttonClick == button.Rechts)
+                        Kran.moveKranRechts();
+                    if (buttonClick == button.Hoch)
+                        Kran.moveKranHoch();
+                    if (buttonClick == button.Runter)
+                        Kran.moveKranRunter();
+                    // Console.WriteLine("da");
+                    Thread.Sleep(30);
+                //}
+                //else
+                //{
+                //    return;
+                //}
 
             }
 

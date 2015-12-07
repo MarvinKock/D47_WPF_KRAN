@@ -23,6 +23,12 @@ namespace D47_WPF_Kran
         public double y2_left;
         public double y1_right;
         public double y2_right;
+        private int RahmenBreite;
+        private int RahmenHoehe;
+        private int yRahmen;
+        private int xRahmen;
+        private int breiteHalterung = 5;
+        private int breiteRahmen = 12;
         //private int xKoordinate = 0;
        // private int yKoordinate = 0;
         public Rectangle kran;
@@ -30,7 +36,7 @@ namespace D47_WPF_Kran
         public Line rechts;
 
 
-        public Kran(double x1, double x2, double y1, double y2, Rectangle kran, Line links, Line rechts)
+        public Kran(double x1, double x2, double y1, double y2, int breite, int hoehe, int yRahmen, int xRahmen, Rectangle kran, Line links, Line rechts)
         {
                  this.x1_left = x1;
                  this.x2_left = x2;
@@ -77,14 +83,46 @@ namespace D47_WPF_Kran
             kran.SetValue(Canvas.LeftProperty, leftProperty);
             //this.Children.Add(kran);
 
-           
+            this.RahmenBreite = breite;
+            this.RahmenHoehe = hoehe;
+            this.xRahmen = xRahmen;
+            this.yRahmen = yRahmen;
             
         }
 
-        public void testRand()
+        
+
+        public bool testOben()
         {
-            if (this.x1_left == 1)
-                ;
+            if (this.topProperty == (this.yRahmen + this.breiteRahmen/2))
+                return true;
+
+            return false;
+        }
+
+        public bool testUnten()
+        {
+            if (this.topProperty == (this.yRahmen + this.RahmenHoehe - this.height - this.breiteRahmen / 2))
+                return true;
+
+            return false;
+        }
+
+
+        public bool testRechts()
+        {
+            if (this.x2_right == (this.xRahmen + this.breiteRahmen - this.breiteHalterung - this.breiteRahmen / 2))
+                return true;
+
+            return false;
+        }
+
+        public bool testLinks()
+        {
+            if (this.x1_left == (this.xRahmen + this.breiteRahmen/2))
+                return true;
+
+            return false;
         }
 
 

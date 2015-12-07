@@ -85,7 +85,7 @@ namespace D47_WPF_Kran
             this.kran = new Rectangle();
             this.Children.Add(kran);
            
-            this.KranPic = new Kran(60, 60, 14, 256, kran, schiene_links, schiene_rechts);
+            this.KranPic = new Kran(60, 60, 14, 256, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen,kran, schiene_links, schiene_rechts);
             erstelle_Laufband();
         }
 
@@ -157,7 +157,7 @@ namespace D47_WPF_Kran
                 KranPic.bewegungXrichtungNegativ();
                 zeichner();
             }
-            else
+            else if (this.KranPic.testLinks() == false)
             {
                 MoveKranHandler handler =
                          new MoveKranHandler(this.moveKranLeft);   // TryMoveBall
@@ -172,7 +172,7 @@ namespace D47_WPF_Kran
                 KranPic.bewegungXrichtungPositiv();
                 zeichner();
             }
-            else
+            else if (this.KranPic.testRechts() == false)
             {
                 MoveKranHandler handler =
                          new MoveKranHandler(this.moveKranRechts);   // TryMoveBall
@@ -187,7 +187,7 @@ namespace D47_WPF_Kran
                 KranPic.bewegungYrichtungNegativ();
                 zeichner();
             }
-            else
+            else if (this.KranPic.testOben() == false)
             {
                 MoveKranHandler handler =
                          new MoveKranHandler(this.moveKranHoch);   // TryMoveBall
@@ -202,7 +202,7 @@ namespace D47_WPF_Kran
                 KranPic.bewegungYrichtungPositiv();
                 zeichner();
             }
-            else
+            else if(this.KranPic.testUnten() == false)
             {
                 MoveKranHandler handler =
                          new MoveKranHandler(this.moveKranRunter);   // TryMoveBall
