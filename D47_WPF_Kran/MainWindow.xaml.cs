@@ -21,7 +21,9 @@ namespace D47_WPF_Kran
         Rechts,
         Links,
         Hoch,
-        Runter
+        Runter,
+        Arm_Runter,
+        Arm_Hoch
     }
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
@@ -153,6 +155,68 @@ namespace D47_WPF_Kran
                Kranarm_Down.Visibility = System.Windows.Visibility.Hidden;
                Kranarm_Up.Visibility = System.Windows.Visibility.Hidden;
            }
+        }
+
+        private void KranarmStop_Click(object sender, MouseButtonEventArgs e)
+        {
+            isRunning = false;
+        }
+
+        private void Kranarm_Up_Click(object sender, RoutedEventArgs e)
+        {
+            if (isRunning == false)
+            {
+                Thread t;
+
+                // erster Start
+                ThreadStart ts = new ThreadStart(MoveKranarm);
+                t = new Thread(ts);
+                isRunning = true;
+
+                t.Start();
+            }
+            buttonClick = button.Arm_Hoch;
+        }
+
+        private void Kranarm_Down_Click(object sender, RoutedEventArgs e)
+        {
+            if (isRunning == false)
+            {
+                Thread t;
+
+                // erster Start
+                ThreadStart ts = new ThreadStart(MoveKranarm);
+                t = new Thread(ts);
+                isRunning = true;
+
+                t.Start();
+            }
+            buttonClick = button.Arm_Runter;
+        }
+
+        private void MoveKranarm()//(object o)
+        {
+
+            while (this.isRunning == true)
+            {
+                //if (Kran.KranPic.testRand() == false)
+                //{
+                if (buttonClick == button.Arm_Runter)
+                   
+                if (buttonClick == button.Arm_Hoch)
+                   
+             
+                // Console.WriteLine("da");
+                Thread.Sleep(30);
+                //}
+                //else
+                //{
+                //    return;
+                //}
+
+            }
+
+            //this.ReachedFloor.Invoke(elevatorAtFloor);
         }
 
     }
