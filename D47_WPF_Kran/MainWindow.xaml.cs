@@ -35,6 +35,8 @@ namespace D47_WPF_Kran
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Kran.setSideView(this.AnsichtSeite);
         }
 
         private void KranLinks_Click(object sender, RoutedEventArgs e)
@@ -202,11 +204,12 @@ namespace D47_WPF_Kran
                 //if (Kran.KranPic.testRand() == false)
                 //{
                 if (buttonClick == button.Arm_Runter)
-                   
+                    AnsichtSeite.moveKranarmUnten();
                 if (buttonClick == button.Arm_Hoch)
+                    AnsichtSeite.moveKranarmHoch();
                    
              
-                // Console.WriteLine("da");
+                //Console.WriteLine("da");
                 Thread.Sleep(30);
                 //}
                 //else

@@ -51,12 +51,20 @@ namespace D47_WPF_Kran
     {
         public Kran KranPic;
         Rectangle kran;
-        Rectangle p;
         private int xRahmen = 20;
         private int yRahmen = 20;
         private int hoeheRahmen = 230;
         private int breiteRahmen = 560;
-       
+
+        private Seitenansicht sideView;
+
+        private int startX = 100;
+
+        public void setSideView(Seitenansicht view)
+        {
+            this.sideView = view;
+        }
+
         //Konstruktor
         //Erstellt das Aussehen des CustumControls
         public KranDarstellung()
@@ -69,14 +77,8 @@ namespace D47_WPF_Kran
             erstelle_Rahmen(this.xRahmen, this.xRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
             erstelle_Rahmen(this.xRahmen + this.breiteRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
 
-
-           p  = new Rectangle();
-           p.Width = 50;
-           p.Height = 50;
-           p.SetValue(KranDarstellung.TopProperty, 100.0);
-           p.SetValue(KranDarstellung.LeftProperty, 100.0);
-           p.Fill = Brushes.Blue;
-           this.Children.Add(p);
+            //KranSeite = new Seitenansicht();
+           
 
             erstelle_Kiste(100.0, 100.0);
             
@@ -87,7 +89,7 @@ namespace D47_WPF_Kran
             this.kran = new Rectangle();
             this.Children.Add(kran);
            
-            this.KranPic = new Kran(60, 60, 14, 256, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen,kran, schiene_links, schiene_rechts);
+            this.KranPic = new Kran(this.startX, this.startX, 14, 256, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen,kran, schiene_links, schiene_rechts);
             erstelle_Laufband();
         }
 
@@ -113,7 +115,7 @@ namespace D47_WPF_Kran
         //Erstellt das Laufband und die dazugehörigen Lager
         public void erstelle_Laufband()
         {
-            double width = 15.0;
+           
 
             erstelle_Lager(260.0, 130.0);
             erstelle_Lager(300.0, 170.0);
@@ -157,6 +159,7 @@ namespace D47_WPF_Kran
             if (this.Dispatcher.CheckAccess())
             {
                 KranPic.bewegungXrichtungNegativ();
+                this.sideView.kranarmPic.moveLinks();
                 zeichner();
             }
             else if (this.KranPic.testLinks() == false)
@@ -172,6 +175,7 @@ namespace D47_WPF_Kran
             if (this.Dispatcher.CheckAccess())
             {
                 KranPic.bewegungXrichtungPositiv();
+                this.sideView.kranarmPic.moveRechts();
                 zeichner();
             }
             else if (this.KranPic.testRechts() == false)
@@ -222,12 +226,15 @@ namespace D47_WPF_Kran
             KranPic.links.X2 = KranPic.x2_left;
             KranPic.rechts.X1 = KranPic.x1_right;
             KranPic.rechts.X2 = KranPic.x2_right;
+            this.sideView.kranarmPic.kranarm.X1 = this.sideView.kranarmPic.actX + this.sideView.kranarmPic.abstandArmX;
+            this.sideView.kranarmPic.kranarm.X2 = this.sideView.kranarmPic.actX + this.sideView.kranarmPic.abstandArmX;
+            this.sideView.kranarmPic.aufhaengung.X1 = this.sideView.kranarmPic.actX;
+            this.sideView.kranarmPic.aufhaengung.X2 = this.sideView.kranarmPic.actX + 30;
 
-            Console.WriteLine("{0}--{1}--{2}", KranPic.leftProperty, KranPic.x1_left, KranPic.x1_right);
+            Console.WriteLine("{0}--{1}--{2}--{3}", this.sideView.kranarmPic.kranarm.X1, this.sideView.kranarmPic.kranarm.X2, this.sideView.kranarmPic.aufhaengung.X1, this.sideView.kranarmPic.aufhaengung.X2);
 
             KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
             KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
-            this.p.SetValue(Canvas.LeftProperty, 200.0);
         }
     }
 }

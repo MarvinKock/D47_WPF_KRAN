@@ -44,24 +44,29 @@ namespace D47_WPF_Kran
     ///     <MyNamespace:Seitenansicht/>
     ///
     /// </summary>
+
+    public delegate void MoveKranarmHandler();
+
     public class Seitenansicht : Canvas
     {
         private int xRahmen = 20;
-        private int yRahmen = 50;
+        private int yRahmen = 100;
         private int hoeheRahmen = 150;
         private int breiteRahmen = 560;
+
+        private int startX = 100;
 
         public Kranarm kranarmPic;
 
         public Seitenansicht()
         {
             CanvasInit();
-            RahmenInit(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen, this.yRahmen);
-            RahmenInit(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen + this.hoeheRahmen, this.yRahmen + this.hoeheRahmen);
-            RahmenInit(this.xRahmen, this.xRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
             KranInit();
-
-            
+            RahmenInit(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen, this.yRahmen);
+           // RahmenInit(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen + this.hoeheRahmen, this.yRahmen + this.hoeheRahmen);
+            RahmenInit(this.xRahmen, this.xRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
+            RahmenInit(this.xRahmen + this.breiteRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
+              
         }
 
         private void CanvasInit()
@@ -86,17 +91,51 @@ namespace D47_WPF_Kran
 
         private void KranInit()
         {
-            Line linie = new Line();
-            linie.X1 = 10;
-            linie.X2 = 10;
-            linie.Y1 = 110;
-            linie.Y2 = 140;
-            linie.Fill = Brushes.Black;
-            linie.Stroke = Brushes.Black;
-            linie.StrokeThickness = 12;
-            this.Children.Add(linie);
+            Line arm = new Line();
+            this.Children.Add(arm);
+            Line aufhaengung = new Line();
+            this.Children.Add(aufhaengung);
+            this.kranarmPic = new Kranarm(this.breiteRahmen, 10, 215, 10, 140, this.startX, 70, arm, aufhaengung);
+        }
 
-            this.kranarmPic = new Kranarm(this.breiteRahmen, 10, 180, 10, 50, 120, 20);
+        public void moveKranarmUnten()
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                this.kranarmPic.moveArmUnten();
+                zeichnerArm();
+            }
+            else if (this.kranarmPic.testArmUnten() == false)
+            {
+                MoveKranarmHandler handler =
+                         new MoveKranarmHandler(this.moveKranarmUnten);   // TryMoveBall
+                this.Dispatcher.BeginInvoke(handler);
+            }
+        }
+
+        public void moveKranarmHoch()
+        {
+            Console.WriteLine("<moveKranarmHoch");
+            if (this.Dispatcher.CheckAccess())
+            {
+                Console.WriteLine("<<Dispatcher rein");
+                this.kranarmPic.moveArmOben();
+                zeichnerArm();
+            }
+            else if (this.kranarmPic.testArmOben() == false)
+            {
+                Console.WriteLine("<<<Getestet");
+                MoveKranarmHandler handler =
+                         new MoveKranarmHandler(this.moveKranarmHoch);   // TryMoveBall
+                this.Dispatcher.BeginInvoke(handler);
+            }
+            Console.WriteLine("<<<<Nach testen");
+        }
+
+        private void zeichnerArm()
+        {
+            this.kranarmPic.kranarm.Y1 = this.kranarmPic.actY;
+            this.kranarmPic.kranarm.Y2 = this.kranarmPic.actY + this.kranarmPic.hoeheArm;
         }
     }
 }

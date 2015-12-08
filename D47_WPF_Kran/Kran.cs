@@ -51,7 +51,7 @@ namespace D47_WPF_Kran
                  this.links = links;
                  this.rechts = rechts;
 
-                 Console.WriteLine("{0}----{1}", this.x1_left, this.x1_right);
+                 Console.WriteLine("{0}----{1}", this.x1_left, this.x2_right);
 
                  links.X1 = this.x1_left;
                  links.X2 = this.x2_left;
