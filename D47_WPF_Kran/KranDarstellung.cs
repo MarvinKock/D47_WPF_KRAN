@@ -78,8 +78,8 @@ namespace D47_WPF_Kran
             erstelle_Rahmen(this.xRahmen + this.breiteRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
 
             //KranSeite = new Seitenansicht();
-           
 
+            erstelle_Laufband();
             erstelle_Kiste(100.0, 100.0);
             
             Line schiene_links = new Line();
@@ -90,7 +90,7 @@ namespace D47_WPF_Kran
             this.Children.Add(kran);
            
             this.KranPic = new Kran(this.startX, this.startX, 14, 256, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen,kran, schiene_links, schiene_rechts);
-            erstelle_Laufband();
+            
         }
 
         //Erstellt den Rahmen des Kranes
@@ -123,11 +123,11 @@ namespace D47_WPF_Kran
             erstelle_Lager(400.0, 170.0);
 
             Rectangle laufband = new Rectangle();
-            laufband.Fill = Brushes.LightGray;
-            laufband.Width = 150.0;
-            laufband.Height = 40.0;
-            laufband.SetValue(KranDarstellung.LeftProperty, 300.0);
-            laufband.SetValue(KranDarstellung.TopProperty, 130.0);
+            laufband.Fill = Brushes.Gray;
+            laufband.Width = 450.0;
+            laufband.Height = 45.0;
+            laufband.SetValue(KranDarstellung.LeftProperty, 80.0);
+            laufband.SetValue(KranDarstellung.TopProperty, 100.0);
             this.Children.Add(laufband);
 
 
@@ -146,9 +146,9 @@ namespace D47_WPF_Kran
         public void erstelle_Lager(double x, double y)
         {
             Rectangle lager = new Rectangle();
-            lager.Fill = Brushes.SaddleBrown;
-            lager.Width = 40.0;
-            lager.Height = 40.0;
+            lager.Fill = Brushes.Red;
+            lager.Width = 45.0;
+            lager.Height = 45.0;
             lager.SetValue(Canvas.TopProperty, y);
             lager.SetValue(Canvas.LeftProperty, x);
             this.Children.Add(lager);
