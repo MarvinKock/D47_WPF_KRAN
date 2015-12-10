@@ -41,6 +41,7 @@ namespace D47_WPF_Kran
 
         private void KranLinks_Click(object sender, RoutedEventArgs e)
         {
+            buttonClick = button.Links;
             if (isRunning == false)
             {
                 Thread t;
@@ -52,12 +53,13 @@ namespace D47_WPF_Kran
 
                 t.Start();
             }
-            buttonClick = button.Links;
+           
         }
 
 
         private void KranTop_Click(object sender, RoutedEventArgs e)
         {
+            buttonClick = button.Hoch;
             if (isRunning == false)
             {
                 Thread t;
@@ -69,11 +71,12 @@ namespace D47_WPF_Kran
 
                 t.Start();
             }
-            buttonClick = button.Hoch;
+        
         }
 
         private void KranRechts_Click(object sender, RoutedEventArgs e)
         {
+            buttonClick = button.Rechts;
             if (isRunning == false)
             {
                 Thread t;
@@ -85,11 +88,12 @@ namespace D47_WPF_Kran
 
                 t.Start();
             }
-            buttonClick = button.Rechts;
+           
         }
 
         private void KranBottom_Click(object sender, RoutedEventArgs e)
         {
+            buttonClick = button.Runter;
             if (isRunning == false)
             {
                 Thread t;
@@ -101,7 +105,7 @@ namespace D47_WPF_Kran
 
                 t.Start();
             }
-            buttonClick = button.Runter;
+            
         }
 
         private void MoveElevatorPara()//(object o)

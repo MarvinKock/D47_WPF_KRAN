@@ -117,19 +117,33 @@ namespace D47_WPF_Kran
         {
            
 
-            erstelle_Lager(260.0, 130.0);
-            erstelle_Lager(300.0, 170.0);
-            erstelle_Lager(350.0, 170.0);
-            erstelle_Lager(400.0, 170.0);
+            erstelle_Lager(180.0, 120.0);
+            erstelle_Lager(225.0, 165.0);
+            erstelle_Lager(290.0, 165.0);
+            erstelle_Lager(355.0, 165.0);
+            erstelle_Lager(30.0, 30.0);
+            erstelle_Lager(90.0, 30.0);
 
+
+            
             Rectangle laufband = new Rectangle();
             laufband.Fill = Brushes.Gray;
-            laufband.Width = 450.0;
+            laufband.Width = 270.0;
             laufband.Height = 45.0;
-            laufband.SetValue(KranDarstellung.LeftProperty, 80.0);
-            laufband.SetValue(KranDarstellung.TopProperty, 100.0);
+            laufband.SetValue(KranDarstellung.LeftProperty, 225.0);
+            laufband.SetValue(KranDarstellung.TopProperty, 120.0);
             this.Children.Add(laufband);
 
+            Rectangle Lagerturm = new Rectangle();
+            Lagerturm.Stroke = Brushes.Yellow;
+            Lagerturm.StrokeThickness = 5;
+            Lagerturm.Width = 50.0;
+            Lagerturm.Height = 50.0;
+            Lagerturm.SetValue(KranDarstellung.LeftProperty, 450.0);
+            Lagerturm.SetValue(KranDarstellung.TopProperty, 120.0);
+            this.Children.Add(Lagerturm);
+
+            
 
         }
 

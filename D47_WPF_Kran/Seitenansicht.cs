@@ -66,6 +66,10 @@ namespace D47_WPF_Kran
            // RahmenInit(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen + this.hoeheRahmen, this.yRahmen + this.hoeheRahmen);
             RahmenInit(this.xRahmen, this.xRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
             RahmenInit(this.xRahmen + this.breiteRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
+            //laufband
+            erstelle_Laufband();
+            //kiste
+            //lager
               
         }
 
@@ -96,6 +100,46 @@ namespace D47_WPF_Kran
             Line aufhaengung = new Line();
             this.Children.Add(aufhaengung);
             this.kranarmPic = new Kranarm(this.breiteRahmen, 10, 215, 10, 140, this.startX, 70, arm, aufhaengung);
+        }
+
+        public void erstelle_Laufband()
+        {
+            erstelle_Lager(30.0, 240.0);
+            erstelle_Lager(90.0, 240.0);
+
+            Rectangle Lagerturm = new Rectangle();
+            Lagerturm.Stroke = Brushes.Yellow;
+            Lagerturm.StrokeThickness = 5;
+            Lagerturm.Width = 50.0;
+            Lagerturm.Height = 80.0;
+            Lagerturm.SetValue(Seitenansicht.LeftProperty, 445.0);
+            Lagerturm.SetValue(Seitenansicht.TopProperty, 165.0);
+            this.Children.Add(Lagerturm);
+
+            Rectangle laufband = new Rectangle();
+            laufband.Fill = Brushes.Gray;
+            laufband.Width = 270.0;
+            laufband.Height = 15.0;
+            laufband.SetValue(Seitenansicht.LeftProperty, 225.0);
+            laufband.SetValue(Seitenansicht.TopProperty, 240.0);
+            this.Children.Add(laufband);
+
+            erstelle_Lager(180.0, 240.0);
+            erstelle_Lager(225.0, 240.0);
+            erstelle_Lager(290.0, 240.0);
+            erstelle_Lager(355.0, 240.0);                
+
+        }
+
+        public void erstelle_Lager(double x, double y)
+        {
+            Rectangle lager = new Rectangle();
+            lager.Fill = Brushes.Red;
+            lager.Width = 45.0;
+            lager.Height = 15.0;
+            lager.SetValue(Canvas.TopProperty, y);
+            lager.SetValue(Canvas.LeftProperty, x);
+            this.Children.Add(lager);
         }
 
         public void moveKranarmUnten()
