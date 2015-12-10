@@ -54,9 +54,13 @@ namespace D47_WPF_Kran
         private int hoeheRahmen = 150;
         private int breiteRahmen = 560;
 
+        private double xKiste = 450.0;
+        private double yKiste = 228.0;
+
         private int startX = 100;
 
         public Kranarm kranarmPic;
+        public Rectangle seitKiste;
 
         public Seitenansicht()
         {
@@ -67,7 +71,9 @@ namespace D47_WPF_Kran
             RahmenInit(this.xRahmen, this.xRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
             RahmenInit(this.xRahmen + this.breiteRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
             //laufband
+            
             erstelle_Laufband();
+            erstelle_kiste();
             //kiste
             //lager
               
@@ -100,6 +106,29 @@ namespace D47_WPF_Kran
             Line aufhaengung = new Line();
             this.Children.Add(aufhaengung);
             this.kranarmPic = new Kranarm(this.breiteRahmen, 10, 215, 10, 140, this.startX, 70, arm, aufhaengung);
+        }
+
+        private void erstelle_kiste()
+        {
+            this.seitKiste = new Rectangle();
+            this.seitKiste.Fill = Brushes.Brown;
+            this.seitKiste.Height = 13.0;
+            this.seitKiste.Width = 39;
+            this.seitKiste.SetValue(Canvas.LeftProperty, xKiste);
+            this.seitKiste.SetValue(Canvas.TopProperty, yKiste);
+            this.Children.Add(seitKiste);
+        }
+
+        public void kiste_xNegativ()
+        {
+            this.xKiste--;
+            this.seitKiste.SetValue(Canvas.LeftProperty, xKiste);
+        }
+
+        public void kiste_xPositiv()
+        {
+            this.xKiste++;
+            this.seitKiste.SetValue(Canvas.LeftProperty, xKiste);
         }
 
         public void erstelle_Laufband()

@@ -27,6 +27,12 @@
                 <Button Name="Kranarm_Up" PreviewMouseDown="Kranarm_Up_Click" PreviewMouseUp="KranarmStop_Click" Height="50">Kranarm /\</Button>
                 <Button Name="Kranarm_Down" PreviewMouseDown="Kranarm_Down_Click" PreviewMouseUp="KranarmStop_Click" Height="50">Kranarm \/</Button>
             </StackPanel>
+            <Button Visibility="Hidden" Height="50"></Button>
+            <StackPanel Margin="0,0,0,0">
+                <Label>Kiste zu Lagerplatz:</Label>
+                <ComboBox Name="NummerLagerplatz" SelectionChanged="NummerLagerplatz_SelectionChanged"></ComboBox>
+                <Button Name="Stop" Click="Stop_Click">Stop</Button>
+            </StackPanel>
         </StackPanel>
     </DockPanel>
 

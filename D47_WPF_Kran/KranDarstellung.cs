@@ -47,10 +47,12 @@ namespace D47_WPF_Kran
     /// </summary>
     /// 
      public delegate void MoveKranHandler();
+     public delegate void MoveKisteHandler(int pos);
     public class KranDarstellung : Canvas
     {
         public Kran KranPic;
         Rectangle kran;
+        Kiste kistePic;
         private int xRahmen = 20;
         private int yRahmen = 20;
         private int hoeheRahmen = 230;
@@ -80,7 +82,7 @@ namespace D47_WPF_Kran
             //KranSeite = new Seitenansicht();
 
             erstelle_Laufband();
-            erstelle_Kiste(100.0, 100.0);
+            erstelle_Kiste(455.0, 123.0);
             
             Line schiene_links = new Line();
             this.Children.Add(schiene_links);
@@ -140,10 +142,8 @@ namespace D47_WPF_Kran
             Lagerturm.Width = 50.0;
             Lagerturm.Height = 50.0;
             Lagerturm.SetValue(KranDarstellung.LeftProperty, 450.0);
-            Lagerturm.SetValue(KranDarstellung.TopProperty, 120.0);
+            Lagerturm.SetValue(KranDarstellung.TopProperty, 117.0);
             this.Children.Add(Lagerturm);
-
-            
 
         }
 
@@ -154,7 +154,7 @@ namespace D47_WPF_Kran
             Rectangle kiste = new Rectangle();
             
             this.Children.Add(kiste);
-            Kiste kistePic = new Kiste(x, y, kiste);  
+            kistePic = new Kiste(x, y, kiste);  
         }
 
         public void erstelle_Lager(double x, double y)
@@ -249,6 +249,38 @@ namespace D47_WPF_Kran
 
             KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
             KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
+        }
+
+        public void moveKisteTo(int pos)
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                if (this.kistePic.xKoordinate == this.kistePic.getXfromPosition(pos))
+                {
+                    if (this.kistePic.yKoordinate > this.kistePic.getYfromPosition(pos))
+                        this.kistePic.bewegungYrichtungNegativ();
+                    if (this.kistePic.yKoordinate < this.kistePic.getYfromPosition(pos))
+                        this.kistePic.bewegungYrichtungPositiv();
+                }
+                if (this.kistePic.xKoordinate > this.kistePic.getXfromPosition(pos))
+                {
+                    this.kistePic.bewegungXrichtungNegativ();
+                    this.sideView.kiste_xNegativ();
+                }
+                if (this.kistePic.xKoordinate < this.kistePic.getXfromPosition(pos))
+                {
+                    this.kistePic.bewegungXrichtungPositiv();
+                    this.sideView.kiste_xPositiv();
+                }
+
+                Console.WriteLine("{0} ... {1} ", this.kistePic.xKoordinate, this.kistePic.getXfromPosition(pos));
+            }
+            else if ((this.kistePic.yKoordinate != this.kistePic.getYfromPosition(pos)) || (this.kistePic.xKoordinate != this.kistePic.getXfromPosition(pos)))
+            {
+                MoveKisteHandler handler =
+                         new MoveKisteHandler(this.moveKisteTo);   // TryMoveBall
+                this.Dispatcher.BeginInvoke(handler, pos);
+            }
         }
     }
 }

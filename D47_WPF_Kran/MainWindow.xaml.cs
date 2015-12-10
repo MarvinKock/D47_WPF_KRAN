@@ -25,6 +25,8 @@ namespace D47_WPF_Kran
         Arm_Runter,
         Arm_Hoch
     }
+
+    
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
@@ -32,9 +34,13 @@ namespace D47_WPF_Kran
     {
         public bool isRunning = false;
         private button buttonClick;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            for (int i = 1; i <= 4; i++)
+                this.NummerLagerplatz.Items.Add(i);
 
             this.Kran.setSideView(this.AnsichtSeite);
         }
@@ -224,6 +230,40 @@ namespace D47_WPF_Kran
             }
 
             //this.ReachedFloor.Invoke(elevatorAtFloor);
+        }
+
+       
+        private void moveKiste(Object opos)
+        {
+            int pos = (int)opos;
+            while(this.isRunning)
+            {
+                this.Kran.moveKisteTo(pos);
+                Thread.Sleep(30);
+            }
+        }
+
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+            isRunning = false;
+        }
+
+        private void NummerLagerplatz_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            object pos = this.NummerLagerplatz.SelectedItem;
+
+            if (isRunning == false)
+            {
+                Thread t;
+
+                // erster Start
+                ParameterizedThreadStart pts = new ParameterizedThreadStart(moveKiste);
+
+                t = new Thread(pts);
+                isRunning = true;
+
+                t.Start(pos);
+            }
         }
 
     }
