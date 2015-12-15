@@ -54,7 +54,7 @@ namespace D47_WPF_Kran
         private int hoeheRahmen = 150;
         private int breiteRahmen = 560;
 
-        private double xKiste = 450.0;
+        private double xKiste = 455.0;
         private double yKiste = 228.0;
 
         private int startX = 100;
@@ -113,7 +113,7 @@ namespace D47_WPF_Kran
             this.seitKiste = new Rectangle();
             this.seitKiste.Fill = Brushes.Brown;
             this.seitKiste.Height = 13.0;
-            this.seitKiste.Width = 39;
+            this.seitKiste.Width = 39.0;
             this.seitKiste.SetValue(Canvas.LeftProperty, xKiste);
             this.seitKiste.SetValue(Canvas.TopProperty, yKiste);
             this.Children.Add(seitKiste);
@@ -141,13 +141,13 @@ namespace D47_WPF_Kran
             Lagerturm.StrokeThickness = 5;
             Lagerturm.Width = 50.0;
             Lagerturm.Height = 80.0;
-            Lagerturm.SetValue(Seitenansicht.LeftProperty, 445.0);
+            Lagerturm.SetValue(Seitenansicht.LeftProperty, 450.0);
             Lagerturm.SetValue(Seitenansicht.TopProperty, 165.0);
             this.Children.Add(Lagerturm);
 
             Rectangle laufband = new Rectangle();
             laufband.Fill = Brushes.Gray;
-            laufband.Width = 270.0;
+            laufband.Width = 275.0;
             laufband.Height = 15.0;
             laufband.SetValue(Seitenansicht.LeftProperty, 225.0);
             laufband.SetValue(Seitenansicht.TopProperty, 240.0);
@@ -168,6 +168,8 @@ namespace D47_WPF_Kran
             lager.Height = 15.0;
             lager.SetValue(Canvas.TopProperty, y);
             lager.SetValue(Canvas.LeftProperty, x);
+            lager.Stroke = Brushes.Black;
+            lager.StrokeThickness = 1;
             this.Children.Add(lager);
         }
 

@@ -130,7 +130,7 @@ namespace D47_WPF_Kran
             
             Rectangle laufband = new Rectangle();
             laufband.Fill = Brushes.Gray;
-            laufband.Width = 270.0;
+            laufband.Width = 275.0;
             laufband.Height = 45.0;
             laufband.SetValue(KranDarstellung.LeftProperty, 225.0);
             laufband.SetValue(KranDarstellung.TopProperty, 120.0);
@@ -165,6 +165,8 @@ namespace D47_WPF_Kran
             lager.Height = 45.0;
             lager.SetValue(Canvas.TopProperty, y);
             lager.SetValue(Canvas.LeftProperty, x);
+            lager.Stroke = Brushes.Black;
+            lager.StrokeThickness = 1;
             this.Children.Add(lager);
         }
 
