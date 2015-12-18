@@ -105,7 +105,7 @@ namespace D47_WPF_Kran
             this.Children.Add(arm);
             Line aufhaengung = new Line();
             this.Children.Add(aufhaengung);
-            this.kranarmPic = new Kranarm(this.breiteRahmen, 10, 215, 10, 140, this.startX, 70, arm, aufhaengung);
+            this.kranarmPic = new Kranarm(this.breiteRahmen, 10, 230, 10, 130, this.startX, 70, arm, aufhaengung);
         }
 
         private void erstelle_kiste()
