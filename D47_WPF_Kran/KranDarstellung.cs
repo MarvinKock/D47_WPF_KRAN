@@ -52,7 +52,7 @@ namespace D47_WPF_Kran
     {
         public Kran KranPic;
         Rectangle kran;
-        Kiste kistePic;
+        public Kiste kistePic;
         private int xRahmen = 20;
         private int yRahmen = 20;
         private int hoeheRahmen = 230;
@@ -154,7 +154,7 @@ namespace D47_WPF_Kran
             Rectangle kiste = new Rectangle();
             
             this.Children.Add(kiste);
-            kistePic = new Kiste(x, y, kiste);  
+            kistePic = new Kiste(x, y, kiste, false);  
         }
 
         public void erstelle_Lager(double x, double y)

@@ -60,7 +60,7 @@ namespace D47_WPF_Kran
         private int startX = 100;
 
         public Kranarm kranarmPic;
-        public Rectangle seitKiste;
+        public Kiste seitKiste;
 
         public Seitenansicht()
         {
@@ -110,25 +110,20 @@ namespace D47_WPF_Kran
 
         private void erstelle_kiste()
         {
-            this.seitKiste = new Rectangle();
-            this.seitKiste.Fill = Brushes.Brown;
-            this.seitKiste.Height = 13.0;
-            this.seitKiste.Width = 39.0;
-            this.seitKiste.SetValue(Canvas.LeftProperty, xKiste);
-            this.seitKiste.SetValue(Canvas.TopProperty, yKiste);
-            this.Children.Add(seitKiste);
+            Rectangle kiste = new Rectangle();
+            this.Children.Add(kiste);
+
+            this.seitKiste = new Kiste(this.xKiste, this.yKiste, kiste, true);
         }
 
         public void kiste_xNegativ()
         {
-            this.xKiste--;
-            this.seitKiste.SetValue(Canvas.LeftProperty, xKiste);
+            this.seitKiste.bewegungXrichtungNegativ();
         }
 
         public void kiste_xPositiv()
         {
-            this.xKiste++;
-            this.seitKiste.SetValue(Canvas.LeftProperty, xKiste);
+            this.seitKiste.bewegungXrichtungPositiv();
         }
 
         public void erstelle_Laufband()
@@ -177,6 +172,10 @@ namespace D47_WPF_Kran
         {
             if (this.Dispatcher.CheckAccess())
             {
+                if (this.seitKiste.testKisteAngehoben())
+                {
+                    this.seitKiste.bewegungYrichtungNegativ();
+                }
                 this.kranarmPic.moveArmUnten();
                 zeichnerArm();
             }
@@ -193,6 +192,10 @@ namespace D47_WPF_Kran
             Console.WriteLine("<moveKranarmHoch");
             if (this.Dispatcher.CheckAccess())
             {
+                if(this.seitKiste.testKisteAngehoben())
+                {
+                    this.seitKiste.bewegungYrichtungNegativ();
+                }
                 Console.WriteLine("<<Dispatcher rein");
                 this.kranarmPic.moveArmOben();
                 zeichnerArm();

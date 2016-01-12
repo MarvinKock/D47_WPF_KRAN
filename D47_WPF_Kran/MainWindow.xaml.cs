@@ -266,5 +266,10 @@ namespace D47_WPF_Kran
             }
         }
 
+        private void KisteAnheben_Click(object sender, RoutedEventArgs e)
+        {
+            this.Kran.kistePic.kisteAufnhemen();
+        }
+
     }
 }

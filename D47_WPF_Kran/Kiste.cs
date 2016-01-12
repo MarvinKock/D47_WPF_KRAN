@@ -15,17 +15,34 @@ namespace D47_WPF_Kran
         private Rectangle kiste;
         public double xKoordinate;
         public double yKoordinate;
+        private bool seitlicheKiste;
+        private bool angehoben;
 
-        public Kiste(double x, double y, Rectangle kiste)
+        public Kiste(double x, double y, Rectangle kiste, bool seitDarstellung)
         {
+            this.angehoben = false;
+            this.seitlicheKiste = seitDarstellung;
+
             this.kiste = kiste;
             this.xKoordinate = x;
             this.yKoordinate = y;
             this.kiste.Fill = Brushes.Brown;
-            this.kiste.Width = kiste.Height = 39.0;
+
+            if (seitDarstellung == false)
+            {
+                this.kiste.Width = kiste.Height = 39.0;
+            }
+            else
+            {
+                this.kiste.Width = 39.0;
+                this.kiste.Height = 13.0;
+            }
+            
             this.kiste.SetValue(Canvas.LeftProperty, x);
             this.kiste.SetValue(Canvas.TopProperty, y);
         }
+
+       
 
         public void bewegungXrichtungPositiv()
         {
@@ -101,6 +118,19 @@ namespace D47_WPF_Kran
             //Console.WriteLine("y-Position: {0}", toY);
 
             return toY;
+        }
+
+        public void kisteAufnhemen()
+        {
+            this.angehoben = true;
+        }
+
+        public bool testKisteAngehoben()
+        {
+            if (this.angehoben == false)
+                return false;
+            else
+                return true;
         }
     }
 }

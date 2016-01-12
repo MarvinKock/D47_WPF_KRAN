@@ -33,6 +33,8 @@
                 <ComboBox Name="NummerLagerplatz" SelectionChanged="NummerLagerplatz_SelectionChanged"></ComboBox>
                 <Button Name="Stop" Click="Stop_Click">Stop</Button>
             </StackPanel>
+            <Button Visibility="Hidden" Height="20"></Button>
+            <RadioButton Name="KisteAnheben"  Click="KisteAnheben_Click">Kiste Anheben</RadioButton>
         </StackPanel>
     </DockPanel>
 

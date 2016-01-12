@@ -67,6 +67,7 @@ namespace D47_WPF_Kran
         public void moveRechts()
         {
             this.actX++;
+            
         }
 
         public void moveLinks()
@@ -96,12 +97,15 @@ namespace D47_WPF_Kran
 
         public bool testArmUnten()
         {
-            if ((this.actY + this.hoeheArm ) == this.minHoehe)
+            if ((this.actY + this.hoeheArm) == this.minHoehe)
+            {
+               
                 return true;
+            }
 
             Console.WriteLine("Test unten");
 
             return false;
-        }
+        } 
     }
 }
