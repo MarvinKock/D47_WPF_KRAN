@@ -271,5 +271,40 @@ namespace D47_WPF_Kran
             this.Kran.kistePic.kisteAufnhemen();
         }
 
+        static async Task RunAsync()
+        {
+            using (var client = new HttpClient())
+            {
+
+                client.BaseAddress = new Uri("http://10.8.0.203:53161/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // HTTP GET
+                HttpResponseMessage response = await client.GetAsync("api/Band/Status");
+                if (response.IsSuccessStatusCode)
+                {
+                    Band band = await response.Content.ReadAsAsync<Band>();
+                    Console.WriteLine("{0}\t${1}\t{2}\t{3}", band.Ablageplatz, band.An, band.Einlagerplatz, band.Werkstück_id);
+                }
+
+                /* // HTTP POST
+                 //var gizmo = new Product() { Name = "Gizmo", Price = 100, Category = "Widget" };
+                 response = await client.PostAsJsonAsync("api/products", gizmo);
+                 if (response.IsSuccessStatusCode)
+                 {
+                     Uri gizmoUrl = response.Headers.Location;
+
+                     // HTTP PUT
+                     gizmo.Price = 80;   // Update price
+                     response = await client.PutAsJsonAsync(gizmoUrl, gizmo);
+
+                     // HTTP DELETE
+                     response = await client.DeleteAsync(gizmoUrl);
+                 }*/
+            }
+
+        }
+
     }
 }
