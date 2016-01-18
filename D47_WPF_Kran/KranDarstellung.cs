@@ -58,6 +58,9 @@ namespace D47_WPF_Kran
         private int hoeheRahmen = 230;
         private int breiteRahmen = 560;
 
+        private int YPos = 0;
+        private int XPos = 0;
+
         private Seitenansicht sideView;
 
         private int startX = 100;
@@ -247,6 +250,11 @@ namespace D47_WPF_Kran
             this.sideView.kranarmPic.aufhaengung.X1 = this.sideView.kranarmPic.actX;
             this.sideView.kranarmPic.aufhaengung.X2 = this.sideView.kranarmPic.actX + 30;
 
+            XPos = (int)KranPic.leftProperty;
+            YPos = (int)KranPic.topProperty;
+
+
+
             Console.WriteLine("{0}--{1}--{2}--{3}", this.sideView.kranarmPic.kranarm.X1, this.sideView.kranarmPic.kranarm.X2, this.sideView.kranarmPic.aufhaengung.X1, this.sideView.kranarmPic.aufhaengung.X2);
 
             KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
@@ -283,6 +291,18 @@ namespace D47_WPF_Kran
                          new MoveKisteHandler(this.moveKisteTo);   // TryMoveBall
                 this.Dispatcher.BeginInvoke(handler, pos);
             }
+        }
+
+
+        public int GetYPos()
+        {
+            return YPos;
+
+        }
+
+        public int GetXPos()
+        {
+            return XPos;
         }
     }
 }

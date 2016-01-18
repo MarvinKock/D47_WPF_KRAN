@@ -36,6 +36,8 @@ namespace D47_WPF_Kran
     {
         public bool isRunning = false;
         private button buttonClick;
+        bool? modeControlFlag = null;
+        KranSync kranSync = new KranSync();
 
         public MainWindow()
         {
@@ -45,6 +47,7 @@ namespace D47_WPF_Kran
                 this.NummerLagerplatz.Items.Add(i);
 
             this.Kran.setSideView(this.AnsichtSeite);
+           
         }
 
         private void KranLinks_Click(object sender, RoutedEventArgs e)
@@ -138,6 +141,7 @@ namespace D47_WPF_Kran
                 //{
                 //    return;
                 //}
+                PostCraneStatusAsync();
 
             }
 
@@ -159,6 +163,7 @@ namespace D47_WPF_Kran
                KranBottom.Visibility = System.Windows.Visibility.Visible;
                Kranarm_Down.Visibility = System.Windows.Visibility.Visible;
                Kranarm_Up.Visibility = System.Windows.Visibility.Visible;
+               modeControlFlag = true;
            }
            if (sender == Beobachten)
            {
@@ -168,6 +173,7 @@ namespace D47_WPF_Kran
                KranBottom.Visibility = System.Windows.Visibility.Hidden;
                Kranarm_Down.Visibility = System.Windows.Visibility.Hidden;
                Kranarm_Up.Visibility = System.Windows.Visibility.Hidden;
+               modeControlFlag = false;
            }
         }
 
@@ -220,7 +226,7 @@ namespace D47_WPF_Kran
                 if (buttonClick == button.Arm_Hoch)
                     AnsichtSeite.moveKranarmHoch();
                    
-             
+                
                 //Console.WriteLine("da");
                 Thread.Sleep(30);
                 //}
@@ -247,7 +253,9 @@ namespace D47_WPF_Kran
 
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
-            isRunning = false;
+            //isRunning = false;
+
+            GetBandStatusAsync();
         }
 
         private void NummerLagerplatz_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -273,21 +281,26 @@ namespace D47_WPF_Kran
             this.Kran.kistePic.kisteAufnhemen();
         }
 
-        static async Task RunAsync()
+        async Task GetBandStatusAsync()
         {
             using (var client = new HttpClient())
             {
 
-                client.BaseAddress = new Uri("http://10.8.0.203:53161/");
+                client.BaseAddress = new Uri("http://10.8.0.135:53161/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // HTTP GET
-                HttpResponseMessage response = await client.GetAsync("api/Band/Status");
+                HttpResponseMessage response = await client.GetAsync("api/Band/Status");          
                 if (response.IsSuccessStatusCode)
                 {
                     Band band = await response.Content.ReadAsAsync<Band>();
-                    Console.WriteLine("{0}\t${1}\t{2}\t{3}", band.Ablageplatz, band.An, band.Einlagerplatz, band.Werkstück_id);
+                    Console.WriteLine("{0}\t${1}\t{2}\t{3}", band.Ablageplatz[0], band.An, band.Einlagerplatz[0], band.Werkstück_id);
+                }
+                if(response.IsSuccessStatusCode == false)
+                {
+                    Console.WriteLine("No Connection");
+
                 }
 
                 /* // HTTP POST
@@ -306,6 +319,44 @@ namespace D47_WPF_Kran
                  }*/
             }
 
+        }
+
+        async Task PostCraneStatusAsync()
+        {
+            using (var client = new HttpClient())
+            {
+                Console.WriteLine("Starting Crane Status Update");
+                client.BaseAddress = new Uri("http://10.8.0.135:53161/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                
+
+                // HTTP POST
+                //HttpResponseMessage response = await client.GetAsync("api/Band/Status");             
+                KranSync herbert = new KranSync();
+                herbert.setCran(this.Kran);
+                herbert.getPropertiesOfCrane();
+                var gizmo = herbert.returnSelf() ;
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/Status", gizmo);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Updatet Crane Status");
+                }
+
+                response = await client.GetAsync("api/Crane/Status");
+                if (response.IsSuccessStatusCode)
+                {
+                    KranSync roger = await response.Content.ReadAsAsync<KranSync>();
+                    Console.WriteLine("{0}\t${1}\t{2}", roger.X_Pos, roger.Y_Pos, roger.isRunning);
+                }
+                if (response.IsSuccessStatusCode == false)
+                {
+                    Console.WriteLine("No Connection");
+
+                }
+
+            }
         }
 
     }
