@@ -22,7 +22,6 @@ namespace D47_WPF_Kran
         {
             this.angehoben = false;
             this.seitlicheKiste = seitDarstellung;
-
             this.kiste = kiste;
             this.xKoordinate = x;
             this.yKoordinate = y;

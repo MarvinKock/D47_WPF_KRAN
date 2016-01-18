@@ -60,7 +60,6 @@ namespace D47_WPF_Kran
         private int startX = 100;
 
         public Kranarm kranarmPic;
-        public Kiste seitKiste;
 
         public Seitenansicht()
         {
@@ -73,7 +72,7 @@ namespace D47_WPF_Kran
             //laufband
             
             erstelle_Laufband();
-            erstelle_kiste();
+            //erstelle_kiste();
             //kiste
             //lager
               
@@ -108,23 +107,26 @@ namespace D47_WPF_Kran
             this.kranarmPic = new Kranarm(this.breiteRahmen, 10, 230, 10, 130, this.startX, 70, arm, aufhaengung);
         }
 
-        private void erstelle_kiste()
+        public Kiste letzteKiste;
+        public void erstelleKiste(double x, double y)
         {
             Rectangle kiste = new Rectangle();
             this.Children.Add(kiste);
 
-            this.seitKiste = new Kiste(this.xKiste, this.yKiste, kiste, true);
+            Kiste seitAnsicht = new Kiste(x, y, kiste, true);
+
+            this.letzteKiste = seitAnsicht;
         }
 
-        public void kiste_xNegativ()
-        {
-            this.seitKiste.bewegungXrichtungNegativ();
-        }
+        //public void kiste_xNegativ()
+        //{
+        //    this.seitKiste.bewegungXrichtungNegativ();
+        //}
 
-        public void kiste_xPositiv()
-        {
-            this.seitKiste.bewegungXrichtungPositiv();
-        }
+        //public void kiste_xPositiv()
+        //{
+        //    this.seitKiste.bewegungXrichtungPositiv();
+        //}
 
         public void erstelle_Laufband()
         {
@@ -172,10 +174,10 @@ namespace D47_WPF_Kran
         {
             if (this.Dispatcher.CheckAccess())
             {
-                if (this.seitKiste.testKisteAngehoben())
-                {
-                    this.seitKiste.bewegungYrichtungNegativ();
-                }
+                //if (this.seitKiste.testKisteAngehoben())
+                //{
+                //    this.seitKiste.bewegungYrichtungNegativ();
+                //}
                 this.kranarmPic.moveArmUnten();
                 zeichnerArm();
             }
@@ -192,10 +194,10 @@ namespace D47_WPF_Kran
             Console.WriteLine("<moveKranarmHoch");
             if (this.Dispatcher.CheckAccess())
             {
-                if(this.seitKiste.testKisteAngehoben())
-                {
-                    this.seitKiste.bewegungYrichtungNegativ();
-                }
+                //if(this.seitKiste.testKisteAngehoben())
+                //{
+                //    this.seitKiste.bewegungYrichtungNegativ();
+                //}
                 Console.WriteLine("<<Dispatcher rein");
                 this.kranarmPic.moveArmOben();
                 zeichnerArm();

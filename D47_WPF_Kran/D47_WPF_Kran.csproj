@@ -67,6 +67,7 @@
     </ApplicationDefinition>
     <Compile Include="Band.cs" />
     <Compile Include="HttpClient.cs" />
+    <Compile Include="Kisten.cs" />
     <Compile Include="Kranarm.cs" />
     <Compile Include="Seitenansicht.cs" />
     <Page Include="MainWindow.xaml">

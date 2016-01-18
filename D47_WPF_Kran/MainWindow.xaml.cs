@@ -39,6 +39,12 @@ namespace D47_WPF_Kran
         bool? modeControlFlag = null;
         KranSync kranSync = new KranSync();
 
+        private List<Kisten> ListKisten = new List<Kisten>();
+        private double kisteStartX = 455.0;
+        private double kisteStartY = 123.0;
+        private double kisteStartZ = 228.0;
+        private int KisteID = 1;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -240,20 +246,40 @@ namespace D47_WPF_Kran
             //this.ReachedFloor.Invoke(elevatorAtFloor);
         }
 
-       
+
+        public delegate void CreateKiste(double x, double y);
         private void moveKiste(Object opos)
         {
             int pos = (int)opos;
-            while(this.isRunning)
+
+            CreateKiste handlerKran = new CreateKiste(Kran.erstelle_Kiste);
+            CreateKiste handlerSeite = new CreateKiste(AnsichtSeite.erstelleKiste);
+
+            this.Dispatcher.Invoke(handlerKran, this.kisteStartX, this.kisteStartY);
+            this.Dispatcher.Invoke(handlerSeite, this.kisteStartX, this.kisteStartZ);
+
+            Kiste draufSicht = Kran.letzteKiste;
+            Kiste seitSicht = AnsichtSeite.letzteKiste;
+
+            //Kiste draufSicht = Kran.erstelle_Kiste(this.kisteStartX, this.kisteStartY);
+            //Kiste seitSicht = AnsichtSeite.erstelleKiste(this.kisteStartX, this.kisteStartZ);
+
+            Kisten newKisten = new Kisten(seitSicht, draufSicht, KisteID);
+
+            this.ListKisten.Add(newKisten);
+
+            this.KisteID++;
+
+            while (this.isRunning)
             {
-                this.Kran.moveKisteTo(pos);
+                this.Kran.moveKisteTo(pos, newKisten);
                 Thread.Sleep(30);
             }
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
-            //isRunning = false;
+            isRunning = false;
 
             GetBandStatusAsync();
         }
@@ -278,7 +304,7 @@ namespace D47_WPF_Kran
 
         private void KisteAnheben_Click(object sender, RoutedEventArgs e)
         {
-            this.Kran.kistePic.kisteAufnhemen();
+            //this.Kran.kistePic.kisteAufnhemen();
         }
 
         async Task GetBandStatusAsync()

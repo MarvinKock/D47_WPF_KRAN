@@ -46,20 +46,21 @@ namespace D47_WPF_Kran
     ///
     /// </summary>
     /// 
-     public delegate void MoveKranHandler();
-     public delegate void MoveKisteHandler(int pos);
+    public delegate void MoveKranHandler();
+    public delegate void MoveKisteHandler(int pos, Kisten kiste);
     public class KranDarstellung : Canvas
     {
         public Kran KranPic;
         Rectangle kran;
-        public Kiste kistePic;
         private int xRahmen = 20;
         private int yRahmen = 20;
         private int hoeheRahmen = 230;
         private int breiteRahmen = 560;
 
+
         private int YPos = 0;
         private int XPos = 0;
+
 
         private Seitenansicht sideView;
 
@@ -86,16 +87,16 @@ namespace D47_WPF_Kran
 
             erstelle_Laufband();
             erstelle_Kiste(455.0, 123.0);
-            
+
             Line schiene_links = new Line();
             this.Children.Add(schiene_links);
             Line schiene_rechts = new Line();
             this.Children.Add(schiene_rechts);
             this.kran = new Rectangle();
             this.Children.Add(kran);
-           
-            this.KranPic = new Kran(this.startX, this.startX, 14, 256, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen,kran, schiene_links, schiene_rechts);
-            
+
+            this.KranPic = new Kran(this.startX, this.startX, 14, 256, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen, kran, schiene_links, schiene_rechts);
+
         }
 
         //Erstellt den Rahmen des Kranes
@@ -115,12 +116,12 @@ namespace D47_WPF_Kran
 
         //Erstellt den Kranschlitten und die Befestigung
         //Übergabe der Koordinaten
-        
+
 
         //Erstellt das Laufband und die dazugehörigen Lager
         public void erstelle_Laufband()
         {
-           
+
 
             erstelle_Lager(180.0, 120.0);
             erstelle_Lager(225.0, 165.0);
@@ -130,7 +131,7 @@ namespace D47_WPF_Kran
             erstelle_Lager(90.0, 30.0);
 
 
-            
+
             Rectangle laufband = new Rectangle();
             laufband.Fill = Brushes.Gray;
             laufband.Width = 275.0;
@@ -152,12 +153,15 @@ namespace D47_WPF_Kran
 
         //Erstellen der Kiste
         //Übergabe der Start-Koordinaten
+        public Kiste letzteKiste;
         public void erstelle_Kiste(double x, double y)
         {
             Rectangle kiste = new Rectangle();
-            
+
             this.Children.Add(kiste);
-            kistePic = new Kiste(x, y, kiste, false);  
+            Kiste kistePic = new Kiste(x, y, kiste, false);
+
+            this.letzteKiste = kistePic;
         }
 
         public void erstelle_Lager(double x, double y)
@@ -227,7 +231,7 @@ namespace D47_WPF_Kran
                 KranPic.bewegungYrichtungPositiv();
                 zeichner();
             }
-            else if(this.KranPic.testUnten() == false)
+            else if (this.KranPic.testUnten() == false)
             {
                 MoveKranHandler handler =
                          new MoveKranHandler(this.moveKranRunter);   // TryMoveBall
@@ -250,49 +254,42 @@ namespace D47_WPF_Kran
             this.sideView.kranarmPic.aufhaengung.X1 = this.sideView.kranarmPic.actX;
             this.sideView.kranarmPic.aufhaengung.X2 = this.sideView.kranarmPic.actX + 30;
 
-            XPos = (int)KranPic.leftProperty;
-            YPos = (int)KranPic.topProperty;
-
-
-
             Console.WriteLine("{0}--{1}--{2}--{3}", this.sideView.kranarmPic.kranarm.X1, this.sideView.kranarmPic.kranarm.X2, this.sideView.kranarmPic.aufhaengung.X1, this.sideView.kranarmPic.aufhaengung.X2);
 
             KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
             KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
         }
 
-        public void moveKisteTo(int pos)
+        public void moveKisteTo(int pos, Kisten kiste)
         {
             if (this.Dispatcher.CheckAccess())
             {
-                if (this.kistePic.xKoordinate == this.kistePic.getXfromPosition(pos))
+                if (kiste.xKoordinate == kiste.getXfromPos(pos))
                 {
-                    if (this.kistePic.yKoordinate > this.kistePic.getYfromPosition(pos))
-                        this.kistePic.bewegungYrichtungNegativ();
-                    if (this.kistePic.yKoordinate < this.kistePic.getYfromPosition(pos))
-                        this.kistePic.bewegungYrichtungPositiv();
+
+                    if (kiste.yKoordinate > kiste.getYfromPos(pos))
+                        kiste.moveKistenYNegativ();
+                    if (kiste.yKoordinate < kiste.getYfromPos(pos))
+                        kiste.moveKistenYPositiv();
                 }
-                if (this.kistePic.xKoordinate > this.kistePic.getXfromPosition(pos))
+                if (kiste.xKoordinate > kiste.getXfromPos(pos))
                 {
-                    this.kistePic.bewegungXrichtungNegativ();
-                    this.sideView.kiste_xNegativ();
+                    kiste.moveKistenXNegativ();
                 }
-                if (this.kistePic.xKoordinate < this.kistePic.getXfromPosition(pos))
+                if (kiste.xKoordinate < kiste.getXfromPos(pos))
                 {
-                    this.kistePic.bewegungXrichtungPositiv();
-                    this.sideView.kiste_xPositiv();
+                    kiste.moveKistenXPositiv();
                 }
 
-                Console.WriteLine("{0} ... {1} ", this.kistePic.xKoordinate, this.kistePic.getXfromPosition(pos));
+                Console.WriteLine("{0} ... {1} ", kiste.xKoordinate, kiste.getXfromPos(pos));
             }
-            else if ((this.kistePic.yKoordinate != this.kistePic.getYfromPosition(pos)) || (this.kistePic.xKoordinate != this.kistePic.getXfromPosition(pos)))
+            else if ((kiste.yKoordinate != kiste.getYfromPos(pos)) || (kiste.xKoordinate != kiste.getXfromPos(pos)))
             {
                 MoveKisteHandler handler =
                          new MoveKisteHandler(this.moveKisteTo);   // TryMoveBall
-                this.Dispatcher.BeginInvoke(handler, pos);
+                this.Dispatcher.BeginInvoke(handler, pos, kiste);
             }
         }
-
 
         public int GetYPos()
         {
