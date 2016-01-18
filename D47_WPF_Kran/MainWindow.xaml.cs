@@ -34,7 +34,7 @@ namespace D47_WPF_Kran
     /// </summary>
     public partial class MainWindow : Window
     {
-        public bool isRunning = false;
+        //public bool isRunning = false;
         private button buttonClick;
         bool? modeControlFlag = null;
         KranSync kranSync = new KranSync();
@@ -59,14 +59,14 @@ namespace D47_WPF_Kran
         private void KranLinks_Click(object sender, RoutedEventArgs e)
         {
             buttonClick = button.Links;
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveElevatorPara);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -77,14 +77,14 @@ namespace D47_WPF_Kran
         private void KranTop_Click(object sender, RoutedEventArgs e)
         {
             buttonClick = button.Hoch;
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveElevatorPara);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -94,14 +94,14 @@ namespace D47_WPF_Kran
         private void KranRechts_Click(object sender, RoutedEventArgs e)
         {
             buttonClick = button.Rechts;
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveElevatorPara);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -111,14 +111,14 @@ namespace D47_WPF_Kran
         private void KranBottom_Click(object sender, RoutedEventArgs e)
         {
             buttonClick = button.Runter;
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveElevatorPara);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -128,7 +128,7 @@ namespace D47_WPF_Kran
         private void MoveElevatorPara()//(object o)
         {
 
-            while (this.isRunning == true)
+            while (this.Kran.isRunning == true)
             {
                 //if (Kran.KranPic.testRand() == false)
                 //{
@@ -156,7 +156,7 @@ namespace D47_WPF_Kran
 
         private void KranStop_Click(object sender, MouseButtonEventArgs e)
         {
-            isRunning = false;
+            this.Kran.isRunning = false;
         }
 
         private void RadioButton_Changed(object sender, RoutedEventArgs e)
@@ -185,19 +185,19 @@ namespace D47_WPF_Kran
 
         private void KranarmStop_Click(object sender, MouseButtonEventArgs e)
         {
-            isRunning = false;
+            this.Kran.isRunning = false;
         }
 
         private void Kranarm_Up_Click(object sender, RoutedEventArgs e)
         {
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveKranarm);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -206,14 +206,14 @@ namespace D47_WPF_Kran
 
         private void Kranarm_Down_Click(object sender, RoutedEventArgs e)
         {
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveKranarm);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -223,7 +223,7 @@ namespace D47_WPF_Kran
         private void MoveKranarm()//(object o)
         {
 
-            while (this.isRunning == true)
+            while (this.Kran.isRunning == true)
             {
                 //if (Kran.KranPic.testRand() == false)
                 //{
@@ -270,7 +270,7 @@ namespace D47_WPF_Kran
 
             this.KisteID++;
 
-            while (this.isRunning)
+            while (this.Kran.isRunning)
             {
                 this.Kran.moveKisteTo(pos, newKisten);
                 Thread.Sleep(30);
@@ -279,7 +279,7 @@ namespace D47_WPF_Kran
 
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
-            isRunning = false;
+            this.Kran.isRunning = false;
 
             GetBandStatusAsync();
         }
@@ -288,7 +288,7 @@ namespace D47_WPF_Kran
         {
             object pos = this.NummerLagerplatz.SelectedItem;
 
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
@@ -296,7 +296,7 @@ namespace D47_WPF_Kran
                 ParameterizedThreadStart pts = new ParameterizedThreadStart(moveKiste);
 
                 t = new Thread(pts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start(pos);
             }
