@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace D47_WPF_Kran
 {
-    class Band
+    class JsonObjectBandStatus
     {
         public bool An;	
         public int	Werkstück_id;	
@@ -16,19 +16,19 @@ namespace D47_WPF_Kran
         public int[] Registerlager;	
     }
 
-    class KranSync
+    class JsonObjectKranStatus
     {
         private KranDarstellung KranPic;
         public bool isRunning { get; set; }
-        public int X_Pos { get; set; }
-        public int Y_Pos { get; set; }
+        public double X_Pos { get; set; }
+        public double Y_Pos { get; set; }
         public int X_Direction { get; set; }
         public int Y_Direction { get; set; }	
         public bool Oben { get; set; }
         public bool Pickup { get; set; }	
         public int[] Queue { get; set; }
 
-        public KranSync()
+        public JsonObjectKranStatus()
         {
            
         }
@@ -41,12 +41,24 @@ namespace D47_WPF_Kran
         {
             X_Pos = KranPic.GetXPos();
             Y_Pos = KranPic.GetYPos();
+            isRunning = false;
+            X_Direction = 0;
             
         }
 
-        public KranSync returnSelf()
+        public JsonObjectKranStatus returnSelf()
         {
             return this;
         }
     }
+
+    class JsonOBjectMoveCrane
+    {
+        bool left = false;
+        bool right = false;
+        bool forward =  false;
+        bool backward = false;
+    }
+
+    
 }
