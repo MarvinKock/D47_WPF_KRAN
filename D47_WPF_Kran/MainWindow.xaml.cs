@@ -37,7 +37,7 @@ namespace D47_WPF_Kran
         //public bool isRunning = false;
         private button buttonClick;
         bool? modeControlFlag = null;
-        KranSync kranSync = new KranSync();
+        JsonObjectKranStatus kranSync = new JsonObjectKranStatus();
 
         private List<Kisten> ListKisten = new List<Kisten>();
         private double kisteStartX = 455.0;
@@ -228,9 +228,9 @@ namespace D47_WPF_Kran
                 //if (Kran.KranPic.testRand() == false)
                 //{
                 if (buttonClick == button.Arm_Runter)
-                    AnsichtSeite.moveKranarmUnten();
+                    //AnsichtSeite.moveKranarmUnten();
                 if (buttonClick == button.Arm_Hoch)
-                    AnsichtSeite.moveKranarmHoch();
+                    //AnsichtSeite.moveKranarmHoch();
                    
                 
                 //Console.WriteLine("da");
@@ -320,7 +320,7 @@ namespace D47_WPF_Kran
                 HttpResponseMessage response = await client.GetAsync("api/Band/Status");          
                 if (response.IsSuccessStatusCode)
                 {
-                    Band band = await response.Content.ReadAsAsync<Band>();
+                    JsonObjectBandStatus band = await response.Content.ReadAsAsync<JsonObjectBandStatus>();
                     Console.WriteLine("{0}\t${1}\t{2}\t{3}", band.Ablageplatz[0], band.An, band.Einlagerplatz[0], band.Werkstück_id);
                 }
                 if(response.IsSuccessStatusCode == false)
@@ -360,7 +360,7 @@ namespace D47_WPF_Kran
 
                 // HTTP POST
                 //HttpResponseMessage response = await client.GetAsync("api/Band/Status");             
-                KranSync herbert = new KranSync();
+                JsonObjectKranStatus herbert = new JsonObjectKranStatus();
                 herbert.setCran(this.Kran);
                 herbert.getPropertiesOfCrane();
                 var gizmo = herbert.returnSelf() ;
@@ -373,7 +373,7 @@ namespace D47_WPF_Kran
                 response = await client.GetAsync("api/Crane/Status");
                 if (response.IsSuccessStatusCode)
                 {
-                    KranSync roger = await response.Content.ReadAsAsync<KranSync>();
+                    JsonObjectKranStatus roger = await response.Content.ReadAsAsync<JsonObjectKranStatus>();
                     Console.WriteLine("{0}\t${1}\t{2}", roger.X_Pos, roger.Y_Pos, roger.isRunning);
                 }
                 if (response.IsSuccessStatusCode == false)

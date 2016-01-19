@@ -99,7 +99,6 @@ namespace D47_WPF_Kran
         {
             if ((this.actY + this.hoeheArm) == this.minHoehe)
             {
-               
                 return true;
             }
 

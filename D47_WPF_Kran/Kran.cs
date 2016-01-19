@@ -38,25 +38,25 @@ namespace D47_WPF_Kran
 
         public Kran(double x1, double x2, double y1, double y2, int breite, int hoehe, int yRahmen, int xRahmen, Rectangle kran, Line links, Line rechts)
         {
-                 this.x1_left = x1;
-                 this.x2_left = x2;
-                 this.x1_right = x1 + width;
-                 this.x2_right = x2 + width;
-                 this.y1_left = y1;
-                 this.y2_left = y2;
-                 this.y1_right = y1;
-                 this.y2_right = y2;
+            this.x1_left = x1;
+            this.x2_left = x2;
+            this.x1_right = x1 + width;
+            this.x2_right = x2 + width;
+            this.y1_left = y1;
+            this.y2_left = y2;
+            this.y1_right = y1;
+            this.y2_right = y2;
 
-                 this.kran = kran;
-                 this.links = links;
-                 this.rechts = rechts;
+            this.kran = kran;
+            this.links = links;
+            this.rechts = rechts;
 
-                 Console.WriteLine("{0}----{1}", this.x1_left, this.x2_right);
+            Console.WriteLine("{0}----{1}", this.x1_left, this.x2_right);
 
-                 links.X1 = this.x1_left;
-                 links.X2 = this.x2_left;
-                 links.Y1 = this.y1_left;
-                 links.Y2 = this.y2_left;
+            links.X1 = this.x1_left;
+            links.X2 = this.x2_left;
+            links.Y1 = this.y1_left;
+            links.Y2 = this.y2_left;
 
             links.Fill = Brushes.Black;
             links.Stroke = Brushes.Gray;
@@ -90,6 +90,10 @@ namespace D47_WPF_Kran
             
         }
 
+        public void setPosition(double x, double y)
+        {
+
+        }
         
 
         public bool testOben()

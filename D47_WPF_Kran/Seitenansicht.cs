@@ -45,7 +45,7 @@ namespace D47_WPF_Kran
     ///
     /// </summary>
 
-    public delegate void MoveKranarmHandler();
+    public delegate void MoveKranarmHandler(List<Kisten> kisten);
 
     public class Seitenansicht : Canvas
     {
@@ -170,7 +170,7 @@ namespace D47_WPF_Kran
             this.Children.Add(lager);
         }
 
-        public void moveKranarmUnten()
+        public void moveKranarmUnten(List<Kisten> kisten)
         {
             if (this.Dispatcher.CheckAccess())
             {
@@ -189,8 +189,16 @@ namespace D47_WPF_Kran
             }
         }
 
-        public void moveKranarmHoch()
+        
+        
+
+        public void moveKranarmHoch(List<Kisten> kisten)
         {
+            for (int i = 0; i < kisten.Count; i++)
+            {
+                if (kisten[i].getAngehoben())
+                    break;
+            }   
             Console.WriteLine("<moveKranarmHoch");
             if (this.Dispatcher.CheckAccess())
             {

@@ -54,12 +54,12 @@ namespace D47_WPF_Kran
         Rectangle kran;
         private int xRahmen = 20;
         private int yRahmen = 20;
-        private int hoeheRahmen = 230;
+        private int hoeheRahmen = 268;
         private int breiteRahmen = 560;
 
 
-        private int YPos = 0;
-        private int XPos = 0;
+        private double YPos = 0;
+        private double XPos = 0;
 
         public bool isRunning = false;
 
@@ -78,7 +78,7 @@ namespace D47_WPF_Kran
         public KranDarstellung()
         {
             this.Background = Brushes.Bisque;
-            this.Height = 270;
+            this.Height = 300;
             this.Width = 600;
             erstelle_Rahmen(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen, this.yRahmen);
             erstelle_Rahmen(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen + this.hoeheRahmen, this.yRahmen + this.hoeheRahmen);
@@ -97,8 +97,36 @@ namespace D47_WPF_Kran
             this.kran = new Rectangle();
             this.Children.Add(kran);
 
-            this.KranPic = new Kran(this.startX, this.startX, 14, 256, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen, kran, schiene_links, schiene_rechts);
+            this.KranPic = new Kran(this.startX, this.startX, 14, this.hoeheRahmen + 25, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen, kran, schiene_links, schiene_rechts);
 
+        }
+
+
+        public bool testeArmUeberKiste(List<Kisten> kisten)
+        {
+            for(int i = 0; i < kisten.Count; i++)
+            {
+               // if(kisten[i].xKoordinate == this.KranPic.x1_left && kisten[i].yKoordinate == this.sideView.)
+                if (varianzTest(kisten[i].xKoordinate, this.KranPic.x1_left) && varianzTest(kisten[i].yKoordinate, this.KranPic.y1_left))
+                {
+                    kistenAnheben(kisten[i]);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void kistenAnheben(Kisten kisten)
+        {
+            kisten.kisteAnheben();
+        }
+
+        private bool varianzTest(double x, double y)
+        {
+            if (x >= y - 2.0 && x <= y + 2.0)
+                return true;
+
+            return false;
         }
 
         //Erstellt den Rahmen des Kranes
@@ -256,8 +284,11 @@ namespace D47_WPF_Kran
             this.sideView.kranarmPic.aufhaengung.X1 = this.sideView.kranarmPic.actX;
             this.sideView.kranarmPic.aufhaengung.X2 = this.sideView.kranarmPic.actX + 30;
 
-            Console.WriteLine("{0}--{1}--{2}--{3}", this.sideView.kranarmPic.kranarm.X1, this.sideView.kranarmPic.kranarm.X2, this.sideView.kranarmPic.aufhaengung.X1, this.sideView.kranarmPic.aufhaengung.X2);
+            XPos = (double)KranPic.kran.GetValue(Canvas.LeftProperty);
+            XPos = (double)KranPic.kran.GetValue(Canvas.TopProperty);
 
+            Console.WriteLine("{0}--{1}--{2}--{3}", this.sideView.kranarmPic.kranarm.X1, this.sideView.kranarmPic.kranarm.X2, this.sideView.kranarmPic.aufhaengung.X1, this.sideView.kranarmPic.aufhaengung.X2);
+            Console.WriteLine("Draussen ist es kalt, deshalb hat die Amelie kalte Beine.");
             KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
             KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
         }
@@ -295,13 +326,13 @@ namespace D47_WPF_Kran
             }
         }
 
-        public int GetYPos()
+        public double GetYPos()
         {
             return YPos;
 
         }
 
-        public int GetXPos()
+        public double GetXPos()
         {
             return XPos;
         }

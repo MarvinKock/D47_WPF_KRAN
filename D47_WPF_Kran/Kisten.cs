@@ -16,6 +16,8 @@ namespace D47_WPF_Kran
         public double yKoordinate;
         public double zKoordinate;
 
+        private bool angehoben = false;
+
         public Kisten(Kiste seit, Kiste drauf, int kisteID)
         {
             this.seitAnsicht = seit;
@@ -40,6 +42,12 @@ namespace D47_WPF_Kran
         public int getKistenID()
         {
             return this.kisteID;
+        }
+
+        public void setKistenPosition(int x, int y, int z)
+        {
+            this.seitAnsicht.setPosition(x, y);
+            this.draufSicht.setPosition(x, z);
         }
 
         public void moveKistenXPositiv()
@@ -78,6 +86,24 @@ namespace D47_WPF_Kran
         {
             seitAnsicht.bewegungYrichtungNegativ();
             this.zKoordinate = seitAnsicht.yKoordinate;
+        }
+
+        public void kisteAnheben()
+        {
+            this.angehoben = true;
+        }
+
+        public bool getAngehoben()
+        {
+            if (this.angehoben == true)
+                return true;
+            else
+                return false;
+        }
+
+        public void kisteLoslassen()
+        {
+            this.angehoben = false;
         }
     }
 }

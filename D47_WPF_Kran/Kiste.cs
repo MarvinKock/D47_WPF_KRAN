@@ -41,7 +41,11 @@ namespace D47_WPF_Kran
             this.kiste.SetValue(Canvas.TopProperty, y);
         }
 
-       
+        public void setPosition(double x, double y)
+        {
+            this.xKoordinate = x;
+            this.yKoordinate = y;
+        }
 
         public void bewegungXrichtungPositiv()
         {
