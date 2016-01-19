@@ -19,14 +19,60 @@ namespace D47_WPF_Kran
     class JsonObjectKranStatus
     {
         private KranDarstellung KranPic;
-        public bool isRunning { get; set; }
-        public double X_Pos { get; set; }
-        public double Y_Pos { get; set; }
-        public int X_Direction { get; set; }
-        public int Y_Direction { get; set; }	
-        public bool Oben { get; set; }
-        public bool Pickup { get; set; }	
-        public int[] Queue { get; set; }
+
+            private bool isRunning ;
+            public bool IsRunning
+            {
+              get { return isRunning; }
+              set { isRunning = value; }
+            }private double x_Pos;
+            public double X_Pos
+            {
+              get { return x_Pos; }
+              set { x_Pos = value; }
+            }
+            private double y_Pos;
+
+            public double Y_Pos
+            {
+                get { return y_Pos; }
+                set { y_Pos = value; }
+            }
+            private int x_Direction;
+
+            public int X_Direction
+            {
+                get { return x_Direction; }
+                set { x_Direction = value; }
+            }
+            private int y_Direction;
+
+            public int Y_Direction
+            {
+                get { return y_Direction; }
+                set { y_Direction = value; }
+            }
+            private bool oben;
+
+            public bool Oben
+            {
+                get { return oben; }
+                set { oben = value; }
+            }
+            private bool pickup;
+
+            public bool Pickup
+            {
+                get { return pickup; }
+                set { pickup = value; }
+            }
+            private int[] queue;
+
+            public int[] Queue
+            {
+                get { return queue; }
+                set { queue = value; }
+            }
 
         public JsonObjectKranStatus()
         {
@@ -54,10 +100,22 @@ namespace D47_WPF_Kran
 
     class JsonOBjectMoveCrane
     {
-        bool left = false;
-        bool right = false;
-        bool forward =  false;
-        bool backward = false;
+        public bool left = false;
+        public bool right = false;
+        public bool forward = false;
+        public bool backward = false;
+
+        public JsonOBjectMoveCrane(string direction)
+        {
+            switch(direction)
+            {
+                case "left": left = true; break;
+                case "right": right = true; break;
+                case "forward": forward = true; break;
+                case "backward": backward = true; break;
+                default: break;
+            }
+        }
     }
 
     

@@ -69,6 +69,7 @@
     <Compile Include="HttpClient.cs" />
     <Compile Include="Kisten.cs" />
     <Compile Include="Kranarm.cs" />
+    <Compile Include="kranDraufsicht.cs" />
     <Compile Include="Seitenansicht.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
