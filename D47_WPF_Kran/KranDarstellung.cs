@@ -61,6 +61,8 @@ namespace D47_WPF_Kran
         private int YPos = 0;
         private int XPos = 0;
 
+        public bool isRunning = false;
+
 
         private Seitenansicht sideView;
 
@@ -266,11 +268,12 @@ namespace D47_WPF_Kran
             {
                 if (kiste.xKoordinate == kiste.getXfromPos(pos))
                 {
-
                     if (kiste.yKoordinate > kiste.getYfromPos(pos))
                         kiste.moveKistenYNegativ();
                     if (kiste.yKoordinate < kiste.getYfromPos(pos))
                         kiste.moveKistenYPositiv();
+                    if (kiste.yKoordinate == kiste.getYfromPos(pos))
+                        this.isRunning = false;
                 }
                 if (kiste.xKoordinate > kiste.getXfromPos(pos))
                 {
@@ -281,8 +284,9 @@ namespace D47_WPF_Kran
                     kiste.moveKistenXPositiv();
                 }
 
-                Console.WriteLine("{0} ... {1} ", kiste.xKoordinate, kiste.getXfromPos(pos));
+                Console.WriteLine("{0} ... {1} ", kiste.yKoordinate, kiste.getYfromPos(pos));
             }
+
             else if ((kiste.yKoordinate != kiste.getYfromPos(pos)) || (kiste.xKoordinate != kiste.getXfromPos(pos)))
             {
                 MoveKisteHandler handler =

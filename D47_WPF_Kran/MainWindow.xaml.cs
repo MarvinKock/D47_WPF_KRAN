@@ -34,7 +34,7 @@ namespace D47_WPF_Kran
     /// </summary>
     public partial class MainWindow : Window
     {
-        public bool isRunning = false;
+        //public bool isRunning = false;
         private button buttonClick;
         bool? modeControlFlag = null;
         KranSync kranSync = new KranSync();
@@ -45,15 +45,6 @@ namespace D47_WPF_Kran
         private double kisteStartZ = 228.0;
         private int KisteID = 1;
 
-        bool getCraneStatus = false;
-        bool getBandStatus = false;
-        bool postCraneStatus = false;
-        bool postBandStatus = false;
-
-        bool delivered = false;
-
-        private HttpClient httpClient;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -62,24 +53,20 @@ namespace D47_WPF_Kran
                 this.NummerLagerplatz.Items.Add(i);
 
             this.Kran.setSideView(this.AnsichtSeite);
-
-            this.httpClient = new HttpClient();
-            // due to Fiddler: use machine name            
-            this.httpClient.BaseAddress = new Uri("http://10.8.0.135:53161/");
            
         }
 
         private void KranLinks_Click(object sender, RoutedEventArgs e)
         {
             buttonClick = button.Links;
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveElevatorPara);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -90,14 +77,14 @@ namespace D47_WPF_Kran
         private void KranTop_Click(object sender, RoutedEventArgs e)
         {
             buttonClick = button.Hoch;
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveElevatorPara);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -107,14 +94,14 @@ namespace D47_WPF_Kran
         private void KranRechts_Click(object sender, RoutedEventArgs e)
         {
             buttonClick = button.Rechts;
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveElevatorPara);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -124,14 +111,14 @@ namespace D47_WPF_Kran
         private void KranBottom_Click(object sender, RoutedEventArgs e)
         {
             buttonClick = button.Runter;
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveElevatorPara);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -141,7 +128,7 @@ namespace D47_WPF_Kran
         private void MoveElevatorPara()//(object o)
         {
 
-            while (this.isRunning == true)
+            while (this.Kran.isRunning == true)
             {
                 //if (Kran.KranPic.testRand() == false)
                 //{
@@ -154,16 +141,13 @@ namespace D47_WPF_Kran
                 if (buttonClick == button.Runter)
                     Kran.moveKranRunter();
                 // Console.WriteLine("da");
-                PostCraneStatus();
-                
                 Thread.Sleep(30);
                 //}
                 //else
                 //{
                 //    return;
                 //}
-
-                
+                PostCraneStatusAsync();
 
             }
 
@@ -172,12 +156,7 @@ namespace D47_WPF_Kran
 
         private void KranStop_Click(object sender, MouseButtonEventArgs e)
         {
-            isRunning = false;
-
-            if (delivered == true)
-            {
-                postCraneStatus = false;
-            }
+            this.Kran.isRunning = false;
         }
 
         private void RadioButton_Changed(object sender, RoutedEventArgs e)
@@ -206,19 +185,19 @@ namespace D47_WPF_Kran
 
         private void KranarmStop_Click(object sender, MouseButtonEventArgs e)
         {
-            isRunning = false;
+            this.Kran.isRunning = false;
         }
 
         private void Kranarm_Up_Click(object sender, RoutedEventArgs e)
         {
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveKranarm);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -227,14 +206,14 @@ namespace D47_WPF_Kran
 
         private void Kranarm_Down_Click(object sender, RoutedEventArgs e)
         {
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
                 // erster Start
                 ThreadStart ts = new ThreadStart(MoveKranarm);
                 t = new Thread(ts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start();
             }
@@ -244,7 +223,7 @@ namespace D47_WPF_Kran
         private void MoveKranarm()//(object o)
         {
 
-            while (this.isRunning == true)
+            while (this.Kran.isRunning == true)
             {
                 //if (Kran.KranPic.testRand() == false)
                 //{
@@ -265,39 +244,6 @@ namespace D47_WPF_Kran
             }
 
             //this.ReachedFloor.Invoke(elevatorAtFloor);
-        }
-
-        private void PostCraneStatus()
-        {
-            if (postCraneStatus == false)
-            {
-                Thread t;
-
-                // erster Start
-                ThreadStart ts = new ThreadStart(PostCraneStatusThread);
-                t = new Thread(ts);
-                postCraneStatus = true;
-
-                t.Start();
-            }
-        }
-
-        private void PostCraneStatusThread()
-        {
-            while (postCraneStatus == true)
-            {
-                
-                 PostCraneStatusAsync();
-
-                Thread.Sleep(300);
-
-                if(isRunning == false)
-                {
-                    postCraneStatus = false;
-                }
-            }
-
-            //getCraneStatus = false;
         }
 
 
@@ -324,7 +270,7 @@ namespace D47_WPF_Kran
 
             this.KisteID++;
 
-            while (this.isRunning)
+            while (this.Kran.isRunning)
             {
                 this.Kran.moveKisteTo(pos, newKisten);
                 Thread.Sleep(30);
@@ -333,18 +279,16 @@ namespace D47_WPF_Kran
 
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
-            isRunning = false;
+            this.Kran.isRunning = false;
 
             GetBandStatusAsync();
-
-            //PostCraneStatusAsync();
         }
 
         private void NummerLagerplatz_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object pos = this.NummerLagerplatz.SelectedItem;
 
-            if (isRunning == false)
+            if (this.Kran.isRunning == false)
             {
                 Thread t;
 
@@ -352,7 +296,7 @@ namespace D47_WPF_Kran
                 ParameterizedThreadStart pts = new ParameterizedThreadStart(moveKiste);
 
                 t = new Thread(pts);
-                isRunning = true;
+                this.Kran.isRunning = true;
 
                 t.Start(pos);
             }
@@ -365,14 +309,15 @@ namespace D47_WPF_Kran
 
         async Task GetBandStatusAsync()
         {
-           
+            using (var client = new HttpClient())
+            {
 
-                //client.BaseAddress = new Uri("http://10.8.0.135:53161/");
-                httpClient.DefaultRequestHeaders.Accept.Clear();
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.BaseAddress = new Uri("http://10.8.0.135:53161/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // HTTP GET
-                HttpResponseMessage response = await httpClient.GetAsync("api/Band/Status");          
+                HttpResponseMessage response = await client.GetAsync("api/Band/Status");          
                 if (response.IsSuccessStatusCode)
                 {
                     Band band = await response.Content.ReadAsAsync<Band>();
@@ -398,17 +343,18 @@ namespace D47_WPF_Kran
                      // HTTP DELETE
                      response = await client.DeleteAsync(gizmoUrl);
                  }*/
-            
+            }
 
         }
 
         async Task PostCraneStatusAsync()
         {
-                delivered = false;
+            using (var client = new HttpClient())
+            {
                 Console.WriteLine("Starting Crane Status Update");
-                //httpClient.BaseAddress = new Uri("http://10.8.0.135:53161/");
-                httpClient.DefaultRequestHeaders.Accept.Clear();
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.BaseAddress = new Uri("http://10.8.0.135:53161/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 
 
@@ -417,29 +363,14 @@ namespace D47_WPF_Kran
                 KranSync herbert = new KranSync();
                 herbert.setCran(this.Kran);
                 herbert.getPropertiesOfCrane();
-                HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/Crane/Set", herbert);
+                var gizmo = herbert.returnSelf() ;
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/Status", gizmo);
                 if (response.IsSuccessStatusCode)
                 {
-                    String result = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine(result);
-                    Console.WriteLine("PostAsJsonAsync: {0}", response.StatusCode.ToString());
-                }
-                else
-                {
-                    Console.WriteLine("PostAsJsonAsync Error: {0} [{1}]",
-                        response.StatusCode.ToString(), (int)response.StatusCode);
-                }
-
-
-
-                /*if (response.IsSuccessStatusCode)
-                {
                     Console.WriteLine("Updatet Crane Status");
-                }*/
+                }
 
-                
-
-                response = await httpClient.GetAsync("api/Crane/Status");
+                response = await client.GetAsync("api/Crane/Status");
                 if (response.IsSuccessStatusCode)
                 {
                     KranSync roger = await response.Content.ReadAsAsync<KranSync>();
@@ -451,11 +382,7 @@ namespace D47_WPF_Kran
 
                 }
 
-
-                delivered = true;
-               
-
-            
+            }
         }
 
     }
