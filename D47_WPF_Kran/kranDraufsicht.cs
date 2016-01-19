@@ -21,13 +21,13 @@ namespace D47_WPF_Kran
         private int yRahmen = 20;
         private int xRahmen = 20;
         private int breiteHalterung = 5;
-        private int breiteRahmen = 12;
+        private int breiteRahmen = 6;
         private double schlittenHoehe = 40.0;
         private double schlittenBreite = 30.0;
 
         private Rectangle kran;
-        private Line links;
-        private Line rechts;
+        private Line linkeStrebe;
+        private Line rechteStrebe;
 
         public kranDraufsicht(KranDarstellung drauf, double x, double y)
         {
@@ -35,8 +35,8 @@ namespace D47_WPF_Kran
             this.xKoordinate = x;
             this.yKoordiante = y;
 
+            erstelleStreben();
             erstelleKran();
-            erstelleStrebe(this.xKoordinate - 3);
         }
 
         private void erstelleKran()
@@ -47,12 +47,29 @@ namespace D47_WPF_Kran
             this.kran.Height = this.schlittenHoehe;
             kran.SetValue(Canvas.TopProperty, yKoordiante);
             kran.SetValue(Canvas.LeftProperty, xKoordinate);
+            draufSicht.Children.Add(kran);
         }
             
 
-        private void erstelleStrebe(double start)
+        private void erstelleStreben()
         {
+            this.linkeStrebe = new Line();
+            linkeStrebe.X1 = linkeStrebe.X2 = this.xKoordinate ;
+            linkeStrebe.Y1 = this.yRahmen - breiteRahmen;
+            linkeStrebe.Y2 = this.yRahmen + this.rahmenHoehe + breiteRahmen;
+            linkeStrebe.Fill = Brushes.Black;
+            linkeStrebe.Stroke = Brushes.Gray;
+            linkeStrebe.StrokeThickness = breiteHalterung;
+            draufSicht.Children.Add(linkeStrebe);
 
+            this.rechteStrebe = new Line();
+            rechteStrebe.X1 = rechteStrebe.X2 = linkeStrebe.X1 + this.schlittenBreite;
+            rechteStrebe.Y1 = this.yRahmen - breiteRahmen;
+            rechteStrebe.Y2 = this.yRahmen + this.rahmenHoehe + breiteRahmen;
+            rechteStrebe.Fill = Brushes.Black;
+            rechteStrebe.Stroke = Brushes.Gray;
+            rechteStrebe.StrokeThickness = breiteHalterung;
+            draufSicht.Children.Add(rechteStrebe);
         }
 
         public void setKranPosition(double x, double y)
