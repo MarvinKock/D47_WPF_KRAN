@@ -78,6 +78,8 @@ namespace D47_WPF_Kran
             {
                 this.kran.SetValue(Canvas.TopProperty, y);
                 this.kran.SetValue(Canvas.LeftProperty, x);
+                this.linkeStrebe.X1 = this.linkeStrebe.X2 = x;
+                this.rechteStrebe.X1 = this.rechteStrebe.X2 = this.linkeStrebe.X1 + this.schlittenBreite;
             }
             else
             {
