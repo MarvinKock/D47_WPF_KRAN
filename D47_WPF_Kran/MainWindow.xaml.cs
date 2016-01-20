@@ -63,7 +63,7 @@ namespace D47_WPF_Kran
 
             drauf = new kranDraufsicht(Kran, 40.0, 70.0);
 
-            GetCranePosition();
+            GetCranePositionOnce();
            
         }
 
@@ -367,6 +367,11 @@ namespace D47_WPF_Kran
 
         }
 
+        private void GetCranePositionOnce()
+        {
+            GetCranPositionAsyncFirst();
+        }
+
         private void GetCranePosition()
         {
             Thread t;
@@ -381,6 +386,7 @@ namespace D47_WPF_Kran
 
         private void GetCranePositionThread()
         {
+           
             while (true)
             {
                 GetCranPositionAsync();
@@ -417,18 +423,17 @@ namespace D47_WPF_Kran
         {
             double[]  coords = new double[2];
 
-            coords[0] = 275.0 - (275.0*(YPos * 1.549865));
-            coords[1] = 575.0 * 1.549865;
+            coords[1] = 275.0 - (275.0*(YPos * 1.549865));
+            coords[0] = XPos * 1.549865 +26 ;
 
             return coords;
         }
 
         async Task PostCraneStatusAsync()
         {
-            using (var client = new HttpClient())
-            {
+            
                 Console.WriteLine("Starting Crane Status Update");
-                client.BaseAddress = new Uri("http://10.8.0.135:53161/");
+               
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -457,7 +462,7 @@ namespace D47_WPF_Kran
 
                 }
 
-            }
+            
         }
 
         async Task PostCraneMoveLeft()
@@ -582,7 +587,33 @@ namespace D47_WPF_Kran
         }
 
 
+        async Task GetCranPositionAsyncFirst()
+        {
+            Console.WriteLine("Getting Coords of Crane for the First Time");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+            // HTTP GET
+            HttpResponseMessage response = await client.GetAsync("api/Crane/GetPosition");
+            if (response.IsSuccessStatusCode)
+            {
+                JsonObjectXYPos coord = await response.Content.ReadAsAsync<JsonObjectXYPos>();
+                
+                double[] coords = new double[2];
+                coords = getCanvasCoord(coord.X_pos, coord.Y_pos);
+                drauf.setKranPosition(coords[0], coords[1]);
+
+                Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
+
+                GetCranePosition();
+
+            }
+            if (response.IsSuccessStatusCode == false)
+            {
+                Console.WriteLine("No Connection");
+
+            }
+        }
        
       
 
