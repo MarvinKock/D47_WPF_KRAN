@@ -54,7 +54,7 @@ namespace D47_WPF_Kran
         Rectangle kran;
         private int xRahmen = 20;
         private int yRahmen = 20;
-        private int hoeheRahmen = 268;
+        private int hoeheRahmen = 301; //301
         private int breiteRahmen = 560;
 
 
@@ -288,7 +288,6 @@ namespace D47_WPF_Kran
             XPos = (double)KranPic.kran.GetValue(Canvas.TopProperty);
 
             Console.WriteLine("{0}--{1}--{2}--{3}", this.sideView.kranarmPic.kranarm.X1, this.sideView.kranarmPic.kranarm.X2, this.sideView.kranarmPic.aufhaengung.X1, this.sideView.kranarmPic.aufhaengung.X2);
-            Console.WriteLine("Draussen ist es kalt, deshalb hat die Amelie kalte Beine.");
             KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
             KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
         }

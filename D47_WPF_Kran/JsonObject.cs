@@ -98,14 +98,14 @@ namespace D47_WPF_Kran
         }
     }
 
-    class JsonOBjectMoveCrane
+    class JsonObjectMoveCrane
     {
         public bool left = false;
         public bool right = false;
         public bool forward = false;
         public bool backward = false;
 
-        public JsonOBjectMoveCrane(string direction)
+        public JsonObjectMoveCrane(string direction)
         {
             switch(direction)
             {
@@ -113,8 +113,33 @@ namespace D47_WPF_Kran
                 case "right": right = true; break;
                 case "forward": forward = true; break;
                 case "backward": backward = true; break;
-                default: break;
+                default: left = false; right = false; forward = false; backward = false; break;
             }
+        }
+    }
+
+    class JsonObjectXYPos
+    {
+        double x_pos;
+        double y_pos;
+
+        public double X_pos
+        {
+          get { return x_pos; }
+          set { x_pos = value; }
+        }
+        
+
+        public double Y_pos
+        {
+          get { return y_pos; }
+          set { y_pos = value; }
+        }
+
+        public JsonObjectXYPos()
+        {
+            x_pos = 0;
+            y_pos = 0;
         }
     }
 
