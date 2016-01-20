@@ -16,10 +16,10 @@ namespace D47_WPF_Kran
         double xKoordinate;
         double yKoordiante;
 
-        private int rahmenBreite = 560;
-        private int rahmenHoehe = 268;
+        //private int rahmenBreite = 560;
+        private int rahmenHoehe = 301;
         private int yRahmen = 20;
-        private int xRahmen = 20;
+        //private int xRahmen = 20;
         private int breiteHalterung = 5;
         private int breiteRahmen = 6;
         private double schlittenHoehe = 40.0;
@@ -88,5 +88,45 @@ namespace D47_WPF_Kran
                 draufSicht.Dispatcher.BeginInvoke(handler, x, y);
             }
         }
+
+        //public bool testOben()
+        //{
+        //    if (this.topProperty == (this.yRahmen + this.breiteRahmen / 2))
+        //        return true;
+
+        //    return false;
+        //}
+
+        //public bool testUnten()
+        //{
+        //    if (this.topProperty == (this.yRahmen + this.RahmenHoehe - this.height - this.breiteRahmen / 2))
+        //        return true;
+
+        //    return false;
+        //}
+
+
+        //public bool testRechts()
+        //{
+        //    if (this.x2_right == (this.xRahmen + this.RahmenBreite - this.breiteHalterung))
+        //    {
+
+        //        Console.WriteLine("Rechts");
+        //        return true;
+        //    }
+        //    int test = this.xRahmen + this.breiteRahmen - this.breiteHalterung - this.breiteRahmen / 2;
+        //    Console.WriteLine("{0}", test);
+
+        //    //Console.WriteLine("<<<< Test Rechts >>>>");
+        //    return false;
+        //}
+
+        //public bool testLinks()
+        //{
+        //    if (this.x1_left == (this.xRahmen + this.breiteRahmen / 2))
+        //        return true;
+
+        //    return false;
+        //}
     }
 }

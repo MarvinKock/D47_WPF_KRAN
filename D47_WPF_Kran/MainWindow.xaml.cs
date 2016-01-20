@@ -47,6 +47,7 @@ namespace D47_WPF_Kran
 
 
         kranDraufsicht drauf;
+        kranSeitsicht seit;
 
         HttpClient client = new HttpClient();
 
@@ -62,6 +63,7 @@ namespace D47_WPF_Kran
             this.client.BaseAddress = new Uri("http://10.8.0.203:53161/");         
 
             drauf = new kranDraufsicht(Kran, 40.0, 70.0);
+            seit = new kranSeitsicht(AnsichtSeite, 40.0, 70.0);
 
             GetCranePositionOnce();
            
@@ -315,6 +317,7 @@ namespace D47_WPF_Kran
             GetBandStatusAsync();
 
             drauf.setKranPosition(300.0, 170.0);
+            seit.setKranPosition(300.0);
         }
 
         private void NummerLagerplatz_SelectionChanged(object sender, SelectionChangedEventArgs e)
