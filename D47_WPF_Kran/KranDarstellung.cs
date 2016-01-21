@@ -50,7 +50,7 @@ namespace D47_WPF_Kran
     public delegate void MoveKisteHandler(int pos, Kisten kiste);
     public class KranDarstellung : Canvas
     {
-        public Kran KranPic;
+        //public Kran KranPic;
         Rectangle kran;
         private int xRahmen = 20;
         private int yRahmen = 20;
@@ -78,7 +78,7 @@ namespace D47_WPF_Kran
         public KranDarstellung()
         {
             this.Background = Brushes.Bisque;
-            this.Height = 300;
+            this.Height = 340;
             this.Width = 600;
             erstelle_Rahmen(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen, this.yRahmen);
             erstelle_Rahmen(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen + this.hoeheRahmen, this.yRahmen + this.hoeheRahmen);
@@ -90,44 +90,44 @@ namespace D47_WPF_Kran
             erstelle_Laufband();
             erstelle_Kiste(455.0, 123.0);
 
-            Line schiene_links = new Line();
-            this.Children.Add(schiene_links);
-            Line schiene_rechts = new Line();
-            this.Children.Add(schiene_rechts);
-            this.kran = new Rectangle();
-            this.Children.Add(kran);
+            //Line schiene_links = new Line();
+            //this.Children.Add(schiene_links);
+            //Line schiene_rechts = new Line();
+            //this.Children.Add(schiene_rechts);
+            //this.kran = new Rectangle();
+            //this.Children.Add(kran);
 
-            this.KranPic = new Kran(this.startX, this.startX, 14, this.hoeheRahmen + 25, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen, kran, schiene_links, schiene_rechts);
+            //this.KranPic = new Kran(this.startX, this.startX, 14, this.hoeheRahmen + 25, this.breiteRahmen, this.hoeheRahmen, this.xRahmen, this.yRahmen, kran, schiene_links, schiene_rechts);
 
         }
 
 
-        public bool testeArmUeberKiste(List<Kisten> kisten)
-        {
-            for(int i = 0; i < kisten.Count; i++)
-            {
-               // if(kisten[i].xKoordinate == this.KranPic.x1_left && kisten[i].yKoordinate == this.sideView.)
-                if (varianzTest(kisten[i].xKoordinate, this.KranPic.x1_left) && varianzTest(kisten[i].yKoordinate, this.KranPic.y1_left))
-                {
-                    kistenAnheben(kisten[i]);
-                    return true;
-                }
-            }
-            return false;
-        }
+        //public bool testeArmUeberKiste(List<Kisten> kisten)
+        //{
+        //    for(int i = 0; i < kisten.Count; i++)
+        //    {
+        //       // if(kisten[i].xKoordinate == this.KranPic.x1_left && kisten[i].yKoordinate == this.sideView.)
+        //        if (varianzTest(kisten[i].xKoordinate, this.KranPic.x1_left) && varianzTest(kisten[i].yKoordinate, this.KranPic.y1_left))
+        //        {
+        //            kistenAnheben(kisten[i]);
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
 
-        private void kistenAnheben(Kisten kisten)
-        {
-            kisten.kisteAnheben();
-        }
+        //private void kistenAnheben(Kisten kisten)
+        //{
+        //    kisten.kisteAnheben();
+        //}
 
-        private bool varianzTest(double x, double y)
-        {
-            if (x >= y - 2.0 && x <= y + 2.0)
-                return true;
+        //private bool varianzTest(double x, double y)
+        //{
+        //    if (x >= y - 2.0 && x <= y + 2.0)
+        //        return true;
 
-            return false;
-        }
+        //    return false;
+        //}
 
         //Erstellt den Rahmen des Kranes
         //Übergabe der Koordinaten
@@ -207,133 +207,133 @@ namespace D47_WPF_Kran
             this.Children.Add(lager);
         }
 
-        public void moveKranLeft()
-        {
-            if (this.Dispatcher.CheckAccess())
-            {
-                KranPic.bewegungXrichtungNegativ();
-                this.sideView.kranarmPic.moveLinks();
-                zeichner();
-            }
-            else if (this.KranPic.testLinks() == false)
-            {
-                MoveKranHandler handler =
-                         new MoveKranHandler(this.moveKranLeft);   // TryMoveBall
-                this.Dispatcher.BeginInvoke(handler);
-            }
-        }
+        //public void moveKranLeft()
+        //{
+        //    if (this.Dispatcher.CheckAccess())
+        //    {
+        //        KranPic.bewegungXrichtungNegativ();
+        //        this.sideView.kranarmPic.moveLinks();
+        //        zeichner();
+        //    }
+        //    else if (this.KranPic.testLinks() == false)
+        //    {
+        //        MoveKranHandler handler =
+        //                 new MoveKranHandler(this.moveKranLeft);   // TryMoveBall
+        //        this.Dispatcher.BeginInvoke(handler);
+        //    }
+        //}
 
-        public void moveKranRechts()
-        {
-            if (this.Dispatcher.CheckAccess())
-            {
-                KranPic.bewegungXrichtungPositiv();
-                this.sideView.kranarmPic.moveRechts();
-                zeichner();
-            }
-            else if (this.KranPic.testRechts() == false)
-            {
-                MoveKranHandler handler =
-                         new MoveKranHandler(this.moveKranRechts);   // TryMoveBall
-                this.Dispatcher.BeginInvoke(handler);
-            }
-        }
+        //public void moveKranRechts()
+        //{
+        //    if (this.Dispatcher.CheckAccess())
+        //    {
+        //        KranPic.bewegungXrichtungPositiv();
+        //        this.sideView.kranarmPic.moveRechts();
+        //        zeichner();
+        //    }
+        //    else if (this.KranPic.testRechts() == false)
+        //    {
+        //        MoveKranHandler handler =
+        //                 new MoveKranHandler(this.moveKranRechts);   // TryMoveBall
+        //        this.Dispatcher.BeginInvoke(handler);
+        //    }
+        //}
 
-        public void moveKranHoch()
-        {
-            if (this.Dispatcher.CheckAccess())
-            {
-                KranPic.bewegungYrichtungNegativ();
-                zeichner();
-            }
-            else if (this.KranPic.testOben() == false)
-            {
-                MoveKranHandler handler =
-                         new MoveKranHandler(this.moveKranHoch);   // TryMoveBall
-                this.Dispatcher.BeginInvoke(handler);
-            }
-        }
+        //public void moveKranHoch()
+        //{
+        //    if (this.Dispatcher.CheckAccess())
+        //    {
+        //        KranPic.bewegungYrichtungNegativ();
+        //        zeichner();
+        //    }
+        //    else if (this.KranPic.testOben() == false)
+        //    {
+        //        MoveKranHandler handler =
+        //                 new MoveKranHandler(this.moveKranHoch);   // TryMoveBall
+        //        this.Dispatcher.BeginInvoke(handler);
+        //    }
+        //}
 
-        public void moveKranRunter()
-        {
-            if (this.Dispatcher.CheckAccess())
-            {
-                KranPic.bewegungYrichtungPositiv();
-                zeichner();
-            }
-            else if (this.KranPic.testUnten() == false)
-            {
-                MoveKranHandler handler =
-                         new MoveKranHandler(this.moveKranRunter);   // TryMoveBall
-                this.Dispatcher.BeginInvoke(handler);
-            }
-        }
+        //public void moveKranRunter()
+        //{
+        //    if (this.Dispatcher.CheckAccess())
+        //    {
+        //        KranPic.bewegungYrichtungPositiv();
+        //        zeichner();
+        //    }
+        //    else if (this.KranPic.testUnten() == false)
+        //    {
+        //        MoveKranHandler handler =
+        //                 new MoveKranHandler(this.moveKranRunter);   // TryMoveBall
+        //        this.Dispatcher.BeginInvoke(handler);
+        //    }
+        //}
 
-        private void zeichner()
-        {
-            /*KranPic.leftProperty += 1.0;
-            KranPic.x1_left += 1.0;
-            KranPic.x1_right += 1.0;*/
+        //private void zeichner()
+        //{
+        //    /*KranPic.leftProperty += 1.0;
+        //    KranPic.x1_left += 1.0;
+        //    KranPic.x1_right += 1.0;*/
 
-            KranPic.links.X1 = KranPic.x1_left;
-            KranPic.links.X2 = KranPic.x2_left;
-            KranPic.rechts.X1 = KranPic.x1_right;
-            KranPic.rechts.X2 = KranPic.x2_right;
-            this.sideView.kranarmPic.kranarm.X1 = this.sideView.kranarmPic.actX + this.sideView.kranarmPic.abstandArmX;
-            this.sideView.kranarmPic.kranarm.X2 = this.sideView.kranarmPic.actX + this.sideView.kranarmPic.abstandArmX;
-            this.sideView.kranarmPic.aufhaengung.X1 = this.sideView.kranarmPic.actX;
-            this.sideView.kranarmPic.aufhaengung.X2 = this.sideView.kranarmPic.actX + 30;
+        //    KranPic.links.X1 = KranPic.x1_left;
+        //    KranPic.links.X2 = KranPic.x2_left;
+        //    KranPic.rechts.X1 = KranPic.x1_right;
+        //    KranPic.rechts.X2 = KranPic.x2_right;
+        //    this.sideView.kranarmPic.kranarm.X1 = this.sideView.kranarmPic.actX + this.sideView.kranarmPic.abstandArmX;
+        //    this.sideView.kranarmPic.kranarm.X2 = this.sideView.kranarmPic.actX + this.sideView.kranarmPic.abstandArmX;
+        //    this.sideView.kranarmPic.aufhaengung.X1 = this.sideView.kranarmPic.actX;
+        //    this.sideView.kranarmPic.aufhaengung.X2 = this.sideView.kranarmPic.actX + 30;
 
-            XPos = (double)KranPic.kran.GetValue(Canvas.LeftProperty);
-            XPos = (double)KranPic.kran.GetValue(Canvas.TopProperty);
+        //    XPos = (double)KranPic.kran.GetValue(Canvas.LeftProperty);
+        //    XPos = (double)KranPic.kran.GetValue(Canvas.TopProperty);
 
-            Console.WriteLine("{0}--{1}--{2}--{3}", this.sideView.kranarmPic.kranarm.X1, this.sideView.kranarmPic.kranarm.X2, this.sideView.kranarmPic.aufhaengung.X1, this.sideView.kranarmPic.aufhaengung.X2);
-            KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
-            KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
-        }
+        //    Console.WriteLine("{0}--{1}--{2}--{3}", this.sideView.kranarmPic.kranarm.X1, this.sideView.kranarmPic.kranarm.X2, this.sideView.kranarmPic.aufhaengung.X1, this.sideView.kranarmPic.aufhaengung.X2);
+        //    KranPic.kran.SetValue(Canvas.LeftProperty, KranPic.leftProperty);
+        //    KranPic.kran.SetValue(Canvas.TopProperty, KranPic.topProperty);
+        //}
 
-        public void moveKisteTo(int pos, Kisten kiste)
-        {
-            if (this.Dispatcher.CheckAccess())
-            {
-                if (kiste.xKoordinate == kiste.getXfromPos(pos))
-                {
-                    if (kiste.yKoordinate > kiste.getYfromPos(pos))
-                        kiste.moveKistenYNegativ();
-                    if (kiste.yKoordinate < kiste.getYfromPos(pos))
-                        kiste.moveKistenYPositiv();
-                    if (kiste.yKoordinate == kiste.getYfromPos(pos))
-                        this.isRunning = false;
-                }
-                if (kiste.xKoordinate > kiste.getXfromPos(pos))
-                {
-                    kiste.moveKistenXNegativ();
-                }
-                if (kiste.xKoordinate < kiste.getXfromPos(pos))
-                {
-                    kiste.moveKistenXPositiv();
-                }
+        //public void moveKisteTo(int pos, Kisten kiste)
+        //{
+        //    if (this.Dispatcher.CheckAccess())
+        //    {
+        //        if (kiste.xKoordinate == kiste.getXfromPos(pos))
+        //        {
+        //            if (kiste.yKoordinate > kiste.getYfromPos(pos))
+        //                kiste.moveKistenYNegativ();
+        //            if (kiste.yKoordinate < kiste.getYfromPos(pos))
+        //                kiste.moveKistenYPositiv();
+        //            if (kiste.yKoordinate == kiste.getYfromPos(pos))
+        //                this.isRunning = false;
+        //        }
+        //        if (kiste.xKoordinate > kiste.getXfromPos(pos))
+        //        {
+        //            kiste.moveKistenXNegativ();
+        //        }
+        //        if (kiste.xKoordinate < kiste.getXfromPos(pos))
+        //        {
+        //            kiste.moveKistenXPositiv();
+        //        }
 
-                Console.WriteLine("{0} ... {1} ", kiste.yKoordinate, kiste.getYfromPos(pos));
-            }
+        //        Console.WriteLine("{0} ... {1} ", kiste.yKoordinate, kiste.getYfromPos(pos));
+        //    }
 
-            else if ((kiste.yKoordinate != kiste.getYfromPos(pos)) || (kiste.xKoordinate != kiste.getXfromPos(pos)))
-            {
-                MoveKisteHandler handler =
-                         new MoveKisteHandler(this.moveKisteTo);   // TryMoveBall
-                this.Dispatcher.BeginInvoke(handler, pos, kiste);
-            }
-        }
+        //    else if ((kiste.yKoordinate != kiste.getYfromPos(pos)) || (kiste.xKoordinate != kiste.getXfromPos(pos)))
+        //    {
+        //        MoveKisteHandler handler =
+        //                 new MoveKisteHandler(this.moveKisteTo);   // TryMoveBall
+        //        this.Dispatcher.BeginInvoke(handler, pos, kiste);
+        //    }
+        //}
 
-        public double GetYPos()
-        {
-            return YPos;
+        //public double GetYPos()
+        //{
+        //    return YPos;
 
-        }
+        //}
 
-        public double GetXPos()
-        {
-            return XPos;
-        }
+        //public double GetXPos()
+        //{
+        //    return XPos;
+        //}
     }
 }

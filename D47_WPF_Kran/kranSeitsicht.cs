@@ -64,8 +64,8 @@ namespace D47_WPF_Kran
         {
             if (seitSicht.Dispatcher.CheckAccess())
             {
-                this.kranarm.X1 = this.kranarm.X2 = x;
-                this.aufhaengung.X1 = this.aufhaengung.X2 = x;
+                this.kranarm.X1 = this.kranarm.X2 = x + 15;
+                this.aufhaengung.X1 = this.aufhaengung.X2 = x  + 15;
             }
             else
             {

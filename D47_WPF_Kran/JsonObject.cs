@@ -85,8 +85,8 @@ namespace D47_WPF_Kran
         }
         public void getPropertiesOfCrane()
         {
-            X_Pos = KranPic.GetXPos();
-            Y_Pos = KranPic.GetYPos();
+           // X_Pos = KranPic.GetXPos();
+            //Y_Pos = KranPic.GetYPos();
             isRunning = false;
             X_Direction = 0;
             

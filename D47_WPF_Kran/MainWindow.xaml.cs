@@ -46,8 +46,7 @@ namespace D47_WPF_Kran
         private int KisteID = 1;
 
 
-        kranDraufsicht drauf;
-        kranSeitsicht seit;
+        Kran kran;
 
         HttpClient client = new HttpClient();
 
@@ -60,10 +59,9 @@ namespace D47_WPF_Kran
 
             this.Kran.setSideView(this.AnsichtSeite);
 
-            this.client.BaseAddress = new Uri("http://10.8.0.203:53161/");         
+            this.client.BaseAddress = new Uri("http://10.8.0.203:53161/");
 
-            drauf = new kranDraufsicht(Kran, 40.0, 70.0);
-            seit = new kranSeitsicht(AnsichtSeite, 40.0, 70.0);
+            kran = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
 
             GetCranePositionOnce();
            
@@ -72,18 +70,18 @@ namespace D47_WPF_Kran
         private void KranLinks_Click(object sender, RoutedEventArgs e)
         {
             PostCraneMoveLeft();
-            buttonClick = button.Links;
-            if (this.Kran.isRunning == false)
-            {
-                Thread t;
+            //buttonClick = button.Links;
+            //if (this.Kran.isRunning == false)
+            //{
+            //    Thread t;
 
-                // erster Start
-                ThreadStart ts = new ThreadStart(MoveElevatorPara);
-                t = new Thread(ts);
-                this.Kran.isRunning = true;
+            //    // erster Start
+            //    ThreadStart ts = new ThreadStart(MoveElevatorPara);
+            //    t = new Thread(ts);
+            //    this.Kran.isRunning = true;
 
-                t.Start();
-            }
+            //    t.Start();
+            //}
            
         }
 
@@ -92,96 +90,96 @@ namespace D47_WPF_Kran
         {
             PostCraneMoveForward();
 
-            buttonClick = button.Hoch;
-            if (this.Kran.isRunning == false)
-            {
-                Thread t;
+            //buttonClick = button.Hoch;
+            //if (this.Kran.isRunning == false)
+            //{
+            //    Thread t;
 
-                // erster Start
-                ThreadStart ts = new ThreadStart(MoveElevatorPara);
-                t = new Thread(ts);
-                this.Kran.isRunning = true;
+            //    // erster Start
+            //    ThreadStart ts = new ThreadStart(MoveElevatorPara);
+            //    t = new Thread(ts);
+            //    this.Kran.isRunning = true;
 
-                t.Start();
-            }
+            //    t.Start();
+            //}
         
         }
 
         private void KranRechts_Click(object sender, RoutedEventArgs e)
         {
             PostCraneMoveRight();
-            buttonClick = button.Rechts;
-            if (this.Kran.isRunning == false)
-            {
-                Thread t;
+            //buttonClick = button.Rechts;
+            //if (this.Kran.isRunning == false)
+            //{
+            //    Thread t;
 
-                // erster Start
-                ThreadStart ts = new ThreadStart(MoveElevatorPara);
-                t = new Thread(ts);
-                this.Kran.isRunning = true;
+            //    // erster Start
+            //    ThreadStart ts = new ThreadStart(MoveElevatorPara);
+            //    t = new Thread(ts);
+            //    this.Kran.isRunning = true;
 
-                t.Start();
-            }
+            //    t.Start();
+            //}
            
         }
 
         private void KranBottom_Click(object sender, RoutedEventArgs e)
         {
             PostCraneMoveBackward();
-            buttonClick = button.Runter;
-            if (this.Kran.isRunning == false)
-            {
-                Thread t;
+            //buttonClick = button.Runter;
+            //if (this.Kran.isRunning == false)
+            //{
+            //    Thread t;
 
-                // erster Start
-                ThreadStart ts = new ThreadStart(MoveElevatorPara);
-                t = new Thread(ts);
-                this.Kran.isRunning = true;
+            //    // erster Start
+            //    ThreadStart ts = new ThreadStart(MoveElevatorPara);
+            //    t = new Thread(ts);
+            //    this.Kran.isRunning = true;
 
-                t.Start();
-            }
+            //    t.Start();
+            //}
             
         }
 
-        private void MoveElevatorPara()//(object o)
-        {
+        //private void MoveElevatorPara()//(object o)
+        //{
 
-            while (this.Kran.isRunning == true)
-            {
-                //if (Kran.KranPic.testRand() == false)
-                //{
-                if (buttonClick == button.Links)
-                {
-                    Kran.moveKranLeft();
+        //    while (this.Kran.isRunning == true)
+        //    {
+        //        //if (Kran.KranPic.testRand() == false)
+        //        //{
+        //        if (buttonClick == button.Links)
+        //        {
+        //            Kran.moveKranLeft();
                     
-                }
+        //        }
                     
-                if (buttonClick == button.Rechts)
-                {
-                    Kran.moveKranRechts();
+        //        if (buttonClick == button.Rechts)
+        //        {
+        //            Kran.moveKranRechts();
                     
-                }
+        //        }
                     
-                if (buttonClick == button.Hoch)
-                {
-                    Kran.moveKranHoch();
+        //        if (buttonClick == button.Hoch)
+        //        {
+        //            Kran.moveKranHoch();
                     
-                }
+        //        }
                     
-                if (buttonClick == button.Runter)
-                {
-                    Kran.moveKranRunter();
+        //        if (buttonClick == button.Runter)
+        //        {
+        //            Kran.moveKranRunter();
                     
-                }
+        //        }
                    
-                // Console.WriteLine("da");
-                Thread.Sleep(30);
+        //        // Console.WriteLine("da");
+        //        Thread.Sleep(30);
               
 
-            }
+        //    }
 
             //this.ReachedFloor.Invoke(elevatorAtFloor);
-        }
+        //}
 
         private void KranStop_Click(object sender, MouseButtonEventArgs e)
         {
@@ -303,7 +301,7 @@ namespace D47_WPF_Kran
 
             while (this.Kran.isRunning)
             {
-                this.Kran.moveKisteTo(pos, newKisten);
+                //this.Kran.moveKisteTo(pos, newKisten);
                 Thread.Sleep(30);
             }
         }
@@ -316,8 +314,8 @@ namespace D47_WPF_Kran
 
             GetBandStatusAsync();
 
-            drauf.setKranPosition(300.0, 170.0);
-            seit.setKranPosition(300.0);
+            //drauf.setKranPosition(300.0, 170.0);
+            //seit.setKranPosition(300.0);
         }
 
         private void NummerLagerplatz_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -412,7 +410,7 @@ namespace D47_WPF_Kran
                 Console.WriteLine("{0}\t{1}", coord.X_pos, coord.Y_pos);
                 double[] coords = new double[2];
                 coords = getCanvasCoord(coord.X_pos, coord.Y_pos);
-                drauf.setKranPosition(coords[0], coords[1]);
+                kran.setKranPosition(coords[0], coords[1]);
 
             }
             if (response.IsSuccessStatusCode == false)
@@ -604,7 +602,7 @@ namespace D47_WPF_Kran
                 
                 double[] coords = new double[2];
                 coords = getCanvasCoord(coord.X_pos, coord.Y_pos);
-                drauf.setKranPosition(coords[0], coords[1]);
+                kran.setKranPosition(coords[0], coords[1]);
 
                 Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
 
