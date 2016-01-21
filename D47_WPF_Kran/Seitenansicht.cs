@@ -107,16 +107,16 @@ namespace D47_WPF_Kran
         //    this.kranarmPic = new Kranarm(this.breiteRahmen, 10, 230, 10, 130, this.startX, 70, arm, aufhaengung);
         //}
 
-        public Kiste letzteKiste;
-        public void erstelleKiste(double x, double y)
-        {
-            Rectangle kiste = new Rectangle();
-            this.Children.Add(kiste);
+        //public Kiste letzteKiste;
+        //public void erstelleKiste(double x, double y)
+        //{
+        //    Rectangle kiste = new Rectangle();
+        //    this.Children.Add(kiste);
 
-            Kiste seitAnsicht = new Kiste(x, y, kiste, true);
+        //    Kiste seitAnsicht = new Kiste(x, y, kiste, true);
 
-            this.letzteKiste = seitAnsicht;
-        }
+        //    this.letzteKiste = seitAnsicht;
+        //}
 
         //public void kiste_xNegativ()
         //{
