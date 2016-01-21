@@ -424,7 +424,7 @@ namespace D47_WPF_Kran
         {
             double[]  coords = new double[2];
 
-            coords[1] = 275.0 - (275.0*(YPos * 1.549865));
+            coords[1] = 26.0 + 275.0 - (YPos * 1.549865);
             coords[0] = XPos * 1.549865 +26 ;
 
             return coords;
@@ -492,10 +492,8 @@ namespace D47_WPF_Kran
 
         async Task PostCraneMoveRight()
         {
-            using (var client = new HttpClient())
-            {
+            
                 Console.WriteLine("Move Right");
-                client.BaseAddress = new Uri("http://10.8.0.135:53161/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -514,7 +512,7 @@ namespace D47_WPF_Kran
                     Console.WriteLine("PostAsJsonAsync Error: {0} [{1}]",
                          response.StatusCode.ToString(), (int)response.StatusCode);
                 }
-            }
+            
         }
 
         async Task PostCraneMoveForward()
@@ -523,7 +521,7 @@ namespace D47_WPF_Kran
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            JsonObjectMoveCrane forward = new JsonObjectMoveCrane("Forward");
+            JsonObjectMoveCrane forward = new JsonObjectMoveCrane("forward");
 
             HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/Move", forward);
 
