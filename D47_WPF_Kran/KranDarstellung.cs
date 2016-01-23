@@ -51,7 +51,7 @@ namespace D47_WPF_Kran
     public class KranDarstellung : Canvas
     {
         //public Kran KranPic;
-        Rectangle kran;
+       // Rectangle kran;
         private int xRahmen = 20;
         private int yRahmen = 20;
         private int hoeheRahmen = 310; //301
@@ -88,7 +88,7 @@ namespace D47_WPF_Kran
             //KranSeite = new Seitenansicht();
 
             erstelle_Laufband();
-            erstelle_Kiste(455.0, 123.0);
+            //erstelle_Kiste(455.0, 123.0);
 
             //Line schiene_links = new Line();
             //this.Children.Add(schiene_links);
@@ -183,16 +183,16 @@ namespace D47_WPF_Kran
 
         //Erstellen der Kiste
         //Übergabe der Start-Koordinaten
-        public Kiste letzteKiste;
-        public void erstelle_Kiste(double x, double y)
-        {
-            Rectangle kiste = new Rectangle();
+        //public Kiste letzteKiste;
+        //public void erstelle_Kiste(double x, double y)
+        //{
+        //    Rectangle kiste = new Rectangle();
 
-            this.Children.Add(kiste);
-            Kiste kistePic = new Kiste(x, y, kiste, false);
+        //    this.Children.Add(kiste);
+        //    Kiste kistePic = new Kiste(x, y, kiste, false);
 
-            this.letzteKiste = kistePic;
-        }
+        //    this.letzteKiste = kistePic;
+        //}
 
         public void erstelle_Lager(double x, double y)
         {

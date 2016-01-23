@@ -108,6 +108,9 @@ namespace D47_WPF_Kran
         private void KranRechts_Click(object sender, RoutedEventArgs e)
         {
             PostCraneMoveRight();
+
+            Kisten first = ListKisten.First();
+            first.setKistenPosition(100.0, 100.0);
             //buttonClick = button.Rechts;
             //if (this.Kran.isRunning == false)
             //{
@@ -274,30 +277,35 @@ namespace D47_WPF_Kran
 
             //this.ReachedFloor.Invoke(elevatorAtFloor);
         }
+    
+        private void erstelleKiste()
+        {
+            Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, this.kisteStartX, this.kisteStartY, this.kisteStartZ, 0);
+            this.ListKisten.Add(kisten);
+        }
 
-
-        public delegate void CreateKiste(double x, double y);
+        //public delegate void CreateKiste(double x, double y);
         private void moveKiste(Object opos)
         {
             int pos = (int)opos;
 
-            CreateKiste handlerKran = new CreateKiste(Kran.erstelle_Kiste);
-            CreateKiste handlerSeite = new CreateKiste(AnsichtSeite.erstelleKiste);
+            //CreateKiste handlerKran = new CreateKiste(Kran.erstelle_Kiste);
+            //CreateKiste handlerSeite = new CreateKiste(AnsichtSeite.erstelleKiste);
 
-            this.Dispatcher.Invoke(handlerKran, this.kisteStartX, this.kisteStartY);
-            this.Dispatcher.Invoke(handlerSeite, this.kisteStartX, this.kisteStartZ);
+            //this.Dispatcher.Invoke(handlerKran, this.kisteStartX, this.kisteStartY);
+            //this.Dispatcher.Invoke(handlerSeite, this.kisteStartX, this.kisteStartZ);
 
-            Kiste draufSicht = Kran.letzteKiste;
-            Kiste seitSicht = AnsichtSeite.letzteKiste;
+            //Kiste draufSicht = Kran.letzteKiste;
+            //Kiste seitSicht = AnsichtSeite.letzteKiste;
 
             //Kiste draufSicht = Kran.erstelle_Kiste(this.kisteStartX, this.kisteStartY);
             //Kiste seitSicht = AnsichtSeite.erstelleKiste(this.kisteStartX, this.kisteStartZ);
 
-            Kisten newKisten = new Kisten(seitSicht, draufSicht, KisteID);
+            //Kisten newKisten = new Kisten(seitSicht, draufSicht, KisteID);
 
-            this.ListKisten.Add(newKisten);
+            //this.ListKisten.Add(newKisten);
 
-            this.KisteID++;
+            //this.KisteID++;
 
             while (this.Kran.isRunning)
             {
@@ -313,6 +321,8 @@ namespace D47_WPF_Kran
             this.Kran.isRunning = false;
 
             GetBandStatusAsync();
+
+            erstelleKiste();
 
             //drauf.setKranPosition(300.0, 170.0);
             //seit.setKranPosition(300.0);
