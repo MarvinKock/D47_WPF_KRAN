@@ -20,12 +20,7 @@ namespace D47_WPF_Kran
     {
         private KranDarstellung KranPic;
 
-            private bool isRunning ;
-            public bool IsRunning
-            {
-              get { return isRunning; }
-              set { isRunning = value; }
-            }private double x_Pos;
+           private double x_Pos;
             public double X_Pos
             {
               get { return x_Pos; }
@@ -59,20 +54,14 @@ namespace D47_WPF_Kran
                 get { return oben; }
                 set { oben = value; }
             }
-            private bool pickup;
+            private bool beladen;
 
-            public bool Pickup
+            public bool Beladen
             {
-                get { return pickup; }
-                set { pickup = value; }
+                get { return beladen; }
+                set { beladen = value; }
             }
-            private int[] queue;
-
-            public int[] Queue
-            {
-                get { return queue; }
-                set { queue = value; }
-            }
+            
 
         public JsonObjectKranStatus()
         {
@@ -85,11 +74,6 @@ namespace D47_WPF_Kran
         }
         public void getPropertiesOfCrane()
         {
-           // X_Pos = KranPic.GetXPos();
-            //Y_Pos = KranPic.GetYPos();
-            isRunning = false;
-            X_Direction = 0;
-            
         }
 
         public JsonObjectKranStatus returnSelf()

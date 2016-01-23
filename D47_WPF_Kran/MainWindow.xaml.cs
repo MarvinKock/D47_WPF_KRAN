@@ -59,7 +59,7 @@ namespace D47_WPF_Kran
 
             this.Kran.setSideView(this.AnsichtSeite);
 
-            this.client.BaseAddress = new Uri("http://10.8.0.203:53161/");
+            this.client.BaseAddress = new Uri("http://193.0.0.153:53161/");
 
             kran = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
 
@@ -343,10 +343,8 @@ namespace D47_WPF_Kran
 
         async Task GetBandStatusAsync()
         {
-            using (var client = new HttpClient())
-            {
-
-                client.BaseAddress = new Uri("http://10.8.0.135:53161/");
+            
+                
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -364,7 +362,7 @@ namespace D47_WPF_Kran
                 }
 
                
-            }
+            
 
         }
 
@@ -411,7 +409,7 @@ namespace D47_WPF_Kran
                 double[] coords = new double[2];
                 coords = getCanvasCoord(coord.X_pos, coord.Y_pos);
                 kran.setKranPosition(coords[0], coords[1]);
-
+                Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
             }
             if (response.IsSuccessStatusCode == false)
             {
@@ -424,47 +422,49 @@ namespace D47_WPF_Kran
         {
             double[]  coords = new double[2];
 
-            coords[1] = 26.0 + 275.0 - (YPos * 1.549865);
-            coords[0] = XPos * 1.549865 +26 ;
+            coords[1] =  272.0 - (YPos * 1.39) ;
+            coords[0] = XPos * 1.45  + 26 ;
+
+
 
             return coords;
         }
 
-        async Task PostCraneStatusAsync()
-        {
+        //async Task PostCraneStatusAsync()
+        //{
             
-                Console.WriteLine("Starting Crane Status Update");
+        //        Console.WriteLine("Starting Crane Status Update");
                
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //        client.DefaultRequestHeaders.Accept.Clear();
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 
 
-                // HTTP POST
-                //HttpResponseMessage response = await client.GetAsync("api/Band/Status");             
-                JsonObjectKranStatus herbert = new JsonObjectKranStatus();
-                herbert.setCran(this.Kran);
-                herbert.getPropertiesOfCrane();
-                HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/Set", herbert);
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Updatet Crane Status");
-                }
+        //        // HTTP POST
+        //        //HttpResponseMessage response = await client.GetAsync("api/Band/Status");             
+        //        JsonObjectKranStatus herbert = new JsonObjectKranStatus();
+        //        herbert.setCran(this.Kran);
+        //        herbert.getPropertiesOfCrane();
+        //        HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/Set", herbert);
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            Console.WriteLine("Updatet Crane Status");
+        //        }
 
-                response = await client.GetAsync("api/Crane/Status");
-                if (response.IsSuccessStatusCode)
-                {
-                    JsonObjectKranStatus roger = await response.Content.ReadAsAsync<JsonObjectKranStatus>();
-                    Console.WriteLine("{0}\t${1}\t{2}", roger.X_Pos, roger.Y_Pos, roger.IsRunning);
-                }
-                if (response.IsSuccessStatusCode == false)
-                {
-                    Console.WriteLine("No Connection");
+        //        response = await client.GetAsync("api/Crane/Status");
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            JsonObjectKranStatus roger = await response.Content.ReadAsAsync<JsonObjectKranStatus>();
+        //            Console.WriteLine("{0}\t${1}\t{2}", roger.X_Pos, roger.Y_Pos, roger.IsRunning);
+        //        }
+        //        if (response.IsSuccessStatusCode == false)
+        //        {
+        //            Console.WriteLine("No Connection");
 
-                }
+        //        }
 
             
-        }
+        //}
 
         async Task PostCraneMoveLeft()
         {
@@ -612,6 +612,78 @@ namespace D47_WPF_Kran
                 Console.WriteLine("No Connection");
 
             }
+        }
+
+        async Task GetCraneStatus()
+        {
+            Console.WriteLine("Getting Coords of Crane for the First Time");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // HTTP GET
+            HttpResponseMessage response = await client.GetAsync("api/Crane/GetPosition");
+            if (response.IsSuccessStatusCode)
+            {
+                JsonObjectKranStatus KranStatus = await response.Content.ReadAsAsync<JsonObjectKranStatus>();
+
+                //if(Kranstatus.Ablageplatz[i] belegt && Ablagepltz != belegt)
+                /*belgen diesen Ablageplatz 
+                 * */
+
+                /*if(Kranstatus.Ablageplatz[i] != belegt && Ablageplatz[i] == belegt
+                 * entleere (hard reset) diesen Ablageplatz
+                 */
+                //if(Kranstatus.Registerplatz == belegt && Registerplatz != belegt)
+                /*belgen diesen Registerplatz
+                 * */
+
+                /*if(Kranstatus.Registerplatz != belegt && Registerplatz == belegt
+                 * entleere (hard reset) Registerplatz
+                 */
+
+
+
+            }
+            if (response.IsSuccessStatusCode == false)
+            {
+                Console.WriteLine("No Connection");
+
+            }
+
+        }
+
+
+        async Task PostLeftBottomPos()
+        {
+
+            Console.WriteLine("Move Left Bottom Pos");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            JsonObjectXYPos leftbottom = new JsonObjectXYPos();
+            leftbottom.X_pos = 0;
+            leftbottom.Y_pos = 0;
+
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/MoveToCoordinates", leftbottom);
+
+            if (response.IsSuccessStatusCode)
+            {
+                String result = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(result);
+                Console.WriteLine("PostAsJsonAsync: {0}", response.StatusCode.ToString());
+            }
+            else
+            {
+                Console.WriteLine("PostAsJsonAsync Error: {0} [{1}]",
+                     response.StatusCode.ToString(), (int)response.StatusCode);
+            }
+
+
+        }
+
+        private void LeftBottom_Click(object sender, RoutedEventArgs e)
+        {
+            PostLeftBottomPos();
         }
        
       

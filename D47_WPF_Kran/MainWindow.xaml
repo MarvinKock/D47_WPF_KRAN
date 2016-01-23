@@ -8,7 +8,12 @@
 
         <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
             <local:KranDarstellung x:Name="Kran" ></local:KranDarstellung>
-            <Button Visibility="Hidden" Height="20"></Button>
+            <StackPanel Orientation="Horizontal">
+                <Button  Height="20" Name="LeftTop">Pos Left Top</Button>
+                <Button  Height="20" Name="LeftBottom" Click="LeftBottom_Click">Pos Left Bottom</Button>
+                <Button  Height="20" Name="RightTop">Pos Right Top</Button>
+                <Button  Height="20" Name="RightBottom">Pos Right Bottom</Button>
+            </StackPanel>
             <local:Seitenansicht x:Name="AnsichtSeite" ></local:Seitenansicht>
         </StackPanel>
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Grid.Row="500" Orientation="Vertical" Margin="0,15,0,0">

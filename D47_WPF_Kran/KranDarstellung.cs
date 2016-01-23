@@ -54,8 +54,8 @@ namespace D47_WPF_Kran
         Rectangle kran;
         private int xRahmen = 20;
         private int yRahmen = 20;
-        private int hoeheRahmen = 301; //301
-        private int breiteRahmen = 560;
+        private int hoeheRahmen = 310; //301
+        private int breiteRahmen = 560; //534
 
 
         private double YPos = 0;
