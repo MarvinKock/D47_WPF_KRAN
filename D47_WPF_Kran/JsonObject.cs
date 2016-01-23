@@ -127,5 +127,21 @@ namespace D47_WPF_Kran
         }
     }
 
+	class JsonObjectPosition
+	{
+		int position;
+
+		public JsonObjectPosition(int position)
+		{
+			this.position = position;
+		}
+
+		public int Platz
+		{
+			get { return position; }
+			set { position = value;  }
+		}
+	}
+
     
 }

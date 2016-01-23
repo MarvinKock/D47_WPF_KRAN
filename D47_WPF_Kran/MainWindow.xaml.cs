@@ -59,7 +59,7 @@ namespace D47_WPF_Kran
 
             this.Kran.setSideView(this.AnsichtSeite);
 
-            this.client.BaseAddress = new Uri("http://193.0.0.153:53161/");
+            this.client.BaseAddress = new Uri("http://localhost:53161/");
 
             kran = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
 
@@ -109,8 +109,8 @@ namespace D47_WPF_Kran
         {
             PostCraneMoveRight();
 
-            Kisten first = ListKisten.First();
-            first.setKistenPosition(100.0, 100.0);
+            //Kisten first = ListKisten.First();
+            //first.setKistenPosition(100.0, 100.0);
             //buttonClick = button.Rechts;
             //if (this.Kran.isRunning == false)
             //{
@@ -432,8 +432,8 @@ namespace D47_WPF_Kran
         {
             double[]  coords = new double[2];
 
-            coords[1] =  272.0 - (YPos * 1.39) ;
-            coords[0] = XPos * 1.45  + 26 ;
+            coords[1] = 26 + 249.0 - (YPos * 1.3989) ;
+            coords[0] = XPos * 1.3989  + 26 ;
 
 
 
@@ -663,18 +663,16 @@ namespace D47_WPF_Kran
         }
 
 
-        async Task PostLeftBottomPos()
+        async Task MoveToPos(int pos)
         {
 
             Console.WriteLine("Move Left Bottom Pos");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            JsonObjectXYPos leftbottom = new JsonObjectXYPos();
-            leftbottom.X_pos = 0;
-            leftbottom.Y_pos = 0;
+            JsonObjectPosition position = new JsonObjectPosition(pos);
 
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/MoveToCoordinates", leftbottom);
+		  HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/MoveToPlatz", position);
 
             if (response.IsSuccessStatusCode)
             {
@@ -691,9 +689,36 @@ namespace D47_WPF_Kran
 
         }
 
-        private void LeftBottom_Click(object sender, RoutedEventArgs e)
+        private void MoveToPosClick(object sender, RoutedEventArgs e)
         {
-            PostLeftBottomPos();
+		   if(sender == Lager1)
+		   {
+			   MoveToPos(5);
+		   }
+		   if (sender == Lager2)
+		   {
+			   MoveToPos(6);
+		   }
+		   if (sender == Bandlager1)
+		   {
+			   MoveToPos(4);
+		   }
+		   if (sender == Bandlager2)
+		   {
+			   MoveToPos(3);
+		   }
+		   if (sender == Bandlager3)
+		   {
+			   MoveToPos(2);
+		   }
+		   if (sender == Bandlager4)
+		   {
+			   MoveToPos(1);
+		   }
+		   if (sender == Register)
+		   {
+			   MoveToPos(0);
+		   }
         }
        
       

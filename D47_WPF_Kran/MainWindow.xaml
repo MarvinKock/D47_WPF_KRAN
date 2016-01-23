@@ -9,11 +9,14 @@
         <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
             <local:KranDarstellung x:Name="Kran" ></local:KranDarstellung>
             <StackPanel Orientation="Horizontal">
-                <Button  Height="20" Name="LeftTop">Pos Left Top</Button>
-                <Button  Height="20" Name="LeftBottom" Click="LeftBottom_Click">Pos Left Bottom</Button>
-                <Button  Height="20" Name="RightTop">Pos Right Top</Button>
-                <Button  Height="20" Name="RightBottom">Pos Right Bottom</Button>
-            </StackPanel>
+				<Button  Height="20" Name="Lager1" Click="MoveToPosClick">Lager1</Button>
+				<Button  Height="20" Name="Lager2" Click="MoveToPosClick">Lager2</Button>
+				<Button  Height="20" Name="Bandlager1" Click="MoveToPosClick">Bandlager1</Button>
+				<Button  Height="20" Name="Bandlager2" Click="MoveToPosClick">Bandlager2</Button>
+				<Button  Height="20" Name="Bandlager3" Click="MoveToPosClick">Bandlager3</Button>
+				<Button  Height="20" Name="Bandlager4" Click="MoveToPosClick">Bandlager4</Button>
+				<Button  Height="20" Name="Register" Click="MoveToPosClick">Register</Button>
+			</StackPanel>
             <local:Seitenansicht x:Name="AnsichtSeite" ></local:Seitenansicht>
         </StackPanel>
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Grid.Row="500" Orientation="Vertical" Margin="0,15,0,0">

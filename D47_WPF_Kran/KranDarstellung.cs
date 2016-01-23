@@ -54,7 +54,7 @@ namespace D47_WPF_Kran
        // Rectangle kran;
         private int xRahmen = 20;
         private int yRahmen = 20;
-        private int hoeheRahmen = 310; //301
+        private int hoeheRahmen = 300; //301
         private int breiteRahmen = 560; //534
 
 
@@ -153,21 +153,21 @@ namespace D47_WPF_Kran
         {
 
 
-            erstelle_Lager(180.0, 120.0);
-            erstelle_Lager(225.0, 165.0);
-            erstelle_Lager(290.0, 165.0);
-            erstelle_Lager(355.0, 165.0);
-            erstelle_Lager(30.0, 30.0);
-            erstelle_Lager(90.0, 30.0);
+		  erstelle_Lager(211.0, 184.0, 45, 45); //
+		  erstelle_Lager(267.0, 229.0,  55, 45);
+		  erstelle_Lager(347.0, 229.0,  55, 45);
+		  erstelle_Lager(429.0, 229.0,  55, 45);
+		  erstelle_Lager(156.0, 50.0,  45, 45);
+		  erstelle_Lager(211.0, 50.0,  45, 45);
 
 
 
             Rectangle laufband = new Rectangle();
             laufband.Fill = Brushes.Gray;
-            laufband.Width = 275.0;
+            laufband.Width = 310.0;
             laufband.Height = 45.0;
-            laufband.SetValue(KranDarstellung.LeftProperty, 225.0);
-            laufband.SetValue(KranDarstellung.TopProperty, 120.0);
+            laufband.SetValue(KranDarstellung.LeftProperty, 256.0);
+            laufband.SetValue(KranDarstellung.TopProperty, 184.0);
             this.Children.Add(laufband);
 
             Rectangle Lagerturm = new Rectangle();
@@ -175,8 +175,8 @@ namespace D47_WPF_Kran
             Lagerturm.StrokeThickness = 5;
             Lagerturm.Width = 50.0;
             Lagerturm.Height = 50.0;
-            Lagerturm.SetValue(KranDarstellung.LeftProperty, 450.0);
-            Lagerturm.SetValue(KranDarstellung.TopProperty, 117.0);
+            Lagerturm.SetValue(KranDarstellung.LeftProperty, 517.0);
+            Lagerturm.SetValue(KranDarstellung.TopProperty, 181.0);
             this.Children.Add(Lagerturm);
 
         }
@@ -194,12 +194,12 @@ namespace D47_WPF_Kran
         //    this.letzteKiste = kistePic;
         //}
 
-        public void erstelle_Lager(double x, double y)
+        public void erstelle_Lager(double x, double y, double height, double width)
         {
             Rectangle lager = new Rectangle();
             lager.Fill = Brushes.Red;
-            lager.Width = 45.0;
-            lager.Height = 45.0;
+            lager.Width = width;
+            lager.Height = height;
             lager.SetValue(Canvas.TopProperty, y);
             lager.SetValue(Canvas.LeftProperty, x);
             lager.Stroke = Brushes.Black;
