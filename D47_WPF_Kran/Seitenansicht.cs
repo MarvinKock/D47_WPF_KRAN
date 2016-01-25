@@ -130,30 +130,30 @@ namespace D47_WPF_Kran
 
         public void erstelle_Laufband()
         {
-            erstelle_Lager(30.0, 240.0);
-            erstelle_Lager(90.0, 240.0);
+            erstelle_Lager(156.0, 240.0);
+            erstelle_Lager(211.0, 240.0);
 
             Rectangle Lagerturm = new Rectangle();
             Lagerturm.Stroke = Brushes.Yellow;
             Lagerturm.StrokeThickness = 5;
             Lagerturm.Width = 50.0;
             Lagerturm.Height = 80.0;
-            Lagerturm.SetValue(Seitenansicht.LeftProperty, 450.0);
+            Lagerturm.SetValue(Seitenansicht.LeftProperty, 517.0);
             Lagerturm.SetValue(Seitenansicht.TopProperty, 165.0);
             this.Children.Add(Lagerturm);
 
             Rectangle laufband = new Rectangle();
             laufband.Fill = Brushes.Gray;
-            laufband.Width = 275.0;
+            laufband.Width = 310.0;
             laufband.Height = 15.0;
             laufband.SetValue(Seitenansicht.LeftProperty, 256.0);
             laufband.SetValue(Seitenansicht.TopProperty, 240.0);
             this.Children.Add(laufband);
 
-            erstelle_Lager(180.0, 240.0);
-            erstelle_Lager(225.0, 240.0);
-            erstelle_Lager(290.0, 240.0);
-            erstelle_Lager(355.0, 240.0);                
+            erstelle_Lager(211.0, 240.0);
+            erstelle_Lager(267.0, 240.0);
+            erstelle_Lager(347.0, 240.0);
+            erstelle_Lager(429.0, 240.0);                
 
         }
 
