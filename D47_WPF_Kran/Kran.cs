@@ -38,7 +38,17 @@ namespace D47_WPF_Kran
             this.kranSeite.setKranPosition(x);
         }
 
-        public void setHoeheKran(double z)
+        public void setKranarmOben()
+        {
+            this.kranSeite.setKranarmOben();
+        }
+
+        public void setKranarmUnten()
+        {
+            this.kranSeite.setKranarmUnten();
+        }
+
+        public void setKranHoehe(double z)
         {
             this.kranSeite.setKranarmHoehe(z);
         }

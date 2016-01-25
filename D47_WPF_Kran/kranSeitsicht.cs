@@ -90,6 +90,16 @@ namespace D47_WPF_Kran
             }
         }
 
+        public void setKranarmOben()
+        {
+            this.setKranarmHoehe(this.maxHoehe);
+        }
+
+        public void setKranarmUnten()
+        {
+            this.setKranarmHoehe(this.minHoehe);
+        }
+
         public bool checkKranarmUnten()
         {
             if ((this.yKoordiante + this.hoeheArm) == this.minHoehe)

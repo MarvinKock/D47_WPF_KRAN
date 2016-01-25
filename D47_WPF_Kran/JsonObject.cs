@@ -127,6 +127,64 @@ namespace D47_WPF_Kran
         }
     }
 
+    class JsonObjectStatusSensors
+    {
+        bool x_min_pos;
+        bool x_max_pos;
+        bool y_min_pos;
+        bool y_max_pos;
+        bool greifer_oben;
+        bool greifer_unten;
+
+
+        public bool X_min_pos
+        {
+          get { return x_min_pos; }
+          set { x_min_pos = value; }
+        }
+
+        public bool X_max_pos
+        {
+          get { return x_max_pos; }
+          set { x_max_pos = value; }
+        }
+
+        public bool Y_min_pos
+        {
+          get { return y_min_pos; }
+          set { y_min_pos = value; }
+        }
+
+        public bool Y_max_pos
+        {
+          get { return y_max_pos; }
+          set { y_max_pos = value; }
+        }
+     
+        public bool Greifer_oben
+        {
+          get { return greifer_oben; }
+          set { greifer_oben = value; }
+        }
+        
+        public bool Greifer_unten
+        {
+          get { return greifer_unten; }
+          set { greifer_unten = value; }
+        }
+
+
+        public JsonObjectStatusSensors()
+        {
+            this.greifer_oben = false;
+            this.greifer_unten = false;
+            this.x_max_pos = false;
+            this.x_min_pos = false;
+            this.y_max_pos = false;
+            this.y_min_pos = false;
+        }
+    }
+
 	class JsonObjectPosition
 	{
 		int position;

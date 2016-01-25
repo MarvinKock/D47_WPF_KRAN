@@ -64,7 +64,7 @@ namespace D47_WPF_Kran
             kran = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
 
             GetCranePositionOnce();
-           
+            GetCranHightAsync();
         }
 
         private void KranLinks_Click(object sender, RoutedEventArgs e)
@@ -421,6 +421,33 @@ namespace D47_WPF_Kran
                 Console.WriteLine("No Connection");
 
             }  
+        }
+
+
+        async Task GetCranHightAsync()
+        {
+            Console.WriteLine("Getting Hight of Cran");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // HTTP GET
+            HttpResponseMessage response = await client.GetAsync("api/Crane/StatusSensors");
+            if (response.IsSuccessStatusCode)
+            {
+                JsonObjectStatusSensors status = await response.Content.ReadAsAsync<JsonObjectStatusSensors>();
+                Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", status.X_min_pos, status.X_max_pos, status.Y_min_pos, status.Y_max_pos, status.Greifer_oben, status.Greifer_unten);
+
+                if (status.Greifer_oben)
+                    kran.setKranarmOben();
+                else if (status.Greifer_unten)
+                    kran.setKranarmUnten();
+                //Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
+            }
+            if (response.IsSuccessStatusCode == false)
+            {
+                Console.WriteLine("No Connection");
+
+            }
         }
 
         private double[] getCanvasCoord(double XPos, double YPos)
