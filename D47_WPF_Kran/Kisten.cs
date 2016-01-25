@@ -37,7 +37,7 @@ namespace D47_WPF_Kran
         private void erstelleKisten()
         {
             this.seitKiste = new Kiste(this.seitSicht, this.xKoordinate, this.zKoordinate, true);
-            this.draufKiste = new Kiste(this.draufSicht, this.xKoordinate, this.zKoordinate, false);
+            this.draufKiste = new Kiste(this.draufSicht, this.xKoordinate, this.yKoordinate, false);
         }
 
         public void changeID(int ID)
@@ -53,7 +53,8 @@ namespace D47_WPF_Kran
 
         public void setKisteHoehe(double z)
         {
-            this.seitKiste.setKistePosition(this.xKoordinate, z);
+            if(this.angehoben)
+                this.seitKiste.setKistePosition(this.xKoordinate, z);
         }
 
         public void kisteAnheben()

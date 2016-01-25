@@ -71,6 +71,7 @@
     <Compile Include="Kranarm.cs" />
     <Compile Include="kranDraufsicht.cs" />
     <Compile Include="kranSeitsicht.cs" />
+    <Compile Include="Laufband.cs" />
     <Compile Include="Seitenansicht.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

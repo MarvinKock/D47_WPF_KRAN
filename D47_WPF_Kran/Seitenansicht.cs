@@ -146,7 +146,7 @@ namespace D47_WPF_Kran
             laufband.Fill = Brushes.Gray;
             laufband.Width = 275.0;
             laufband.Height = 15.0;
-            laufband.SetValue(Seitenansicht.LeftProperty, 225.0);
+            laufband.SetValue(Seitenansicht.LeftProperty, 256.0);
             laufband.SetValue(Seitenansicht.TopProperty, 240.0);
             this.Children.Add(laufband);
 

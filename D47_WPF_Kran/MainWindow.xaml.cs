@@ -40,8 +40,8 @@ namespace D47_WPF_Kran
         JsonObjectKranStatus kranSync = new JsonObjectKranStatus();
 
         private List<Kisten> ListKisten = new List<Kisten>();
-        private double kisteStartX = 455.0;
-        private double kisteStartY = 123.0;
+        private double kisteStartX = 523.0;
+        private double kisteStartY = 186.0;
         private double kisteStartZ = 228.0;
         private int KisteID = 1;
 
@@ -59,7 +59,7 @@ namespace D47_WPF_Kran
 
             this.Kran.setSideView(this.AnsichtSeite);
 
-            this.client.BaseAddress = new Uri("http://localhost:53161/");
+            this.client.BaseAddress = new Uri("http://10.8.0.203:53161/");
 
             kran = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
 
@@ -353,8 +353,7 @@ namespace D47_WPF_Kran
 
         async Task GetBandStatusAsync()
         {
-            
-                
+                           
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -370,10 +369,6 @@ namespace D47_WPF_Kran
                     Console.WriteLine("No Connection");
 
                 }
-
-               
-            
-
         }
 
         private void GetCranePositionOnce()

@@ -43,6 +43,6 @@ namespace D47_WPF_Kran
             this.kranSeite.setKranarmHoehe(z);
         }
 
+  
     }
-
 }
