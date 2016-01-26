@@ -8,12 +8,48 @@ namespace D47_WPF_Kran
 {
     class JsonObjectBandStatus
     {
-        public bool An;	
-        public int	Werkstück_id;	
-        public bool[] Schieber;
-        public int[] Ablageplatz;	
-        public int[] Einlagerplatz;
-        public int[] Registerlager;	
+        bool an;
+
+        public bool An
+        {
+            get { return an; }
+            set { an = value; }
+        }
+        int werkstück_id;
+
+        public int Werkstück_id
+        {
+            get { return werkstück_id; }
+            set { werkstück_id = value; }
+        }
+        bool[] schieber;
+
+        public bool[] Schieber
+        {
+            get { return schieber; }
+            set { schieber = value; }
+        }
+        int[] ablageplatz;
+
+        public int[] Ablageplatz
+        {
+            get { return ablageplatz; }
+            set { ablageplatz = value; }
+        }
+        int[] einlagerplatz;
+
+        public int[] Einlagerplatz
+        {
+            get { return einlagerplatz; }
+            set { einlagerplatz = value; }
+        }
+        int[] registerlager;
+
+        public int[] Registerlager
+        {
+            get { return registerlager; }
+            set { registerlager = value; }
+        }
     }
 
     class JsonObjectKranStatus

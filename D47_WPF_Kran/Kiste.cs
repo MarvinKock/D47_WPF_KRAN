@@ -52,7 +52,7 @@ namespace D47_WPF_Kran
             this.kiste.SetValue(Canvas.LeftProperty, this.xKoordinate);
             this.kiste.SetValue(Canvas.TopProperty, this.yKoordinate);
 
-            this.oberflaeche.Children.Add(this.kiste);
+            this.oberflaeche.Children.Insert(10,this.kiste);
         }
 
         public void setKistePosition(double x, double y)

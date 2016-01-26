@@ -48,13 +48,16 @@ namespace D47_WPF_Kran
         public void setKistenPosition(double x, double y)
         {
             this.seitKiste.setKistePosition(x, this.zKoordinate);
+            this.xKoordinate = x;
+            this.yKoordinate = y;
             this.draufKiste.setKistePosition(x, y);
         }
 
         public void setKisteHoehe(double z)
         {
-            if(this.angehoben)
+            
                 this.seitKiste.setKistePosition(this.xKoordinate, z);
+                this.zKoordinate = z;
         }
 
         public void kisteAnheben()
@@ -75,6 +78,26 @@ namespace D47_WPF_Kran
             this.angehoben = false;
         }
 
+        public void moveKistetoLager(int Lager)
+        {
+            switch(Lager)
+            {
+                case 1: setKistenPosition(161.0, 53.0); setKisteHoehe(228.0); break;
+                case 2: setKistenPosition(215.0, 53.0); setKisteHoehe(228.0); break;
+                case 3: setKistenPosition(215.0, 186.0); setKisteHoehe(228.0); break;
+                case 4: setKistenPosition(271.0, 239.0); setKisteHoehe(228.0); break;
+                case 5: setKistenPosition(351.0, 239.0); setKisteHoehe(228.0); break;
+                case 6: setKistenPosition(433.0, 239.0); setKisteHoehe(228.0); break;
+                default: break;
+            }
+        }
+
+       /*  erstelle_Lager(211.0, 184.0, 45, 45); //
+		  erstelle_Lager(267.0, 229.0,  55, 45);
+		  erstelle_Lager(347.0, 229.0,  55, 45);
+		  erstelle_Lager(429.0, 229.0,  55, 45);
+		  erstelle_Lager(156.0, 50.0,  45, 45);
+		  erstelle_Lager(211.0, 50.0,  45, 45);*/
         //public double getXfromPos(int pos)
         //{
         //    return this.draufSicht.getXfromPosition(pos);

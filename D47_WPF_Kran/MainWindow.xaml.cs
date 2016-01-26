@@ -45,6 +45,12 @@ namespace D47_WPF_Kran
         private double kisteStartZ = 228.0;
         private int KisteID = 1;
 
+        Kisten active;
+        Kisten[] kistenAblageplatz = new Kisten[4] { null, null, null, null };
+        Kisten[] kistenLager = new Kisten[2] { null, null };
+        int[] ablageplatz = new int[4] { 0, 0, 0, 0 };
+        int[] lager = new int[2] { 0, 0 };
+
 
         Kran kran;
 
@@ -785,8 +791,43 @@ namespace D47_WPF_Kran
 			   MoveToPos(0);
 		   }
         }
-       
-      
+
+        private void erstelleKisteInLager(int Lager, int id)
+        {
+            if (Lager == 1)
+            {
+                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten.moveKistetoLager(Lager);
+                //KistenAblageplatz[Lager] = kisten;               
+            }
+            if (Lager == 2)
+            {
+                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten.moveKistetoLager(Lager);
+            }
+            if (Lager == 3)
+            {
+                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten.moveKistetoLager(Lager);
+            }
+            if (Lager == 4)
+            {
+                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten.moveKistetoLager(Lager);
+            }
+            if (Lager == 5)
+            {
+                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten.moveKistetoLager(Lager);
+            }
+            if (Lager == 6)
+            {
+                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten.moveKistetoLager(Lager);
+            }
+
+        }
+
 
 
     }
