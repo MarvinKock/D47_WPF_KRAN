@@ -16,6 +16,7 @@
 				<Button  Height="20" Name="Bandlager3" Click="MoveToPosClick">Bandlager3</Button>
 				<Button  Height="20" Name="Bandlager4" Click="MoveToPosClick">Bandlager4</Button>
 				<Button  Height="20" Name="Register" Click="MoveToPosClick">Register</Button>
+                
 			</StackPanel>
             <local:Seitenansicht x:Name="AnsichtSeite" ></local:Seitenansicht>
         </StackPanel>
@@ -43,6 +44,7 @@
             </StackPanel>
             <Button Visibility="Hidden" Height="20"></Button>
             <RadioButton Name="KisteAnheben"  Click="KisteAnheben_Click">Kiste Anheben</RadioButton>
+            <Button Height="40" Name="KisteZuLagerplatz" Click="KisteZuLagerplatz_Click">Kiste zu Lager</Button>
         </StackPanel>
     </DockPanel>
 

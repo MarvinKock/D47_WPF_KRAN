@@ -45,18 +45,18 @@ namespace D47_WPF_Kran
         private double kisteStartZ = 228.0;
         private int KisteID = 1;
 
-        Kisten active;
-        Kisten[] kistenAblageplatz = new Kisten[4] { null, null, null, null };
-        Kisten[] kistenLager = new Kisten[2] { null, null };
-        bool[] ablageplatz = new bool[4] { false, false, false, false };
-        bool[] lager = new bool[2] { false, false };
+        //Kisten active;
+        //Kisten[] kistenAblageplatz = new Kisten[4] { null, null, null, null };
+        //Kisten[] kistenLager = new Kisten[2] { null, null };
+        //bool[] ablageplatz = new bool[4] { false, false, false, false };
+        //bool[] lager = new bool[2] { false, false };
 
         Laufband band; 
         
 
 
 
-        Kran kran;
+        Kran kranarm;
 
         HttpClient client = new HttpClient();
 
@@ -69,15 +69,15 @@ namespace D47_WPF_Kran
 
             this.Kran.setSideView(this.AnsichtSeite);
 
-            this.client.BaseAddress = new Uri("http://10.8.0.135:53161/");
+            this.client.BaseAddress = new Uri("http://localhost:53161/");
 
-            kran = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
+            kranarm = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
             band = new Laufband();
 
             GetCranePositionOnce();
             GetCranHightAsync();
 
-            Console.WriteLine("{0}", ablageplatz[0]);
+            //Console.WriteLine("{0}", ablageplatz[0]);
         }
 
         private void KranLinks_Click(object sender, RoutedEventArgs e)
@@ -95,7 +95,7 @@ namespace D47_WPF_Kran
 
             //    t.Start();
             //}
-            this.active.kisteToPos();
+            this.band.Active.kisteToPos();
            
         }
 
@@ -252,7 +252,7 @@ namespace D47_WPF_Kran
 
         private void Kranarm_Down_Click(object sender, RoutedEventArgs e)
         {        
-            if(kran.InPosition)
+            if(kranarm.InPosition)
                 PostCraneMoveBottom();
             //if (this.Kran.isRunning == false)
             //{
@@ -339,7 +339,7 @@ namespace D47_WPF_Kran
             GetBandStatusAsync();
 
             Kisten k1 = new Kisten(this.Kran, this.AnsichtSeite, this.kisteStartX, this.kisteStartY, this.kisteStartZ, 3);
-            this.active = k1;
+            this.band.Active = k1;
 
             //erstelleKiste();
 
@@ -385,7 +385,7 @@ namespace D47_WPF_Kran
                     for(int i = 0; i < 4; i++)
                     {
                         this.band.LagerBelegt[i] = band.Ablageplatz[i];
-                        if(band.Ablageplatz[i] == true && ablageplatz[i] == false)
+                        if(band.Ablageplatz[i] == true && this.band.LagerBelegt[i] == false)
                         {
                             Kisten kisteLager = erstelleKisteInLager(i+3, 1);
                             this.band.KistenAblageplatz[i] = kisteLager;
@@ -393,7 +393,7 @@ namespace D47_WPF_Kran
                         if (i < 2)
                         {
                             this.band.ZwischenlagerBelegt[i] = band.Einlagerplatz[i];
-                            if (band.Einlagerplatz[i] == true && lager[i] == false)
+                            if (band.Einlagerplatz[i] == true && this.band.ZwischenlagerBelegt[i] == false)
                             {
                                 Kisten kisteLager = erstelleKisteInLager(i + 1, 1);
                                 this.band.KistenLager[i] = kisteLager;
@@ -405,8 +405,17 @@ namespace D47_WPF_Kran
                         }
                     }
 
-                    this.band.BandBelegt = band.Registerlager;
+                    this.band.TurmBelegt = band.Registerlager;
+                    if(this.band.TurmBelegt)
+                    {
+                        Kisten kistenTurm = erstelleKisteInRegiter(0);
+                        this.band.KisteTurm = kistenTurm;
+                    }
+                        
                     this.band.BandAn = band.An;
+                    if (band.Werkstück_id != 0 && this.band.Active.KisteID == 0)
+                        this.band.Active.KisteID = band.Werkstück_id;
+
                     
 
                     Console.WriteLine("{0} {1} {2} {3} {4} {5} {6}", band.Ablageplatz[0], band.Ablageplatz[1], band.Ablageplatz[2], band.Ablageplatz[3], band.Einlagerplatz[0], band.Einlagerplatz[1]);
@@ -462,7 +471,7 @@ namespace D47_WPF_Kran
                 Console.WriteLine("{0}\t{1}", coord.X_pos, coord.Y_pos);
                 double[] coords = new double[2];
                 coords = getCanvasCoord(coord.X_pos, coord.Y_pos);
-                kran.setKranPosition(coords[0], coords[1]);
+                kranarm.setKranPosition(coords[0], coords[1]);
                 Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
             }
             if (response.IsSuccessStatusCode == false)
@@ -488,7 +497,7 @@ namespace D47_WPF_Kran
 
                 if (status.Greifer_oben)
                 {
-                    kran.setKranarmOben();
+                    kranarm.setKranarmOben();
                     KranTop.Visibility = System.Windows.Visibility.Visible;
                     KranRechts.Visibility = System.Windows.Visibility.Visible;
                     KranLinks.Visibility = System.Windows.Visibility.Visible;
@@ -496,11 +505,21 @@ namespace D47_WPF_Kran
                 }
                 else if (status.Greifer_unten)
                 {
-                    kran.setKranarmUnten();
+                    kranarm.setKranarmUnten();
                     KranTop.Visibility = System.Windows.Visibility.Hidden;
                     KranRechts.Visibility = System.Windows.Visibility.Hidden;
                     KranLinks.Visibility = System.Windows.Visibility.Hidden;
                     KranBottom.Visibility = System.Windows.Visibility.Hidden;
+                    if (this.kranarm.KisteKran == null)
+                    {
+                        //this.kranarm.KisteKran = this.band.Active;
+                        if (this.kranarm.UeberLager > 0 && this.kranarm.UeberLager < 5)
+                            this.kranarm.KisteKran = this.band.KistenAblageplatz[this.kranarm.UeberLager - 1];
+                        else if (this.kranarm.UeberLager > 4)
+                            this.kranarm.KisteKran = this.band.KistenLager[this.kranarm.UeberLager - 5];
+                    }
+                    else
+                        this.kranarm.KisteKran = null;
                 }
                 //Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
             }
@@ -694,7 +713,7 @@ namespace D47_WPF_Kran
                 
                 double[] coords = new double[2];
                 coords = getCanvasCoord(coord.X_pos, coord.Y_pos);
-                kran.setKranPosition(coords[0], coords[1]);
+                kranarm.setKranPosition(coords[0], coords[1]);
 
                 Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
 
@@ -721,6 +740,12 @@ namespace D47_WPF_Kran
                 String result = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(result);
                 Console.WriteLine("PostAsJsonAsync: {0}", response.StatusCode.ToString());
+
+
+                KranTop.Visibility = System.Windows.Visibility.Hidden;
+                KranRechts.Visibility = System.Windows.Visibility.Hidden;
+                KranLinks.Visibility = System.Windows.Visibility.Hidden;
+                KranBottom.Visibility = System.Windows.Visibility.Hidden;
             }
             else
             {
@@ -728,10 +753,6 @@ namespace D47_WPF_Kran
                      response.StatusCode.ToString(), (int)response.StatusCode);
             }
 
-            KranTop.Visibility = System.Windows.Visibility.Hidden;
-            KranRechts.Visibility = System.Windows.Visibility.Hidden;
-            KranLinks.Visibility = System.Windows.Visibility.Hidden;
-            KranBottom.Visibility = System.Windows.Visibility.Hidden;
 
         }
 
@@ -790,14 +811,15 @@ namespace D47_WPF_Kran
                 String result = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(result);
                 Console.WriteLine("PostAsJsonAsync: {0}", response.StatusCode.ToString());
+
+                kranarm.InPosition = true;
+                this.kranarm.UeberLager = pos;
             }
             else
             {
                 Console.WriteLine("PostAsJsonAsync Error: {0} [{1}]",
                      response.StatusCode.ToString(), (int)response.StatusCode);
             }
-
-            kran.InPosition = true;
         }
 
         private void MoveToPosClick(object sender, RoutedEventArgs e)
@@ -875,12 +897,42 @@ namespace D47_WPF_Kran
             return null;
         }
 
-        private void erstelleKisteInRegiter(int id)
+        private Kisten erstelleKisteInRegiter(int id)
         {
-
+            Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, this.kisteStartX, this.kisteStartY, this.kisteStartZ, 0);
+            return kisten;
         }
 
+        private void KisteZuLagerplatz_Click(object sender, RoutedEventArgs e)
+        {
+            PostMoveKisteToPos();
+        }
 
+        async Task PostMoveKisteToPos()
+        {
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Band/SendoneCrate", true);
+
+            if (response.IsSuccessStatusCode)
+            {
+                String result = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(result);
+                Console.WriteLine("PostAsJsonAsync: {0}", response.StatusCode.ToString());
+
+
+                this.band.Active = this.band.KisteTurm;
+                this.band.Active.moveKistetoLager(this.band.Active.KisteID);
+            }
+            else
+            {
+                Console.WriteLine("PostAsJsonAsync Error: {0} [{1}]",
+                     response.StatusCode.ToString(), (int)response.StatusCode);
+            }
+
+        }
 
     }
 }

@@ -22,6 +22,12 @@ namespace D47_WPF_Kran
         private Kiste draufKiste;
         private int kisteID;
 
+        public int KisteID
+        {
+            get { return kisteID; }
+            set { kisteID = value; }
+        }
+
         private bool angehoben = false;
 
         public Kisten(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z, int kisteID)
@@ -43,10 +49,6 @@ namespace D47_WPF_Kran
             this.draufKiste = new Kiste(this.draufSicht, this.xKoordinate, this.yKoordinate, false);
         }
 
-        public void changeID(int ID)
-        {
-            this.kisteID = ID;
-        }
 
         public void setKistenPosition(double x, double y)
         {

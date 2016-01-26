@@ -16,15 +16,30 @@ namespace D47_WPF_Kran
         double xKoordinate;
         double yKoordinate;
         double zKoordinate;
+        int ueberLager;
 
         private kranDraufsicht kranDrauf;
         private kranSeitsicht kranSeite;
         private bool inPosition;
 
+        private Kisten kisteKran;
+
+        public Kisten KisteKran
+        {
+            get { return kisteKran; }
+            set { kisteKran = value; }
+        }
+
         public bool InPosition
         {
             get { return inPosition; }
             set { inPosition = value; }
+        }
+
+        public int UeberLager
+        {
+            get { return ueberLager; }
+            set { ueberLager = value; }
         }
 
         public Kran(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z)
@@ -37,12 +52,17 @@ namespace D47_WPF_Kran
 
             this.kranDrauf = new kranDraufsicht(this.draufsicht, x, y);
             this.kranSeite = new kranSeitsicht(this.seitsicht, x, z);
+            this.kisteKran = null;
         }
 
         public void setKranPosition(double x, double y)
         {
             this.kranDrauf.setKranPosition(x, y);
             this.kranSeite.setKranPosition(x);
+            if(this.kisteKran != null)
+            {
+                this.kisteKran.setKistenPosition(x, y);
+            }
         }
 
         public void setKranarmOben()

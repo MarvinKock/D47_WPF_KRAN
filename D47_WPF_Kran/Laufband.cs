@@ -21,6 +21,13 @@ namespace D47_WPF_Kran
         private Kisten active;
         private Kisten[] kistenAblageplatz = new Kisten[4];
         private Kisten[] kistenLager = new Kisten[2];
+        private Kisten kisteTurm;
+
+        public Kisten KisteTurm
+        {
+            get { return kisteTurm; }
+            set { kisteTurm = value; }
+        }
 
         public bool[] LagerBelegt
         {
@@ -95,6 +102,7 @@ namespace D47_WPF_Kran
                 this.kistenLager[i] = null;
             }
             this.active = null;
+            this.kisteTurm = null;
         }
     }
 }
