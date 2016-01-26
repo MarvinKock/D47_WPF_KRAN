@@ -12,6 +12,13 @@ namespace D47_WPF_Kran
         bool[] ablageplatz = new bool[4];
         bool[] schieber = new bool[3];
         bool[] einlagerplatz = new bool[2];
+        bool registerlager = false;
+
+        public bool Registerlager
+        {
+            get { return registerlager; }
+            set { registerlager = value; }
+        }
         public bool An
         {
             get { return an; }

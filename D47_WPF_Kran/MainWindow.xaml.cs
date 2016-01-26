@@ -51,7 +51,7 @@ namespace D47_WPF_Kran
         bool[] ablageplatz = new bool[4] { false, false, false, false };
         bool[] lager = new bool[2] { false, false };
 
-       
+        Laufband band; 
         
 
 
@@ -72,8 +72,9 @@ namespace D47_WPF_Kran
             this.client.BaseAddress = new Uri("http://10.8.0.135:53161/");
 
             kran = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
+            band = new Laufband();
 
-           // GetCranePositionOnce();
+            GetCranePositionOnce();
             GetCranHightAsync();
 
             Console.WriteLine("{0}", ablageplatz[0]);
@@ -94,6 +95,7 @@ namespace D47_WPF_Kran
 
             //    t.Start();
             //}
+            this.active.kisteToPos();
            
         }
 
@@ -336,6 +338,9 @@ namespace D47_WPF_Kran
 
             GetBandStatusAsync();
 
+            Kisten k1 = new Kisten(this.Kran, this.AnsichtSeite, this.kisteStartX, this.kisteStartY, this.kisteStartZ, 3);
+            this.active = k1;
+
             //erstelleKiste();
 
             //drauf.setKranPosition(300.0, 170.0);
@@ -379,18 +384,30 @@ namespace D47_WPF_Kran
                     
                     for(int i = 0; i < 4; i++)
                     {
+                        this.band.LagerBelegt[i] = band.Ablageplatz[i];
                         if(band.Ablageplatz[i] == true && ablageplatz[i] == false)
                         {
-                            erstelleKisteInLager(i+3, 1);
+                            Kisten kisteLager = erstelleKisteInLager(i+3, 1);
+                            this.band.KistenAblageplatz[i] = kisteLager;
                         }
                         if (i < 2)
                         {
+                            this.band.ZwischenlagerBelegt[i] = band.Einlagerplatz[i];
                             if (band.Einlagerplatz[i] == true && lager[i] == false)
                             {
-                                erstelleKisteInLager(i + 1, 1);
+                                Kisten kisteLager = erstelleKisteInLager(i + 1, 1);
+                                this.band.KistenLager[i] = kisteLager;
                             }
                         }
+                        if(i < 3)
+                        {
+                            this.band.BeroPuscher[i] = band.Schieber[i];
+                        }
                     }
+
+                    this.band.BandBelegt = band.Registerlager;
+                    this.band.BandAn = band.An;
+                    
 
                     Console.WriteLine("{0} {1} {2} {3} {4} {5} {6}", band.Ablageplatz[0], band.Ablageplatz[1], band.Ablageplatz[2], band.Ablageplatz[3], band.Einlagerplatz[0], band.Einlagerplatz[1]);
 
@@ -815,40 +832,47 @@ namespace D47_WPF_Kran
 		   }
         }
 
-        private void erstelleKisteInLager(int Lager, int id)
+        private Kisten erstelleKisteInLager(int Lager, int id)
         {
+            Kisten kisten;
             if (Lager == 1)
             {
-                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
                 kisten.moveKistetoLager(Lager);
+                return kisten;
                 //KistenAblageplatz[Lager] = kisten;               
             }
             if (Lager == 2)
             {
-                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
                 kisten.moveKistetoLager(Lager);
+                return kisten;
             }
             if (Lager == 3)
             {
-                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
                 kisten.moveKistetoLager(Lager);
+                return kisten;
             }
             if (Lager == 4)
             {
-                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
                 kisten.moveKistetoLager(Lager);
+                return kisten;
             }
             if (Lager == 5)
             {
-                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
                 kisten.moveKistetoLager(Lager);
+                return kisten;
             }
             if (Lager == 6)
             {
-                Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
                 kisten.moveKistetoLager(Lager);
+                return kisten;
             }
-
+            return null;
         }
 
         private void erstelleKisteInRegiter(int id)

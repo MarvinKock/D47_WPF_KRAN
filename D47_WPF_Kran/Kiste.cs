@@ -22,6 +22,9 @@ namespace D47_WPF_Kran
         private bool angehoben;
         private Canvas oberflaeche;
 
+        private double zKisteUnten = 228.0;
+        private double zKisteOben = 8.0;
+
         public Kiste(Canvas flaeche, double x, double y, bool seitDarstellung)
         {
             this.angehoben = false;
@@ -68,7 +71,19 @@ namespace D47_WPF_Kran
                 moveKistePositionHandler handler =
                          new moveKistePositionHandler(this.setKistePosition);
                 this.oberflaeche.Dispatcher.BeginInvoke(handler, x, y);
+            
+            
             }
+        }
+
+        public void setKisteOben()
+        {
+            this.setKistePosition(this.xKoordinate, zKisteOben);
+        }
+
+        public void setKisteUnten()
+        {
+            this.setKistePosition(this.xKoordinate, zKisteUnten);
         }
 
         //public void bewegungXrichtungPositiv()
@@ -95,57 +110,57 @@ namespace D47_WPF_Kran
         //    this.kiste.SetValue(Canvas.TopProperty, this.yKoordinate);
         //}
 
-        //public double getXfromPosition(int pos)
-        //{
-        //    double toX;
+        public double getXfromID(int ID)
+        {
+            double toX;
 
-        //    if (pos == 1)
-        //    {
-        //        toX = 183.0;
-        //    }
-        //    else if(pos == 2)
-        //    {
-        //        toX = 228.0;
-        //    }
-        //    else if(pos == 3)
-        //    {
-        //        toX = 293.0;
-        //    }
-        //    else
-        //    {
-        //        toX = 358.0;
-        //    }
+            if (ID == 1)
+            {
+                toX = 433.0; // 183.0;
+            }
+            else if (ID == 2)
+            {
+                toX = 351.0; // 228.0;
+            }
+            else if (ID == 3)
+            {
+                toX = 271.0; // 293.0;
+            }
+            else
+            {
+                toX = 215.0; // 358.0;
+            }
 
-        //    //Console.WriteLine("x-Position: {0}", toX);
+            //Console.WriteLine("x-Position: {0}", toX);
 
-        //    return toX;
-        //}
+            return toX;
+        }
 
-        //public double getYfromPosition(int pos)
-        //{
-        //    double toY;
+        public double getYfromID(int ID)
+        {
+            double toY;
 
-        //    if (pos == 1)
-        //    {
-        //        toY = 123.0;
-        //    }
-        //    else if (pos == 2)
-        //    {
-        //        toY = 168.0;
-        //    }
-        //    else if (pos == 3)
-        //    {
-        //        toY = 168.0;
-        //    }
-        //    else
-        //    {
-        //        toY = 168.0;
-        //    }
+            if (ID == 1)
+            {
+                toY = 239.0; // 123.0;
+            }
+            else if (ID == 2)
+            {
+                toY = 239.0; // 168.0;
+            }
+            else if (ID == 3)
+            {
+                toY = 239.0; // 168.0;
+            }
+            else
+            {
+                toY = 186.0; // 168.0;
+            }
 
-        //    //Console.WriteLine("y-Position: {0}", toY);
+            //Console.WriteLine("y-Position: {0}", toY);
 
-        //    return toY;
-        //}
+            return toY;
+        }
 
         public void kisteAufnhemen()
         {

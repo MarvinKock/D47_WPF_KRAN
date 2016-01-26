@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace D47_WPF_Kran
@@ -14,14 +15,16 @@ namespace D47_WPF_Kran
         double yKoordinate;
         double zKoordinate;
 
+        private double zKisteUnten = 228.0;
+        private double zKisteOben = 8.0;
+
         private Kiste seitKiste;
         private Kiste draufKiste;
         private int kisteID;
 
-
         private bool angehoben = false;
 
-        public Kisten(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z, int kistenID)
+        public Kisten(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z, int kisteID)
         {
             this.seitSicht = seit;
             this.draufSicht = drauf;
@@ -54,10 +57,21 @@ namespace D47_WPF_Kran
         }
 
         public void setKisteHoehe(double z)
+        {        
+            this.seitKiste.setKistePosition(this.xKoordinate, z);
+            this.zKoordinate = z;
+        }
+
+        public void setKisteOben()
         {
-            
-                this.seitKiste.setKistePosition(this.xKoordinate, z);
-                this.zKoordinate = z;
+            this.seitKiste.setKisteOben();
+            this.zKoordinate = zKisteUnten;
+        }
+
+        public void setKisteUnten()
+        {
+            this.seitKiste.setKisteUnten();
+            this.zKoordinate = zKisteOben;
         }
 
         public void kisteAnheben()
@@ -92,21 +106,64 @@ namespace D47_WPF_Kran
             }
         }
 
+        public void kisteToPos()
+        {
+            ThreadStart ts = new ThreadStart(moveKisteToPos);
+            Thread t = new Thread(ts);
+            t.Start();
+        }
+
+        public void moveKisteToPos()
+        {
+            double zielX = this.getXfromID();
+            double zielY = this.getYfromID();
+            Console.WriteLine("zielX: {0}, zielY: {1}", zielX, zielY);
+            while (!(this.xKoordinate == zielX && this.yKoordinate == zielY))
+            {
+                Console.WriteLine("Bewege Kiste");
+                if (this.xKoordinate == zielX)
+                {
+                    if (this.yKoordinate > zielY)
+                        this.yKoordinate--;//kiste.moveKistenYNegativ();
+                    if (this.yKoordinate < zielY)
+                        this.yKoordinate++; //kiste.moveKistenYPositiv();
+                    //if (kiste.yKoordinate == kiste.getYfromPos(pos))
+                    //    this.isRunning = false;
+                }
+                if (this.xKoordinate > zielX)
+                {
+                    this.xKoordinate--;
+                    //kiste.moveKistenXNegativ();
+                }
+                if (this.xKoordinate < zielX)
+                {
+                    this.xKoordinate++;
+                    //kiste.moveKistenXPositiv();
+                }
+
+                this.draufKiste.setKistePosition(this.xKoordinate, this.yKoordinate);
+                this.seitKiste.setKistePosition(this.xKoordinate, this.zKoordinate);
+                //Console.WriteLine("{0} ... {1} ", kiste.yKoordinate, kiste.getYfromPos(pos));
+                Thread.Sleep(30);
+            }
+        }
+
+
        /*  erstelle_Lager(211.0, 184.0, 45, 45); //
 		  erstelle_Lager(267.0, 229.0,  55, 45);
 		  erstelle_Lager(347.0, 229.0,  55, 45);
 		  erstelle_Lager(429.0, 229.0,  55, 45);
 		  erstelle_Lager(156.0, 50.0,  45, 45);
 		  erstelle_Lager(211.0, 50.0,  45, 45);*/
-        //public double getXfromPos(int pos)
-        //{
-        //    return this.draufSicht.getXfromPosition(pos);
-        //}
+        public double getXfromID()
+        {
+            return this.draufKiste.getXfromID(this.kisteID);
+        }
 
-        //public double getYfromPos(int pos)
-        //{
-        //    return this.draufSicht.getYfromPosition(pos);
-        //}
+        public double getYfromID()
+        {
+            return this.draufKiste.getYfromID(this.kisteID);
+        }
 
         //public int getKistenID()
         //{

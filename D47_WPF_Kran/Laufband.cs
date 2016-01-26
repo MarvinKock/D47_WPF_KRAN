@@ -16,8 +16,11 @@ namespace D47_WPF_Kran
         private bool turmBelegt;
         private bool bandBelegt;
         private bool bandAn;
-        private bool[] puscherBetaetigt = new bool[3];
+        private bool[] beroPuscher = new bool[3];
 
+        private Kisten active;
+        private Kisten[] kistenAblageplatz = new Kisten[4];
+        private Kisten[] kistenLager = new Kisten[2];
 
         public bool[] LagerBelegt
         {
@@ -42,10 +45,10 @@ namespace D47_WPF_Kran
             get { return bandAn; }
             set { bandAn = value; }
         }
-        public bool[] PuscherBetaetigt
+        public bool[] BeroPuscher
         {
-            get { return puscherBetaetigt; }
-            set { puscherBetaetigt = value; }
+            get { return beroPuscher; }
+            set { beroPuscher = value; }
         }
 
         public bool[] ZwischenlagerBelegt
@@ -54,17 +57,44 @@ namespace D47_WPF_Kran
             set { zwischenlagerBelegt = value; }
         }
 
+        public Kisten Active
+        {
+            get { return active; }
+            set { active = value; }
+        }
+
+        public Kisten[] KistenAblageplatz
+        {
+            get { return kistenAblageplatz; }
+            set { kistenAblageplatz = value; }
+        }
+
+
+        public Kisten[] KistenLager
+        {
+            get { return kistenLager; }
+            set { kistenLager = value; }
+        }
+
+
         public Laufband()
         {
             this.turmBelegt = false;
             this.bandBelegt = false;
             this.bandAn = false;
-            for(int i = 0; i < 3; i++)
-                this.puscherBetaetigt[i] = false;
+            for (int i = 0; i < 3; i++)
+                this.beroPuscher[i] = false;
             for (int i = 0; i < 4; i++)
+            {
                 this.lagerBelegt[i] = false;
+                this.kistenAblageplatz[i] = null;
+            }
             for (int i = 0; i < 2; i++)
+            {
                 this.zwischenlagerBelegt[i] = false;
+                this.kistenLager[i] = null;
+            }
+            this.active = null;
         }
     }
 }
