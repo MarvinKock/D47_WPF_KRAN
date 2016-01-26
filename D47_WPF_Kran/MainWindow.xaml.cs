@@ -48,8 +48,12 @@ namespace D47_WPF_Kran
         Kisten active;
         Kisten[] kistenAblageplatz = new Kisten[4] { null, null, null, null };
         Kisten[] kistenLager = new Kisten[2] { null, null };
-        int[] ablageplatz = new int[4] { 0, 0, 0, 0 };
-        int[] lager = new int[2] { 0, 0 };
+        bool[] ablageplatz = new bool[4] { false, false, false, false };
+        bool[] lager = new bool[2] { false, false };
+
+       
+        
+
 
 
         Kran kran;
@@ -69,8 +73,10 @@ namespace D47_WPF_Kran
 
             kran = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
 
-            GetCranePositionOnce();
+           // GetCranePositionOnce();
             GetCranHightAsync();
+
+            Console.WriteLine("{0}", ablageplatz[0]);
         }
 
         private void KranLinks_Click(object sender, RoutedEventArgs e)
@@ -330,7 +336,7 @@ namespace D47_WPF_Kran
 
             GetBandStatusAsync();
 
-            erstelleKiste();
+            //erstelleKiste();
 
             //drauf.setKranPosition(300.0, 170.0);
             //seit.setKranPosition(300.0);
@@ -370,7 +376,24 @@ namespace D47_WPF_Kran
                 if (response.IsSuccessStatusCode)
                 {
                     JsonObjectBandStatus band = await response.Content.ReadAsAsync<JsonObjectBandStatus>();
-                    Console.WriteLine("{0}\t${1}\t{2}\t{3}", band.Ablageplatz[0], band.An, band.Einlagerplatz[0], band.Werkstück_id);
+                    
+                    for(int i = 0; i < 4; i++)
+                    {
+                        if(band.Ablageplatz[i] == true && ablageplatz[i] == false)
+                        {
+                            erstelleKisteInLager(i+3, 1);
+                        }
+                        if (i < 2)
+                        {
+                            if (band.Einlagerplatz[i] == true && lager[i] == false)
+                            {
+                                erstelleKisteInLager(i + 1, 1);
+                            }
+                        }
+                    }
+
+                    Console.WriteLine("{0} {1} {2} {3} {4} {5} {6}", band.Ablageplatz[0], band.Ablageplatz[1], band.Ablageplatz[2], band.Ablageplatz[3], band.Einlagerplatz[0], band.Einlagerplatz[1]);
+
                 }
                 if(response.IsSuccessStatusCode == false)
                 {
@@ -825,6 +848,11 @@ namespace D47_WPF_Kran
                 Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
                 kisten.moveKistetoLager(Lager);
             }
+
+        }
+
+        private void erstelleKisteInRegiter(int id)
+        {
 
         }
 
