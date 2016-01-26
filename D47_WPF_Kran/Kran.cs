@@ -19,6 +19,13 @@ namespace D47_WPF_Kran
 
         private kranDraufsicht kranDrauf;
         private kranSeitsicht kranSeite;
+        private bool inPosition;
+
+        public bool InPosition
+        {
+            get { return inPosition; }
+            set { inPosition = value; }
+        }
 
         public Kran(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z)
         {

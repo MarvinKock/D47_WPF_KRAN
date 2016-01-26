@@ -59,7 +59,7 @@ namespace D47_WPF_Kran
 
             this.Kran.setSideView(this.AnsichtSeite);
 
-            this.client.BaseAddress = new Uri("http://10.8.0.203:53161/");
+            this.client.BaseAddress = new Uri("http://10.8.0.135:53161/");
 
             kran = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
 
@@ -237,19 +237,21 @@ namespace D47_WPF_Kran
         }
 
         private void Kranarm_Down_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.Kran.isRunning == false)
-            {
-                Thread t;
+        {        
+            if(kran.InPosition)
+                PostCraneMoveBottom();
+            //if (this.Kran.isRunning == false)
+            //{
+            //    Thread t;
 
-                // erster Start
-                ThreadStart ts = new ThreadStart(MoveKranarm);
-                t = new Thread(ts);
-                this.Kran.isRunning = true;
+            //    // erster Start
+            //    ThreadStart ts = new ThreadStart(MoveKranarm);
+            //    t = new Thread(ts);
+            //    this.Kran.isRunning = true;
 
-                t.Start();
-            }
-            buttonClick = button.Arm_Runter;
+            //    t.Start();
+            //}
+            //buttonClick = button.Arm_Runter;
         }
 
         private void MoveKranarm()//(object o)
@@ -394,6 +396,7 @@ namespace D47_WPF_Kran
             while (true)
             {
                 GetCranPositionAsync();
+                //GetCranHightAsync();
                 Thread.Sleep(300);
             }
 
@@ -438,9 +441,21 @@ namespace D47_WPF_Kran
                 Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", status.X_min_pos, status.X_max_pos, status.Y_min_pos, status.Y_max_pos, status.Greifer_oben, status.Greifer_unten);
 
                 if (status.Greifer_oben)
+                {
                     kran.setKranarmOben();
+                    KranTop.Visibility = System.Windows.Visibility.Visible;
+                    KranRechts.Visibility = System.Windows.Visibility.Visible;
+                    KranLinks.Visibility = System.Windows.Visibility.Visible;
+                    KranBottom.Visibility = System.Windows.Visibility.Visible;
+                }
                 else if (status.Greifer_unten)
+                {
                     kran.setKranarmUnten();
+                    KranTop.Visibility = System.Windows.Visibility.Hidden;
+                    KranRechts.Visibility = System.Windows.Visibility.Hidden;
+                    KranLinks.Visibility = System.Windows.Visibility.Hidden;
+                    KranBottom.Visibility = System.Windows.Visibility.Hidden;
+                }
                 //Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
             }
             if (response.IsSuccessStatusCode == false)
@@ -521,6 +536,8 @@ namespace D47_WPF_Kran
                 }
             
         }
+
+
 
         async Task PostCraneMoveRight()
         {
@@ -617,7 +634,6 @@ namespace D47_WPF_Kran
             }
         }
 
-
         async Task GetCranPositionAsyncFirst()
         {
             Console.WriteLine("Getting Coords of Crane for the First Time");
@@ -644,6 +660,33 @@ namespace D47_WPF_Kran
                 Console.WriteLine("No Connection");
 
             }
+        }
+
+        async Task PostCraneMoveBottom()
+        {
+            Console.WriteLine("Move Bottom");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/KranRunter", true);
+
+            if (response.IsSuccessStatusCode)
+            {
+                String result = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(result);
+                Console.WriteLine("PostAsJsonAsync: {0}", response.StatusCode.ToString());
+            }
+            else
+            {
+                Console.WriteLine("PostAsJsonAsync Error: {0} [{1}]",
+                     response.StatusCode.ToString(), (int)response.StatusCode);
+            }
+
+            KranTop.Visibility = System.Windows.Visibility.Hidden;
+            KranRechts.Visibility = System.Windows.Visibility.Hidden;
+            KranLinks.Visibility = System.Windows.Visibility.Hidden;
+            KranBottom.Visibility = System.Windows.Visibility.Hidden;
+
         }
 
         async Task GetCraneStatus()
@@ -708,7 +751,7 @@ namespace D47_WPF_Kran
                      response.StatusCode.ToString(), (int)response.StatusCode);
             }
 
-
+            kran.InPosition = true;
         }
 
         private void MoveToPosClick(object sender, RoutedEventArgs e)
