@@ -84,20 +84,20 @@ namespace D47_WPF_Kran
                 get { return y_Pos; }
                 set { y_Pos = value; }
             }
-            private int x_Direction;
+            //private int x_Direction;
 
-            public int X_Direction
-            {
-                get { return x_Direction; }
-                set { x_Direction = value; }
-            }
-            private int y_Direction;
+            //public int X_Direction
+            //{
+            //    get { return x_Direction; }
+            //    set { x_Direction = value; }
+            //}
+            //private int y_Direction;
 
-            public int Y_Direction
-            {
-                get { return y_Direction; }
-                set { y_Direction = value; }
-            }
+            //public int Y_Direction
+            //{
+            //    get { return y_Direction; }
+            //    set { y_Direction = value; }
+            //}
             private bool oben;
 
             public bool Oben

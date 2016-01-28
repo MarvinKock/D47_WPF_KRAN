@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -87,6 +88,29 @@ namespace D47_WPF_Kran
                 MoveKranarmSeitHandler handler =
                          new MoveKranarmSeitHandler(this.setKranarmHoehe);
                 seitSicht.Dispatcher.BeginInvoke(handler, z);
+            }
+        }
+
+        
+
+        public void moveKranarmOben()
+        {
+            while (this.yKoordiante >= this.maxHoehe) 
+            {
+                this.yKoordiante--;
+                this.setKranarmHoehe(this.yKoordiante);
+                Thread.Sleep(50);
+            }
+        }
+
+
+        public void moveKranarmUnten()
+        {
+            while((this.yKoordiante + this.hoeheArm) <= this.minHoehe)
+            {
+                this.yKoordiante++;
+                this.setKranarmHoehe(this.yKoordiante);
+                Thread.Sleep(50);
             }
         }
 
