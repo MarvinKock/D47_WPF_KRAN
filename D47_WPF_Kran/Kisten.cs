@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace D47_WPF_Kran
 {
@@ -16,7 +17,7 @@ namespace D47_WPF_Kran
         double zKoordinate;
 
         private double zKisteUnten = 228.0;
-        private double zKisteOben = 8.0;
+        private double zKisteOben = 138.0;
 
         private Kiste seitKiste;
         private Kiste draufKiste;
@@ -30,6 +31,24 @@ namespace D47_WPF_Kran
 
         private bool angehoben = false;
 
+
+        public Rectangle getRectangleDraufsicht()
+        {
+
+            Rectangle rec = draufKiste.getRectangle();
+
+
+            return rec;
+        }
+
+        public Rectangle getRectangleSeitsicht()
+        {
+
+            Rectangle rec = seitKiste.getRectangle();
+
+
+            return rec;
+        }
         public Kisten(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z, int kisteID)
         {
             this.seitSicht = seit;
@@ -67,13 +86,31 @@ namespace D47_WPF_Kran
         public void setKisteOben()
         {
             this.seitKiste.setKisteOben();
-            this.zKoordinate = zKisteUnten;
+            this.zKoordinate = zKisteOben;
         }
 
         public void setKisteUnten()
         {
             this.seitKiste.setKisteUnten();
-            this.zKoordinate = zKisteOben;
+            this.zKoordinate = zKisteUnten;
+        }
+
+        public void moveLeftTillStop()
+        {
+            ThreadStart ts = new ThreadStart(this.moveLeft);
+            Thread t = new Thread(ts);
+            t.Start();
+
+        }
+
+        private void moveLeft()
+        {
+            while(this.KisteID == 0)
+            {
+                this.xKoordinate--;
+                this.draufKiste.setKistePosition(this.xKoordinate, this.yKoordinate);
+                this.seitKiste.setKistePosition(this.xKoordinate, this.zKoordinate);
+            }
         }
 
         public void kisteAnheben()
@@ -98,12 +135,12 @@ namespace D47_WPF_Kran
         {
             switch(Lager)
             {
-                case 1: setKistenPosition(161.0, 53.0); setKisteHoehe(228.0); break;
-                case 2: setKistenPosition(215.0, 53.0); setKisteHoehe(228.0); break;
-                case 3: setKistenPosition(215.0, 186.0); setKisteHoehe(228.0); break;
-                case 4: setKistenPosition(271.0, 239.0); setKisteHoehe(228.0); break;
-                case 5: setKistenPosition(351.0, 239.0); setKisteHoehe(228.0); break;
-                case 6: setKistenPosition(433.0, 239.0); setKisteHoehe(228.0); break;
+                case 5: setKistenPosition(161.0, 53.0); setKisteHoehe(228.0); break;
+                case 6: setKistenPosition(215.0, 53.0); setKisteHoehe(228.0); break;
+                case 4: setKistenPosition(215.0, 186.0); setKisteHoehe(228.0); break;
+                case 3: setKistenPosition(271.0, 239.0); setKisteHoehe(228.0); break;
+                case 2: setKistenPosition(351.0, 239.0); setKisteHoehe(228.0); break;
+                case 1: setKistenPosition(433.0, 239.0); setKisteHoehe(228.0); break;
                 default: break;
             }
         }
@@ -135,7 +172,7 @@ namespace D47_WPF_Kran
             Console.WriteLine("zielX: {0}, zielY: {1}", zielX, zielY);
             while (!(this.xKoordinate == zielX && this.yKoordinate == zielY))
             {
-                Console.WriteLine("Bewege Kiste");
+                //Console.WriteLine("Bewege Kiste");
                 if (this.xKoordinate == zielX)
                 {
                     if (this.yKoordinate > zielY)

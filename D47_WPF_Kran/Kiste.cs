@@ -24,8 +24,13 @@ namespace D47_WPF_Kran
         private Canvas oberflaeche;
 
         private double zKisteUnten = 228.0;
-        private double zKisteOben = 8.0;
+        private double zKisteOben = 138.0;
 
+
+        public Rectangle getRectangle()
+        {
+            return kiste;
+        }
         public Kiste(Canvas flaeche, double x, double y, bool seitDarstellung)
         {
             this.angehoben = false;
@@ -122,7 +127,7 @@ namespace D47_WPF_Kran
         {
             double toX;
 
-            if (ID == 1 || ID == 5)
+            if (ID == 1 || ID == 5 ||ID == 0)
             {
                 toX = 433.0; // 183.0;
             }
