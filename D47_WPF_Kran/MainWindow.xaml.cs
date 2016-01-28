@@ -384,17 +384,19 @@ namespace D47_WPF_Kran
                     
                     for(int i = 0; i < 4; i++)
                     {
-                        this.band.LagerBelegt[i] = band.Ablageplatz[i];
+                        
                         if(band.Ablageplatz[i] == true && this.band.LagerBelegt[i] == false)
                         {
+                            this.band.LagerBelegt[i] = band.Ablageplatz[i];
                             Kisten kisteLager = erstelleKisteInLager(i+3, 1);
                             this.band.KistenAblageplatz[i] = kisteLager;
                         }
                         if (i < 2)
                         {
-                            this.band.ZwischenlagerBelegt[i] = band.Einlagerplatz[i];
+                           
                             if (band.Einlagerplatz[i] == true && this.band.ZwischenlagerBelegt[i] == false)
                             {
+                                this.band.ZwischenlagerBelegt[i] = band.Einlagerplatz[i];
                                 Kisten kisteLager = erstelleKisteInLager(i + 1, 1);
                                 this.band.KistenLager[i] = kisteLager;
                             }
@@ -448,8 +450,9 @@ namespace D47_WPF_Kran
            
             while (true)
             {
-                GetCranPositionAsync();
-                //GetCranHightAsync();
+                GetCraneStatus();
+                //GetCranPositionAsync(); ersetzt durch CraneStatus
+                GetCranHightAsync();
                 GetBandStatusAsync();
                 Thread.Sleep(300);
             }
@@ -767,20 +770,14 @@ namespace D47_WPF_Kran
             {
                 JsonObjectKranStatus KranStatus = await response.Content.ReadAsAsync<JsonObjectKranStatus>();
 
-                //if(Kranstatus.Ablageplatz[i] belegt && Ablagepltz != belegt)
-                /*belgen diesen Ablageplatz 
-                 * */
+                 
+                double[] coords = new double[2];
+                coords = getCanvasCoord(KranStatus.X_Pos, KranStatus.Y_Pos);                            
+                kranarm.setKranPosition(coords[0], coords[1]);
+               // Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
 
-                /*if(Kranstatus.Ablageplatz[i] != belegt && Ablageplatz[i] == belegt
-                 * entleere (hard reset) diesen Ablageplatz
-                 */
-                //if(Kranstatus.Registerplatz == belegt && Registerplatz != belegt)
-                /*belgen diesen Registerplatz
-                 * */
-
-                /*if(Kranstatus.Registerplatz != belegt && Registerplatz == belegt
-                 * entleere (hard reset) Registerplatz
-                 */
+                //if(KranStatus.Beladen == kranarm.
+                
 
 
 
