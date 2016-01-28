@@ -108,6 +108,19 @@ namespace D47_WPF_Kran
             }
         }
 
+        public void setKisteToPusher(int pusher)
+        {
+            switch(pusher)
+            {
+                case 3: setKistenPosition(271.0, 186.0); setKisteHoehe(228.0); break;
+                case 2: setKistenPosition(351.0, 186.0); setKisteHoehe(228.0); break;
+                case 1: setKistenPosition(433.0, 186.0); setKisteHoehe(228.0); break;
+                default: break;
+            }
+        }
+
+
+        
         public void kisteToPos()
         {
             ThreadStart ts = new ThreadStart(moveKisteToPos);

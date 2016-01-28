@@ -13,12 +13,19 @@ namespace D47_WPF_Kran
         bool[] schieber = new bool[3];
         bool[] einlagerplatz = new bool[2];
         bool registerlager = false;
-        int werkstück_id = 0;
+        int werkstueckID = 0;
+        bool anfangssensor = false;
 
-        public int Werkstück_id
+        public bool Anfangssensor
         {
-            get { return werkstück_id; }
-            set { werkstück_id = value; }
+            get { return anfangssensor; }
+            set { anfangssensor = value; }
+        }
+
+        public int WerkstueckID
+        {
+            get { return werkstueckID; }
+            set { werkstueckID = value; }
         }
 
         public bool Registerlager

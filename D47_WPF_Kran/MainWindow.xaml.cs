@@ -336,10 +336,10 @@ namespace D47_WPF_Kran
         {
             this.Kran.isRunning = false;
 
-            GetBandStatusAsync();
+            //GetBandStatusAsync();
 
             Kisten k1 = new Kisten(this.Kran, this.AnsichtSeite, this.kisteStartX, this.kisteStartY, this.kisteStartZ, 3);
-            this.band.Active = k1;
+            k1.kisteToPos();
 
             //erstelleKiste();
 
@@ -402,6 +402,7 @@ namespace D47_WPF_Kran
                         if(i < 3)
                         {
                             this.band.BeroPuscher[i] = band.Schieber[i];
+
                         }
                     }
 
@@ -413,9 +414,6 @@ namespace D47_WPF_Kran
                     }
                         
                     this.band.BandAn = band.An;
-                    if (band.Werkstück_id != 0 && this.band.Active.KisteID == 0)
-                        this.band.Active.KisteID = band.Werkstück_id;
-
                     
 
                     Console.WriteLine("{0} {1} {2} {3} {4} {5} {6}", band.Ablageplatz[0], band.Ablageplatz[1], band.Ablageplatz[2], band.Ablageplatz[3], band.Einlagerplatz[0], band.Einlagerplatz[1]);
@@ -452,6 +450,7 @@ namespace D47_WPF_Kran
             {
                 GetCranPositionAsync();
                 //GetCranHightAsync();
+                GetBandStatusAsync();
                 Thread.Sleep(300);
             }
 
@@ -924,7 +923,8 @@ namespace D47_WPF_Kran
 
 
                 this.band.Active = this.band.KisteTurm;
-                this.band.Active.moveKistetoLager(this.band.Active.KisteID);
+                this.band.Active.KisteID = 5;
+                this.band.Active.kisteToPos();
             }
             else
             {

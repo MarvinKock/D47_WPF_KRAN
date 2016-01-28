@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 namespace D47_WPF_Kran
 {
     public delegate void moveKistePositionHandler(double x, double y);
+    public delegate void erstelleKisteHandler();
     public class Kiste
     {
         double xKoordinate;
@@ -38,25 +39,32 @@ namespace D47_WPF_Kran
 
         private void erstelleKiste()
         {
-
-            this.kiste = new Rectangle();
-            this.kiste.Fill = Brushes.Brown;
-
-            if (this.seitlicheKiste == false)
+            if (this.oberflaeche.Dispatcher.CheckAccess())
             {
-                this.kiste.Width = kiste.Height = 39.0;
+                this.kiste = new Rectangle();
+                this.kiste.Fill = Brushes.Brown;
+
+                if (this.seitlicheKiste == false)
+                {
+                    this.kiste.Width = kiste.Height = 39.0;
+                }
+                else
+                {
+                    this.kiste.Width = 39.0;
+                    this.kiste.Height = 13.0;
+                }
+
+                this.kiste.SetValue(Canvas.LeftProperty, this.xKoordinate);
+                this.kiste.SetValue(Canvas.TopProperty, this.yKoordinate);
+
+                this.oberflaeche.Children.Insert(12, this.kiste);
             }
             else
             {
-                this.kiste.Width = 39.0;
-                this.kiste.Height = 13.0;
+                erstelleKisteHandler handler =
+                         new erstelleKisteHandler(this.erstelleKiste);
+                this.oberflaeche.Dispatcher.BeginInvoke(handler);
             }
-
-            this.kiste.SetValue(Canvas.LeftProperty, this.xKoordinate);
-            this.kiste.SetValue(Canvas.TopProperty, this.yKoordinate);
-
-            this.oberflaeche.Children.Insert(12,this.kiste);
-            
         }
 
         public void setKistePosition(double x, double y)
@@ -114,25 +122,22 @@ namespace D47_WPF_Kran
         {
             double toX;
 
-            if (ID == 1)
+            if (ID == 1 || ID == 5)
             {
                 toX = 433.0; // 183.0;
             }
-            else if (ID == 2)
+            else if (ID == 2 || ID == 6)
             {
                 toX = 351.0; // 228.0;
             }
-            else if (ID == 3)
+            else if (ID == 3 ||  ID == 7)
             {
                 toX = 271.0; // 293.0;
             }
-            else
+            else 
             {
                 toX = 215.0; // 358.0;
             }
-
-            //Console.WriteLine("x-Position: {0}", toX);
-
             return toX;
         }
 
