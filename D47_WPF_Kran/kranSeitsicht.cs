@@ -11,11 +11,16 @@ using System.Windows.Shapes;
 namespace D47_WPF_Kran
 {
     public delegate void MoveKranarmSeitHandler(double z);
+    public delegate void ArrivedAtBottomHandler();
     public class kranSeitsicht
     {
         Seitenansicht seitSicht;
         double xKoordinate;
         double yKoordiante;
+
+        public event ArrivedAtBottomHandler fertig;
+
+
 
         //private int rahmenBreite = 560;
         //private int yRahmen = 100;
@@ -23,8 +28,11 @@ namespace D47_WPF_Kran
         private int maxHoehe = 10;
         private int minHoehe = 230;
         private int breiteArm = 10;
-        private int hoeheArm = 130;
+        private int hoeheArm = 150;
         private int yKoordinateAufhaengung = 85;
+        private bool movingkranarm = false;
+
+      
 
         private Line kranarm;
         private Line aufhaengung;
@@ -61,6 +69,12 @@ namespace D47_WPF_Kran
             this.seitSicht.Children.Add(this.aufhaengung);
         }
 
+        public double YKoordiante
+        {
+            get { return yKoordiante; }
+            set { yKoordiante = value; }
+        }
+
         public void setKranPosition(double x)
         {
             if (seitSicht.Dispatcher.CheckAccess())
@@ -82,6 +96,9 @@ namespace D47_WPF_Kran
             {
                 this.kranarm.Y1 = z;
                 this.kranarm.Y2 = this.kranarm.Y1 + this.hoeheArm;
+
+                this.yKoordiante = z;
+
             }
             else
             {
@@ -91,12 +108,17 @@ namespace D47_WPF_Kran
             }
         }
 
-        
+        public bool Movingkranarm
+        {
+            get { return movingkranarm; }
+            set { movingkranarm = value; }
+        }
 
         public void moveKranarmOben()
         {
-            while (this.yKoordiante >= this.maxHoehe) 
+            while (!checkKranarmOben()) 
             {
+                movingkranarm = true;
                 this.yKoordiante--;
                 this.setKranarmHoehe(this.yKoordiante);
                 Thread.Sleep(50);
@@ -106,29 +128,41 @@ namespace D47_WPF_Kran
 
         public void moveKranarmUnten()
         {
-            while((this.yKoordiante + this.hoeheArm) <= this.minHoehe)
+            while (!checkKranarmUnten())
             {
+                movingkranarm = true;
                 this.yKoordiante++;
                 this.setKranarmHoehe(this.yKoordiante);
                 Thread.Sleep(50);
+                
             }
         }
 
-        public void setKranarmOben()
+        public double setKranarmOben()
         {
             this.setKranarmHoehe(this.maxHoehe);
+
+            return this.yKoordiante;
         }
 
-        public void setKranarmUnten()
+        public double setKranarmUnten()
         {
             this.setKranarmHoehe(this.minHoehe);
+
+            return this.yKoordiante;
         }
 
         public bool checkKranarmUnten()
         {
             if ((this.yKoordiante + this.hoeheArm) == this.minHoehe)
             {
+                movekranarmObenTS();
+
+                if (this.fertig != null)
+                    this.fertig();
+
                 return true;
+                
             }
             return false;
         }
@@ -141,6 +175,20 @@ namespace D47_WPF_Kran
             Console.WriteLine("Test oben");
 
             return false;
+        }
+
+        public void movekranarmObenTS()
+        {
+            ThreadStart ts = new ThreadStart(this.moveKranarmOben);
+            Thread t = new Thread(ts);
+            t.Start();
+        }
+
+        public void movekranarmUntenTS()
+        {
+            ThreadStart ts = new ThreadStart(this.moveKranarmUnten);
+            Thread t = new Thread(ts);
+            t.Start();
         }
     }
 }

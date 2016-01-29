@@ -20,6 +20,8 @@ namespace D47_WPF_Kran
 {
 
     public delegate void removeKisteHandler(int Lager);
+
+    
     enum button
     {
         Rechts,
@@ -40,6 +42,7 @@ namespace D47_WPF_Kran
         private button buttonClick;
         bool? modeControlFlag = null;
         JsonObjectKranStatus kranSync = new JsonObjectKranStatus();
+        
 
         private List<Kisten> ListKisten = new List<Kisten>();
         private double kisteStartX = 523.0;
@@ -67,8 +70,8 @@ namespace D47_WPF_Kran
         {
             InitializeComponent();
 
-            for (int i = 1; i <= 4; i++)
-                this.NummerLagerplatz.Items.Add(i);
+            /*for (int i = 1; i <= 4; i++)
+                this.NummerLagerplatz.Items.Add(i);*/
 
             this.Kran.setSideView(this.AnsichtSeite);
 
@@ -78,9 +81,64 @@ namespace D47_WPF_Kran
             band = new Laufband();
 
             GetCranePositionOnce();
+
+            this.kranarm.kranSeite.fertig += this.ArrivedAtBottom;
             //GetCranHightAsync();
 
             //Console.WriteLine("{0}", ablageplatz[0]);
+        }
+
+       public void ArrivedAtBottom()
+        {         
+            Console.WriteLine("Event fired----------------------------------------------------------------------------------------------------------------------------");
+           if(kranarm.KisteKran == null)
+           {
+               if (kranarm.UeberLager == 7)
+               {
+                   Kisten kiste = new Kisten(this.Kran, this.AnsichtSeite, this.kranarm.XKoordinate, this.kranarm.YKoordinate, this.kranarm.ZKoordinate, 0);
+
+                   this.kranarm.KisteKran = kiste;
+               }
+               else if (kranarm.UeberLager >= 1 && kranarm.UeberLager <= 4)
+               {
+                   kranarm.KisteKran = band.KistenAblageplatz[kranarm.UeberLager - 1];
+                   band.LagerBelegt[kranarm.UeberLager - 1] = false; ;
+                   band.KistenAblageplatz[kranarm.UeberLager - 1] = null;
+                   Console.WriteLine("Event fired----------------------------------------------------------------------------------------------------------------------------Bandlager");
+               }
+               else if (kranarm.UeberLager == 5 || kranarm.UeberLager == 6)
+               {
+                   kranarm.KisteKran = band.KistenLager[kranarm.UeberLager - 5];
+                   band.ZwischenlagerBelegt[kranarm.UeberLager - 5] = false ;
+                   band.KistenLager[kranarm.UeberLager - 5] = null;
+                   Console.WriteLine("Event fired----------------------------------------------------------------------------------------------------------------------------LAGER");
+               }
+           }
+           else
+           {
+               if (kranarm.UeberLager == 7)
+               {
+                    removeKisteInDraufsicht(kranarm.UeberLager);
+                    removeKisteInSeitAnsicht(kranarm.UeberLager);
+               }
+               else if (kranarm.UeberLager >= 1 && kranarm.UeberLager <= 4)
+               {
+                   band.KistenAblageplatz[kranarm.UeberLager - 1] = kranarm.KisteKran;
+                   band.LagerBelegt[kranarm.UeberLager - 1] = true;
+                   band.KistenAblageplatz[kranarm.UeberLager - 1].setKisteHoehe(this.kisteStartZ);
+                   kranarm.KisteKran = null;
+                   Console.WriteLine("Event fired----------------------------------------------------------------------------------------------------------------------------Bandlager");
+               }
+               else if (kranarm.UeberLager == 5 || kranarm.UeberLager == 6)
+               {
+                   band.KistenLager[kranarm.UeberLager - 5] = kranarm.KisteKran;
+                   band.ZwischenlagerBelegt[kranarm.UeberLager - 5] = true;
+                   band.KistenLager[kranarm.UeberLager - 5].setKisteHoehe(this.kisteStartZ);
+                   kranarm.KisteKran = null;
+                   Console.WriteLine("Event fired----------------------------------------------------------------------------------------------------------------------------LAGER");
+               }
+           }
+
         }
 
         private void KranLinks_Click(object sender, RoutedEventArgs e)
@@ -98,7 +156,7 @@ namespace D47_WPF_Kran
 
             //    t.Start();
             //}
-            this.band.Active.kisteToPos();
+            //this.band.Active.kisteToPos();
            
         }
 
@@ -401,10 +459,27 @@ namespace D47_WPF_Kran
                             }
                             else
                             {
-                                this.band.Active.moveKistetoLager(this.band.Active.KisteID);
-                                this.band.KistenAblageplatz[i] = this.band.Active;
-                                this.band.LagerBelegt[i] = true;
-                                this.band.Active = null;
+                                if(this.band.Active == null)
+                                {
+                                    this.band.KisteTurm.KisteID = i + 1;
+                                    this.band.KisteTurm.kisteToPos();
+                                    this.band.LagerBelegt[i] = true;
+                                    this.band.KistenAblageplatz[i] = this.band.KisteTurm;
+                                }
+                                if( this.band.Active != null)
+                                {
+                                    this.band.Active.KisteID = i + 1;
+                                    Kisten kisteToLager = this.band.Active;
+                                    this.band.KistenAblageplatz[i] = kisteToLager;
+                                    this.band.LagerBelegt[i] = true;
+                                    this.band.Active = null
+                                    //Setzt Kiste in Lager no movement
+                                    /*this.band.Active.moveKistetoLager(this.band.Active.KisteID);
+                                    this.band.KistenAblageplatz[i] = this.band.Active;
+                                    this.band.LagerBelegt[i] = true;
+                                    this.band.Active = null;*/
+                                }
+                               /
                             }
                         }
                         if (i < 2)
@@ -421,9 +496,11 @@ namespace D47_WPF_Kran
                                 }
                                 else
                                 {
-                                    this.band.KistenAblageplatz[i] = this.kranarm.KisteKran;
+                                   /*this.band.KistenAblageplatz[i] = this.kranarm.KisteKran;
                                     this.kranarm.KisteKran = null;
-                                    this.band.ZwischenlagerBelegt[i] = true;
+                                    this.band.ZwischenlagerBelegt[i] = true;*/
+
+                                    Console.WriteLine("Troublemaker...................................");
                                 }
                                 
                                
@@ -432,7 +509,16 @@ namespace D47_WPF_Kran
                         }
                         if(i < 3)
                         {
-                            this.band.BeroPuscher[i] = band.Schieber[i];
+                            if(band.Schieber[i] == true)
+                            {
+                                if(this.init)
+                                {
+                                    this.band.BeroPuscher[i] = band.Schieber[i];
+                                    Kisten kisteToLager = this.erstelleKisteVorPuscher(i+1);
+                                    this.band.Active = kisteToLager;
+                                }
+                            }
+                            
 
                         }
                     }
@@ -449,11 +535,11 @@ namespace D47_WPF_Kran
                         this.band.Active = this.band.KisteTurm;
                         this.band.Active.moveLeftTillStop();
                     }
-                    if(band.WerkstueckID != 0 && this.band.Active.KisteID != band.WerkstueckID)
+                    /*if(band.WerkstueckID != 0 && this.band.Active.KisteID != band.WerkstueckID)
                     {
                         this.band.Active.KisteID = band.WerkstueckID;
                         this.band.Active.kisteToPos();
-                    }
+                    }*/
                         
                     this.band.BandAn = band.An;
                     this.init = false;
@@ -817,7 +903,7 @@ namespace D47_WPF_Kran
                 kranarm.setKranPosition(coords[0], coords[1]);
                //Console.WriteLine("{0}\t{1}", coords[0], coords[1]);
 
-                if(KranStatus.Oben)
+                if(KranStatus.Oben && !this.kranarm.armMoving())
                 {
                     this.kranarm.setKranarmOben();
                     vorherBeladen = false;
@@ -831,9 +917,9 @@ namespace D47_WPF_Kran
                {
 
                    //removeKisteInSeitAnsicht(KranUeberLager);
-                   removeKisteInDraufsicht(KranUeberLager);                  
+                   //removeKisteInDraufsicht(KranUeberLager);                  
                    //this.band.LagerBelegt[KranUeberLager - 2] = false ;
-                   this.kranarm.KisteKran = new Kisten(this.Kran, this.AnsichtSeite, 50.0,50.0,50.0,2);
+                   //this.kranarm.KisteKran = new Kisten(this.Kran, this.AnsichtSeite, 50.0,50.0,50.0,2);
                    //this.band.KistenAblageplatz[KranUeberLager - 2] = null;
 
 
@@ -846,35 +932,40 @@ namespace D47_WPF_Kran
                    //kranarm.KisteKran 
                }
 
-                if(KranStatus.Oben == false)
+                if(!this.kranarm.armMoving())
                 {
-                    kranarm.setKranarmUnten();
+                    if(!KranStatus.Oben)
+                    {
+                        kranarm.setKranarmUnten();
+                    }   
+                    else
+                    {
+                        kranarm.setKranarmOben();
+                    }
                 }
-                else
-                {
-                    kranarm.setKranarmOben();
-                }
+                       
 
                 //Console.WriteLine("HOehe:{0}", KranStatus.Oben);
                 Console.WriteLine("Beladen:{0}", KranStatus.Beladen);
+                Console.WriteLine("Hoehe: {0}",this.kranarm.ZKoordinate);
 
-                if(kranarm.KisteKran != null)
+                /*if(kranarm.KisteKran != null)
                 {
-                    kranarm.KisteKran.setKistenPosition(kranarm.XKoordinate - 12.0, kranarm.YKoordinate - 12.0);
+                    kranarm.KisteKran.setKistenPosition(kranarm.XKoordinate - 10.0, kranarm.YKoordinate - 10.0);
                     kranarm.KisteKran.setKisteHoehe(kranarm.ZKoordinate);
-                }
+                }*/
 
 
-               if(KranStatus.Beladen && !KranStatus.Oben && !vorherBeladen)
+              /* if(KranStatus.Beladen && !KranStatus.Oben && !vorherBeladen)
                {
                    this.kranarm.movekranarmOben();
                    vorherBeladen = true;
                }
-               if(KranStatus.Oben)
+               if(KranStatus.Oben && !this.kranarm.armMoving())
                {
                    this.kranarm.setKranarmOben();
                    vorherBeladen = false;
-               }
+               }*/
 
 
 
@@ -1008,7 +1099,7 @@ namespace D47_WPF_Kran
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/Band/SendoneCrate", true);
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Band/SendOneCrate", true);
 
             if (response.IsSuccessStatusCode)
             {
@@ -1019,7 +1110,7 @@ namespace D47_WPF_Kran
                 if(this.band.KisteTurm != null)
                 {
                     this.band.Active = this.band.KisteTurm;
-                    this.band.Active.KisteID = 3;
+                   // this.band.Active.KisteID = 3;
                     this.band.Active.kisteToPos();
                 }
                 
@@ -1044,6 +1135,8 @@ namespace D47_WPF_Kran
                             rec = this.band.KistenAblageplatz[Pos - 1].getRectangleDraufsicht();
                         else if (Pos == 7)
                             rec = this.kranarm.KisteKran.getRectangleDraufsicht();
+                        else if (Pos >= 5 && Pos <= 6)
+                            rec = this.band.KistenLager[Pos - 5].getRectangleDraufsicht();
                         else rec = null;
 
                        
@@ -1085,7 +1178,7 @@ namespace D47_WPF_Kran
                     if (Pos >= 1 && Pos <= 4)
                         rec = this.band.KistenAblageplatz[Pos - 1].getRectangleSeitsicht();
                     else if (Pos == 7)
-                        rec = this.kranarm.KisteKran.getRectangleDraufsicht();
+                        rec = this.kranarm.KisteKran.getRectangleSeitsicht();
                     else rec = null;
 
 

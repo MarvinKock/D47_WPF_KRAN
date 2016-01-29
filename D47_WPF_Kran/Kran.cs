@@ -16,15 +16,13 @@ namespace D47_WPF_Kran
         Seitenansicht seitsicht;
         double xKoordinate;
         double yKoordinate;
-
-
         double zKoordinate;
 
        
         int ueberLager;
 
         private kranDraufsicht kranDrauf;
-        private kranSeitsicht kranSeite;
+        public kranSeitsicht kranSeite;
         private bool inPosition;
 
         private Kisten kisteKran;
@@ -65,6 +63,11 @@ namespace D47_WPF_Kran
               set { zKoordinate = value; }
           }
 
+        public double getRealzKoordinate()
+          {
+              return kranSeite.YKoordiante;
+          }
+
         public Kran(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z)
         {
             this.draufsicht = drauf;
@@ -87,17 +90,23 @@ namespace D47_WPF_Kran
             if(this.kisteKran != null)
             {
                 this.kisteKran.setKistenPosition(x, y);
+                this.kisteKran.setKisteHoehe(kranSeite.YKoordiante + 149.0);
             }
+        }
+
+        public bool armMoving()
+        {
+            return kranSeite.Movingkranarm;
         }
 
         public void setKranarmOben()
         {
-            this.kranSeite.setKranarmOben();
+           this.zKoordinate =  this.kranSeite.setKranarmOben();
         }
 
         public void setKranarmUnten()
         {
-            this.kranSeite.setKranarmUnten();
+            this.zKoordinate = this.kranSeite.setKranarmUnten();
         }
 
         public void setKranHoehe(double z)
@@ -144,17 +153,12 @@ namespace D47_WPF_Kran
 
         public void movekranarmOben()
         {
-            ThreadStart ts = new ThreadStart(this.kranSeite.moveKranarmOben);
-            Thread t = new Thread(ts);
-            t.Start();
+            kranSeite.movekranarmObenTS();
         }
 
-        private void moveKranarmOben()
+        public void movekranarmUnten()
         {
-            ThreadStart ts = new ThreadStart(this.kranSeite.moveKranarmUnten);
-            Thread t = new Thread(ts);
-            t.Start();
-
+            kranSeite.movekranarmUntenTS();
         }
   
     }
