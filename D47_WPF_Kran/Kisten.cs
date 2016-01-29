@@ -22,6 +22,13 @@ namespace D47_WPF_Kran
         private Kiste seitKiste;
         private Kiste draufKiste;
         private int kisteID;
+        private bool bandAn;
+
+        public bool BandAn
+        {
+            get { return bandAn; }
+            set { bandAn = value; }
+        }
 
         public int KisteID
         {
@@ -60,6 +67,7 @@ namespace D47_WPF_Kran
             this.zKoordinate = z;
 
             erstelleKisten();
+            this.bandAn = false;
         }
 
         private void erstelleKisten()
@@ -105,11 +113,12 @@ namespace D47_WPF_Kran
 
         private void moveLeft()
         {
-            while(this.KisteID == 0)
+            while(this.kisteID == 0)
             {
                 this.xKoordinate--;
                 this.draufKiste.setKistePosition(this.xKoordinate, this.yKoordinate);
                 this.seitKiste.setKistePosition(this.xKoordinate, this.zKoordinate);
+                Thread.Sleep(50);
             }
         }
 
@@ -144,6 +153,7 @@ namespace D47_WPF_Kran
                 default: break;
             }
         }
+
 
         public void setKisteToPusher(int pusher)
         {

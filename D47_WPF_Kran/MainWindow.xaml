@@ -37,13 +37,12 @@
                 <Button Name="Kranarm_Down" PreviewMouseDown="Kranarm_Down_Click" PreviewMouseUp="KranarmStop_Click" Height="50">Kranarm \/</Button>
             </StackPanel>
             <Button Visibility="Hidden" Height="50"></Button>
-            <StackPanel Margin="0,0,0,0">
+            <!--<StackPanel Margin="0,0,0,0">
                 <Label>Kiste zu Lagerplatz:</Label>
                 <ComboBox Name="NummerLagerplatz" SelectionChanged="NummerLagerplatz_SelectionChanged"></ComboBox>
                 <Button Name="Stop" Click="Stop_Click">Stop</Button>
-            </StackPanel>
+            </StackPanel>-->
             <Button Visibility="Hidden" Height="20"></Button>
-            <RadioButton Name="KisteAnheben"  Click="KisteAnheben_Click">Kiste Anheben</RadioButton>
             <Button Height="40" Name="KisteZuLagerplatz" Click="KisteZuLagerplatz_Click">Kiste zu Lager</Button>
         </StackPanel>
     </DockPanel>
