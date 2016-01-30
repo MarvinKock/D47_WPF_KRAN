@@ -20,6 +20,8 @@ namespace D47_WPF_Kran
 
         public event ArrivedAtBottomHandler fertig;
 
+        Kran kranarmKlasse;
+
 
 
         //private int rahmenBreite = 560;
@@ -37,13 +39,15 @@ namespace D47_WPF_Kran
         private Line kranarm;
         private Line aufhaengung;
 
-        public kranSeitsicht(Seitenansicht seit, double x, double y)
+        public kranSeitsicht(Seitenansicht seit, double x, double y, Kran arm)
         {
             this.seitSicht = seit;
             this.xKoordinate = x;
             this.yKoordiante = y;
 
             erstelleKran();
+
+            this.kranarmKlasse = arm;
         }
 
         private void erstelleKran()
@@ -81,6 +85,7 @@ namespace D47_WPF_Kran
             {
                 this.kranarm.X1 = this.kranarm.X2 = x + 15;
                 this.aufhaengung.X1 = this.aufhaengung.X2 = x  + 15;
+                this.xKoordinate = this.kranarm.X1;
             }
             else
             {
@@ -96,9 +101,14 @@ namespace D47_WPF_Kran
             {
                 this.kranarm.Y1 = z;
                 this.kranarm.Y2 = this.kranarm.Y1 + this.hoeheArm;
+                this.yKoordiante = this.kranarm.Y1;
 
                 this.yKoordiante = z;
-
+                if (this.kranarmKlasse.kisteKran != null)
+                {
+                    this.kranarmKlasse.kisteKran.setKistenPosition(this.xKoordinate - 19, this.kranarmKlasse.YKoordinate); //x
+                    this.kranarmKlasse.kisteKran.setKisteHoehe(this.yKoordiante + 149.0); 
+                }
             }
             else
             {
@@ -172,7 +182,7 @@ namespace D47_WPF_Kran
             if (this.yKoordiante == this.maxHoehe)
                 return true;
 
-            Console.WriteLine("Test oben");
+            //Console.WriteLine("Test oben");
 
             return false;
         }

@@ -33,103 +33,65 @@ namespace D47_WPF_Kran
             get { return registerlager; }
             set { registerlager = value; }
         }
+
         public bool An
         {
             get { return an; }
             set { an = value; }
         }
        
-
-       
-       
-
         public bool[] Schieber
         {
             get { return schieber; }
             set { schieber = value; }
         }
         
-
         public bool[] Ablageplatz
         {
             get { return ablageplatz; }
             set { ablageplatz = value; }
-        }
-       
+        }       
 
         public bool[] Einlagerplatz
         {
             get { return einlagerplatz; }
             set { einlagerplatz = value; }
-        }
-        
-
-      
+        }    
     }
 
     class JsonObjectKranStatus
     {
-        private KranDarstellung KranPic;
+        private double x_Pos;
+        private double y_Pos;
+        private bool oben;
+        private bool beladen;
+        public double X_Pos
+        {
+            get { return x_Pos; }
+            set { x_Pos = value; }
+        }
 
-           private double x_Pos;
-            public double X_Pos
-            {
-              get { return x_Pos; }
-              set { x_Pos = value; }
-            }
-            private double y_Pos;
+        public double Y_Pos
+        {
+            get { return y_Pos; }
+            set { y_Pos = value; }
+        }       
 
-            public double Y_Pos
-            {
-                get { return y_Pos; }
-                set { y_Pos = value; }
-            }
-            //private int x_Direction;
+        public bool Oben
+        {
+            get { return oben; }
+            set { oben = value; }
+        }
 
-            //public int X_Direction
-            //{
-            //    get { return x_Direction; }
-            //    set { x_Direction = value; }
-            //}
-            //private int y_Direction;
-
-            //public int Y_Direction
-            //{
-            //    get { return y_Direction; }
-            //    set { y_Direction = value; }
-            //}
-            private bool oben;
-
-            public bool Oben
-            {
-                get { return oben; }
-                set { oben = value; }
-            }
-            private bool beladen;
-
-            public bool Beladen
-            {
-                get { return beladen; }
-                set { beladen = value; }
-            }
+        public bool Beladen
+        {
+            get { return beladen; }
+            set { beladen = value; }
+        }
             
 
         public JsonObjectKranStatus()
         {
-           
-        }
-	
-        public void setCran(KranDarstellung kran)
-        {
-            this.KranPic = kran;
-        }
-        public void getPropertiesOfCrane()
-        {
-        }
-
-        public JsonObjectKranStatus returnSelf()
-        {
-            return this;
         }
     }
 
@@ -164,7 +126,6 @@ namespace D47_WPF_Kran
           set { x_pos = value; }
         }
         
-
         public double Y_pos
         {
           get { return y_pos; }
@@ -186,7 +147,6 @@ namespace D47_WPF_Kran
         bool y_max_pos;
         bool greifer_oben;
         bool greifer_unten;
-
 
         public bool X_min_pos
         {
@@ -250,7 +210,5 @@ namespace D47_WPF_Kran
 			get { return position; }
 			set { position = value;  }
 		}
-	}
-
-    
+	}    
 }

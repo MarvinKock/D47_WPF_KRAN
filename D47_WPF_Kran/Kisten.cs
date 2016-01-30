@@ -18,17 +18,9 @@ namespace D47_WPF_Kran
 
         private double zKisteUnten = 228.0;
         private double zKisteOben = 138.0;
-
         private Kiste seitKiste;
         private Kiste draufKiste;
         private int kisteID;
-        private bool bandAn;
-
-        public bool BandAn
-        {
-            get { return bandAn; }
-            set { bandAn = value; }
-        }
 
         public int KisteID
         {
@@ -36,26 +28,6 @@ namespace D47_WPF_Kran
             set { kisteID = value; }
         }
 
-        private bool angehoben = false;
-
-
-        public Rectangle getRectangleDraufsicht()
-        {
-
-            Rectangle rec = draufKiste.getRectangle();
-
-
-            return rec;
-        }
-
-        public Rectangle getRectangleSeitsicht()
-        {
-
-            Rectangle rec = seitKiste.getRectangle();
-
-
-            return rec;
-        }
         public Kisten(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z, int kisteID)
         {
             this.seitSicht = seit;
@@ -67,7 +39,6 @@ namespace D47_WPF_Kran
             this.zKoordinate = z;
 
             erstelleKisten();
-            this.bandAn = false;
         }
 
         private void erstelleKisten()
@@ -76,6 +47,17 @@ namespace D47_WPF_Kran
             this.draufKiste = new Kiste(this.draufSicht, this.xKoordinate, this.yKoordinate, false);
         }
 
+        public Rectangle getRectangleDraufsicht()
+        {
+            Rectangle rec = draufKiste.getRectangle();
+            return rec;
+        }
+
+        public Rectangle getRectangleSeitsicht()
+        {
+            Rectangle rec = seitKiste.getRectangle();
+            return rec;
+        }
 
         public void setKistenPosition(double x, double y)
         {
@@ -122,24 +104,6 @@ namespace D47_WPF_Kran
             }
         }
 
-        public void kisteAnheben()
-        {
-            this.angehoben = true;
-        }
-
-        public bool getAngehoben()
-        {
-            if (this.angehoben == true)
-                return true;
-            else
-                return false;
-        }
-
-        public void kisteLoslassen()
-        {
-            this.angehoben = false;
-        }
-
         public void moveKistetoLager(int Lager)
         {
             switch(Lager)
@@ -154,7 +118,6 @@ namespace D47_WPF_Kran
             }
         }
 
-
         public void setKisteToPusher(int pusher)
         {
             switch(pusher)
@@ -165,9 +128,7 @@ namespace D47_WPF_Kran
                 default: break;
             }
         }
-
-
-        
+     
         public void kisteToPos()
         {
             ThreadStart ts = new ThreadStart(moveKisteToPos);
@@ -210,13 +171,6 @@ namespace D47_WPF_Kran
             }
         }
 
-
-       /*  erstelle_Lager(211.0, 184.0, 45, 45); //
-		  erstelle_Lager(267.0, 229.0,  55, 45);
-		  erstelle_Lager(347.0, 229.0,  55, 45);
-		  erstelle_Lager(429.0, 229.0,  55, 45);
-		  erstelle_Lager(156.0, 50.0,  45, 45);
-		  erstelle_Lager(211.0, 50.0,  45, 45);*/
         public double getXfromID()
         {
             return this.draufKiste.getXfromID(this.kisteID);
@@ -225,57 +179,6 @@ namespace D47_WPF_Kran
         public double getYfromID()
         {
             return this.draufKiste.getYfromID(this.kisteID);
-        }
-
-        //public int getKistenID()
-        //{
-        //    return this.kisteID;
-        //}
-
-        //public void setKistenPosition(int x, int y, int z)
-        //{
-        //    this.seitAnsicht.setPosition(x, y);
-        //    this.draufSicht.setPosition(x, z);
-        //}
-
-        //public void moveKistenXPositiv()
-        //{
-        //    seitAnsicht.bewegungXrichtungPositiv();
-        //    draufSicht.bewegungXrichtungPositiv();
-        //    this.xKoordinate = draufSicht.xKoordinate;
-        //}
-
-        //public void moveKistenXNegativ()
-        //{
-        //    seitAnsicht.bewegungXrichtungNegativ();
-        //    draufSicht.bewegungXrichtungNegativ();
-        //    this.xKoordinate = draufSicht.xKoordinate;
-        //}
-
-        //public void moveKistenYPositiv()
-        //{
-        //    draufSicht.bewegungYrichtungPositiv();
-        //    this.yKoordinate = draufSicht.yKoordinate;
-        //}
-
-        //public void moveKistenYNegativ()
-        //{
-        //    draufSicht.bewegungYrichtungNegativ();
-        //    this.yKoordinate = draufSicht.yKoordinate;
-        //}
-
-        //public void moveKistenOben()
-        //{
-        //    seitAnsicht.bewegungYrichtungPositiv();
-        //    this.zKoordinate = seitAnsicht.yKoordinate;
-        //}
-
-        //public void moveKistenUnten()
-        //{
-        //    seitAnsicht.bewegungYrichtungNegativ();
-        //    this.zKoordinate = seitAnsicht.yKoordinate;
-        //}
-
-        
+        }     
     }
 }

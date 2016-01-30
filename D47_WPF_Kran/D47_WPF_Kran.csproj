@@ -68,7 +68,6 @@
     <Compile Include="JsonObject.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="Kisten.cs" />
-    <Compile Include="Kranarm.cs" />
     <Compile Include="kranDraufsicht.cs" />
     <Compile Include="kranSeitsicht.cs" />
     <Compile Include="Laufband.cs" />

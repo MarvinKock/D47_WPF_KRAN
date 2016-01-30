@@ -54,28 +54,15 @@ namespace D47_WPF_Kran
         private int hoeheRahmen = 150;
         private int breiteRahmen = 560;
 
-        private double xKiste = 455.0;
-        private double yKiste = 228.0;
-
-        private int startX = 100;
-
-        //public Kranarm kranarmPic;
 
         public Seitenansicht()
         {
             CanvasInit();
-            //KranInit();
             RahmenInit(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen, this.yRahmen);
-           // RahmenInit(this.xRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen + this.hoeheRahmen, this.yRahmen + this.hoeheRahmen);
             RahmenInit(this.xRahmen, this.xRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
             RahmenInit(this.xRahmen + this.breiteRahmen, this.xRahmen + this.breiteRahmen, this.yRahmen - 6, this.yRahmen + this.hoeheRahmen + 6);
-            //laufband
             
-            erstelle_Laufband();
-            //erstelle_kiste();
-            //kiste
-            //lager
-              
+            erstelle_Laufband();            
         }
 
         private void CanvasInit()
@@ -97,36 +84,6 @@ namespace D47_WPF_Kran
             linie.StrokeThickness = 12;
             this.Children.Add(linie);
         }
-
-        //private void KranInit()
-        //{
-        //    Line arm = new Line();
-        //    this.Children.Add(arm);
-        //    Line aufhaengung = new Line();
-        //    this.Children.Add(aufhaengung);
-        //    this.kranarmPic = new Kranarm(this.breiteRahmen, 10, 230, 10, 130, this.startX, 70, arm, aufhaengung);
-        //}
-
-        //public Kiste letzteKiste;
-        //public void erstelleKiste(double x, double y)
-        //{
-        //    Rectangle kiste = new Rectangle();
-        //    this.Children.Add(kiste);
-
-        //    Kiste seitAnsicht = new Kiste(x, y, kiste, true);
-
-        //    this.letzteKiste = seitAnsicht;
-        //}
-
-        //public void kiste_xNegativ()
-        //{
-        //    this.seitKiste.bewegungXrichtungNegativ();
-        //}
-
-        //public void kiste_xPositiv()
-        //{
-        //    this.seitKiste.bewegungXrichtungPositiv();
-        //}
 
         public void erstelle_Laufband()
         {
@@ -169,61 +126,5 @@ namespace D47_WPF_Kran
             lager.StrokeThickness = 1;
             this.Children.Add(lager);
         }
-
-        //public void moveKranarmUnten(List<Kisten> kisten)
-        //{
-        //    if (this.Dispatcher.CheckAccess())
-        //    {
-        //        //if (this.seitKiste.testKisteAngehoben())
-        //        //{
-        //        //    this.seitKiste.bewegungYrichtungNegativ();
-        //        //}
-        //        this.kranarmPic.moveArmUnten();
-        //        zeichnerArm();
-        //    }
-        //    else if (this.kranarmPic.testArmUnten() == false)
-        //    {
-        //        MoveKranarmHandler handler =
-        //                 new MoveKranarmHandler(this.moveKranarmUnten);   // TryMoveBall
-        //        this.Dispatcher.BeginInvoke(handler);
-        //    }
-        //}
-
-        
-        
-
-        //public void moveKranarmHoch(List<Kisten> kisten)
-        //{
-        //    for (int i = 0; i < kisten.Count; i++)
-        //    {
-        //        if (kisten[i].getAngehoben())
-        //            break;
-        //    }   
-        //    Console.WriteLine("<moveKranarmHoch");
-        //    if (this.Dispatcher.CheckAccess())
-        //    {
-        //        //if(this.seitKiste.testKisteAngehoben())
-        //        //{
-        //        //    this.seitKiste.bewegungYrichtungNegativ();
-        //        //}
-        //        Console.WriteLine("<<Dispatcher rein");
-        //        this.kranarmPic.moveArmOben();
-        //        zeichnerArm();
-        //    }
-        //    else if (this.kranarmPic.testArmOben() == false)
-        //    {
-        //        Console.WriteLine("<<<Getestet");
-        //        MoveKranarmHandler handler =
-        //                 new MoveKranarmHandler(this.moveKranarmHoch);   // TryMoveBall
-        //        this.Dispatcher.BeginInvoke(handler);
-        //    }
-        //    Console.WriteLine("<<<<Nach testen");
-        //}
-
-        //private void zeichnerArm()
-        //{
-        //    this.kranarmPic.kranarm.Y1 = this.kranarmPic.actY;
-        //    this.kranarmPic.kranarm.Y2 = this.kranarmPic.actY + this.kranarmPic.hoeheArm;
-        //}
     }
 }

@@ -18,22 +18,18 @@ namespace D47_WPF_Kran
         double yKoordinate;
         
         private Rectangle kiste;
-
         private bool seitlicheKiste;
-        private bool angehoben;
         private Canvas oberflaeche;
-
         private double zKisteUnten = 228.0;
         private double zKisteOben = 138.0;
-
 
         public Rectangle getRectangle()
         {
             return kiste;
         }
+       
         public Kiste(Canvas flaeche, double x, double y, bool seitDarstellung)
         {
-            this.angehoben = false;
             this.seitlicheKiste = seitDarstellung;
             this.xKoordinate = x;
             this.yKoordinate = y;
@@ -84,8 +80,6 @@ namespace D47_WPF_Kran
                 moveKistePositionHandler handler =
                          new moveKistePositionHandler(this.setKistePosition);
                 this.oberflaeche.Dispatcher.BeginInvoke(handler, x, y);
-            
-            
             }
         }
 
@@ -98,30 +92,6 @@ namespace D47_WPF_Kran
         {
             this.setKistePosition(this.xKoordinate, zKisteUnten);
         }
-
-        //public void bewegungXrichtungPositiv()
-        //{
-        //    this.xKoordinate++;
-        //    this.kiste.SetValue(Canvas.LeftProperty, this.xKoordinate);
-        //}
-
-        //public void bewegungXrichtungNegativ()
-        //{
-        //    this.xKoordinate--;
-        //    this.kiste.SetValue(Canvas.LeftProperty, this.xKoordinate);
-        //}
-
-        //public void bewegungYrichtungPositiv()
-        //{
-        //    this.yKoordinate++;
-        //    this.kiste.SetValue(Canvas.TopProperty, this.yKoordinate);
-        //}
-
-        //public void bewegungYrichtungNegativ()
-        //{
-        //    this.yKoordinate--;
-        //    this.kiste.SetValue(Canvas.TopProperty, this.yKoordinate);
-        //}
 
         public double getXfromID(int ID)
         {
@@ -143,6 +113,7 @@ namespace D47_WPF_Kran
             {
                 toX = 215.0; // 358.0;
             }
+
             return toX;
         }
 
@@ -167,22 +138,7 @@ namespace D47_WPF_Kran
                 toY = 186.0; // 168.0;
             }
 
-            //Console.WriteLine("y-Position: {0}", toY);
-
             return toY;
-        }
-
-        public void kisteAufnhemen()
-        {
-            this.angehoben = true;
-        }
-
-        public bool testKisteAngehoben()
-        {
-            if (this.angehoben == false)
-                return false;
-            else
-                return true;
         }
     }
 }
