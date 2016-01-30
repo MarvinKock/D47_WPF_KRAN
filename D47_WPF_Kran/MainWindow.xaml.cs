@@ -75,7 +75,8 @@ namespace D47_WPF_Kran
 
             this.Kran.setSideView(this.AnsichtSeite);
 
-            this.client.BaseAddress = new Uri("http://localhost:53161/");
+            this.client.BaseAddress = new Uri("http://10.8.0.135:53161/");
+            //this.client.BaseAddress = new Uri("http://localhost:53161/");
 
             kranarm = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
             band = new Laufband();
@@ -467,7 +468,7 @@ namespace D47_WPF_Kran
                     for(int i = 0; i < 4; i++)
                     {
                         
-                        if(band.Ablageplatz[i] == true && this.band.LagerBelegt[i] == false)
+                        if(band.Ablageplatz[i] == true && this.band.LagerBelegt[i] == false && !this.kranarm.armMoving())
                         {
                             if(init)
                             {
@@ -479,10 +480,15 @@ namespace D47_WPF_Kran
                             {
                                 if(this.band.Active == null)
                                 {
+
                                     this.band.KisteTurm.KisteID = i + 1;
                                     this.band.KisteTurm.kisteToPos();
                                     this.band.LagerBelegt[i] = true;
                                     this.band.KistenAblageplatz[i] = this.band.KisteTurm;
+                                    this.band.KisteTurm = null;
+                                    this.band.TurmBelegt = false;
+
+                                    Console.WriteLine("Läuft bei uns --------------------------------------------------------------------------------------------------------------");
                                 }
                                 else
                                 {
@@ -541,17 +547,57 @@ namespace D47_WPF_Kran
                         }
                     }
 
-                    this.band.TurmBelegt = band.Registerlager;
-                    if(this.band.TurmBelegt)
+
+                    if (band.Registerlager && !this.band.TurmBelegt)
                     {
+                        this.band.TurmBelegt = band.Registerlager;
                         Kisten kistenTurm = erstelleKisteInRegiter(0);
                         this.band.KisteTurm = kistenTurm;
+
+                       // Console.WriteLine("Läuft bei uns --------------------------------------------------------------------------------------------------------------");
                     }
 
-                    if(band.Anfangssensor)
+                    if(band.Schieber[0] == true  && this.band.Active == null)
                     {
-                        this.band.Active = this.band.KisteTurm;
-                        this.band.Active.moveLeftTillStop();
+                        if(band.Ablageplatz[0] == true && this.band.LagerBelegt[0] == true && !band.An)
+                        {
+                            this.band.KisteTurm.KisteID =  1;
+                            this.band.Active = this.band.KisteTurm;
+                            this.band.TurmBelegt = false;
+                            this.band.KisteTurm = null;
+                            this.band.Active.setKisteToPusher(1);
+                        }
+
+                        if (band.Ablageplatz[0] == true && this.band.LagerBelegt[0] == false && band.WerkstueckID == 1)
+                        {
+                            this.band.KisteTurm.KisteID = 1;
+                            this.band.Active = this.band.KisteTurm;
+                            this.band.TurmBelegt = false;
+                            this.band.KisteTurm = null;
+                            this.band.Active.moveKisteToPos();
+                        }
+                        
+                        if(band.WerkstueckID != 1)
+                        {
+                            this.band.KisteTurm.KisteID = band.WerkstueckID;
+                            this.band.KisteTurm.kisteToPos();
+                            this.band.Active = this.band.KisteTurm;
+                            this.band.TurmBelegt = false;
+                            this.band.KisteTurm = null;
+                        }
+
+                        
+                        
+
+                        if (band.Registerlager )
+                        {
+                            Kisten kistenTurm = erstelleKisteInRegiter(0);
+                            this.band.KisteTurm = kistenTurm;
+                        }
+
+                        Console.WriteLine("Läuft bei uns --------------------------------------------------------------------------------------------------------------");
+                        //this.band.Active.moveLeftTillStop();
+                       
                     }
                     /*if(band.WerkstueckID != 0 && this.band.Active.KisteID != band.WerkstueckID)
                     {
@@ -1127,9 +1173,9 @@ namespace D47_WPF_Kran
 
                 if (this.band.KisteTurm != null)
                 {
-                    this.band.Active = this.band.KisteTurm;
+                    //this.band.Active = this.band.KisteTurm;
                     // this.band.Active.KisteID = 3;
-                    this.band.Active.kisteToPos();
+                    //this.band.Active.kisteToPos();
                 }
 
             }
