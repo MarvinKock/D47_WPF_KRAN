@@ -27,6 +27,9 @@ namespace D47_WPF_Kran
         private Line linkeStrebe;
         private Line rechteStrebe;
 
+
+        
+
         public kranDraufsicht(KranDarstellung drauf, double x, double y)
         {
             this.draufSicht = drauf;

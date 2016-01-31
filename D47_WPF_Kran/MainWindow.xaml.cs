@@ -146,7 +146,7 @@ namespace D47_WPF_Kran
 
         private void Kranarm_Down_Click(object sender, RoutedEventArgs e)
         {
-            if (kranarm.InPosition)
+            if (kranarm.InPosition && kranarm.armMoving() == false)
             {
                 PostCraneMoveBottom();
                 
@@ -301,7 +301,8 @@ namespace D47_WPF_Kran
 
         private void KisteZuLagerplatz_Click(object sender, RoutedEventArgs e)
         {
-            PostMoveKisteToPos();
+            if (!this.Kran.BewegteKiste)
+                PostMoveKisteToPos();
         }
 
         private void MoveToPosClick(object sender, RoutedEventArgs e)

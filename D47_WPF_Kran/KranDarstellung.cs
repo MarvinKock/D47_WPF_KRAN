@@ -60,6 +60,14 @@ namespace D47_WPF_Kran
         public bool isRunning = false;
         private Seitenansicht sideView;
 
+        private bool bewegteKiste = false;
+
+        public bool BewegteKiste
+        {
+            get { return bewegteKiste; }
+            set { bewegteKiste = value; }
+        }
+
 
         public void setSideView(Seitenansicht view)
         {

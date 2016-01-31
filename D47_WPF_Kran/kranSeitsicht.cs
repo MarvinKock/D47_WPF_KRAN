@@ -185,10 +185,6 @@ namespace D47_WPF_Kran
 			  return true;
 
 		  }
-                
-
-            //Console.WriteLine("Test oben");
-
             return false;
         }
 

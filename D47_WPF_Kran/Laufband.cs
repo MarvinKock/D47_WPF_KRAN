@@ -17,7 +17,7 @@ namespace D47_WPF_Kran
         private bool bandBelegt;
         private bool bandAn;
         private bool[] beroPuscher = new bool[3];
-
+       
         private Kisten active;
         private Kisten[] kistenAblageplatz = new Kisten[4];
         private Kisten[] kistenLager = new Kisten[2];

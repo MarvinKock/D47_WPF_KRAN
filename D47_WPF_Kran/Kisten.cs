@@ -138,6 +138,7 @@ namespace D47_WPF_Kran
 
         public void moveKisteToPos()
         {
+            this.draufSicht.BewegteKiste = true;
             double zielX = this.getXfromID();
             double zielY = this.getYfromID();
             Console.WriteLine("zielX: {0}, zielY: {1}", zielX, zielY);
@@ -169,6 +170,7 @@ namespace D47_WPF_Kran
                 //Console.WriteLine("{0} ... {1} ", kiste.yKoordinate, kiste.getYfromPos(pos));
                 Thread.Sleep(30);
             }
+            this.draufSicht.BewegteKiste = false;
         }
 
         public double getXfromID()
