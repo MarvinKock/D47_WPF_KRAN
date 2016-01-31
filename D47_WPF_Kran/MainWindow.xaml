@@ -2,25 +2,26 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:D47_WPF_Kran"
-        Title="MainWindow" Height="680" Width="720" >
+        Title="MainWindow" Height="680" Width="735" >
 
     <DockPanel LastChildFill="True">
 
         <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
             <local:KranDarstellung x:Name="Kran" ></local:KranDarstellung>
             <StackPanel Orientation="Horizontal">
-				<Button  Height="20" Name="Lager1" Click="MoveToPosClick">Lager1</Button>
-				<Button  Height="20" Name="Lager2" Click="MoveToPosClick">Lager2</Button>
-				<Button  Height="20" Name="Bandlager4" Click="MoveToPosClick">Bandlager4</Button>
-				<Button  Height="20" Name="Bandlager3" Click="MoveToPosClick">Bandlager3</Button>
-				<Button  Height="20" Name="Bandlager2" Click="MoveToPosClick">Bandlager2</Button>
-				<Button  Height="20" Name="Bandlager1" Click="MoveToPosClick">Bandlager1</Button>
-				<Button  Height="20" Name="Register" Click="MoveToPosClick">Register</Button>
+				<Button  Height="20" Name="Lager1" Click="MoveToPosClick" Margin="1,2,1,2">Lager1</Button>
+				<Button  Height="20" Name="Lager2" Click="MoveToPosClick" Margin="1,2,1,2">Lager2</Button>
+				<Button  Height="20" Name="Bandlager4" Click="MoveToPosClick" Margin="1,2,1,2">Bandlager4</Button>
+				<Button  Height="20" Name="Bandlager3" Click="MoveToPosClick" Margin="1,2,1,2">Bandlager3</Button>
+				<Button  Height="20" Name="Bandlager2" Click="MoveToPosClick" Margin="1,2,1,2">Bandlager2</Button>
+				<Button  Height="20" Name="Bandlager1" Click="MoveToPosClick" Margin="1,2,1,2">Bandlager1</Button>
+				<Button  Height="20" Name="Register" Click="MoveToPosClick" Margin="1,2,1,2">Register</Button>
+				<TextBlock Name="Status" Width="180"  Margin="10,2,1,2" TextAlignment="Center">Init</TextBlock>
                 
 			</StackPanel>
             <local:Seitenansicht x:Name="AnsichtSeite" ></local:Seitenansicht>
         </StackPanel>
-        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Right" Grid.Row="500" Orientation="Vertical" Margin="0,15,0,0">
+		<StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Grid.Row="500" Orientation="Vertical" Margin="7,15,0,0" >
             <Button Name="KranTop" PreviewMouseDown="KranTop_Click" PreviewMouseUp="KranStop_Click" Height="50" Width="100">/\</Button>
             <StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal">
                 <Button Name="KranLinks" PreviewMouseDown="KranLinks_Click" PreviewMouseUp="KranStop_Click" Height="50" Width="50">&lt;--</Button>
@@ -34,15 +35,48 @@
             <Button Visibility="Hidden" Height="50"></Button>
             <StackPanel Margin="0,0,0,0">
                 <Button Name="Kranarm_Down" PreviewMouseDown="Kranarm_Down_Click" PreviewMouseUp="KranarmStop_Click" Height="50">Kranarm \/</Button>
-            </StackPanel>
-            <Button Visibility="Hidden" Height="50"></Button>
-            <!--<StackPanel Margin="0,0,0,0">
+			<Button Height="40" Name="KisteZuLagerplatz" Click="KisteZuLagerplatz_Click" Margin="0,10,0,0">Kiste zu Lager</Button>
+			</StackPanel>
+            <Button Visibility="Hidden" Height="30"></Button>
+			<StackPanel >
+			<StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal" Margin="0,0,0,3">
+				<TextBlock Width="70">Position</TextBlock>
+				<TextBlock Width="35">Belegt</TextBlock>
+			</StackPanel>
+			<StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal">
+				<TextBlock Width="70">BandPlatz 1</TextBlock>
+				<TextBlock Width="35" TextAlignment="Center" Name="BP1">???</TextBlock>
+			</StackPanel>
+			<StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal">
+				<TextBlock Width="70">BandPlatz 2</TextBlock>
+					<TextBlock Width="35" TextAlignment="Center"  Name="BP2">???</TextBlock>
+			</StackPanel>
+			<StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal">
+				<TextBlock Width="70">BandPlatz 3</TextBlock>
+					<TextBlock Width="35" TextAlignment="Center"  Name="BP3">???</TextBlock>
+			</StackPanel>
+			<StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal">
+				<TextBlock Width="70">BandPlatz 4</TextBlock>
+					<TextBlock Width="35" TextAlignment="Center"  Name="BP4">???</TextBlock>
+			</StackPanel>
+			<StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal" Margin="0,5,0,0">
+				<TextBlock Width="70">LagerPlatz 1</TextBlock>
+					<TextBlock Width="35" TextAlignment="Center" Name="LP1">???</TextBlock>
+			</StackPanel>
+			<StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal">
+				<TextBlock Width="70">LagerPlatz 2</TextBlock>
+					<TextBlock Width="35" TextAlignment="Center" Name="LP2">???</TextBlock>
+			</StackPanel>
+			</StackPanel>
+
+
+			<!--<StackPanel Margin="0,0,0,0">
                 <Label>Kiste zu Lagerplatz:</Label>
                 <ComboBox Name="NummerLagerplatz" SelectionChanged="NummerLagerplatz_SelectionChanged"></ComboBox>
                 <Button Name="Stop" Click="Stop_Click">Stop</Button>
             </StackPanel>-->
-            <Button Visibility="Hidden" Height="20"></Button>
-            <Button Height="40" Name="KisteZuLagerplatz" Click="KisteZuLagerplatz_Click">Kiste zu Lager</Button>
+
+           
         </StackPanel>
     </DockPanel>
 

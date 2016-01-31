@@ -180,7 +180,12 @@ namespace D47_WPF_Kran
         public bool checkKranarmOben()
         {
             if (this.yKoordiante == this.maxHoehe)
-                return true;
+		  {
+			  movingkranarm = false;
+			  return true;
+
+		  }
+                
 
             //Console.WriteLine("Test oben");
 

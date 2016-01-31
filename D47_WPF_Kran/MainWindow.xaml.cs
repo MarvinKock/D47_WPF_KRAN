@@ -20,6 +20,7 @@ namespace D47_WPF_Kran
 {
 
     public delegate void removeKisteHandler(int Lager);
+	public delegate void UiUpdateHandler();
     
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
@@ -63,6 +64,7 @@ namespace D47_WPF_Kran
             GetCranePositionOnce();
 
             this.kranarm.kranSeite.fertig += this.ArrivedAtBottom;
+
             //GetCranHightAsync();
 
             //Console.WriteLine("{0}", ablageplatz[0]);
@@ -147,7 +149,7 @@ namespace D47_WPF_Kran
             if (kranarm.InPosition)
             {
                 PostCraneMoveBottom();
-                this.kranarm.movekranarmUnten();
+                
             }
         }
 
@@ -228,7 +230,8 @@ namespace D47_WPF_Kran
             {
                 GetCraneStatus().Wait();
                 GetBandStatusAsync().Wait();
-                Thread.Sleep(300);
+			 UpdatingUiElements();
+                Thread.Sleep(250);
             }
         }
 
@@ -303,34 +306,37 @@ namespace D47_WPF_Kran
 
         private void MoveToPosClick(object sender, RoutedEventArgs e)
         {
-            if (sender == Lager1)
-            {
-                MoveToPos(5);
-            }
-            if (sender == Lager2)
-            {
-                MoveToPos(6);
-            }
-            if (sender == Bandlager1)
-            {
-                MoveToPos(1);
-            }
-            if (sender == Bandlager2)
-            {
-                MoveToPos(2);
-            }
-            if (sender == Bandlager3)
-            {
-                MoveToPos(3);
-            }
-            if (sender == Bandlager4)
-            {
-                MoveToPos(4);
-            }
-            if (sender == Register)
-            {
-                MoveToPos(0);
-            }
+		   if(kranarm.armMoving() == false)
+		   { 
+			  if (sender == Lager1)
+			  {
+				 MoveToPos(5);
+			  }
+			  if (sender == Lager2)
+			  {
+				 MoveToPos(6);
+			  }
+			  if (sender == Bandlager1)
+			  {
+				 MoveToPos(1);
+			  }
+			  if (sender == Bandlager2)
+			  {
+				 MoveToPos(2);
+			  }
+			  if (sender == Bandlager3)
+			  {
+				 MoveToPos(3);
+			  }
+			  if (sender == Bandlager4)
+			  {
+				 MoveToPos(4);
+			  }
+			  if (sender == Register)
+			  {
+				 MoveToPos(0);
+			  }
+		   }
         }
 
         private Kisten erstelleKisteInLager(int Lager, int id)
@@ -585,6 +591,7 @@ namespace D47_WPF_Kran
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+	
             // HTTP GET
             HttpResponseMessage response = await client.GetAsync("api/Crane/Status");
             if (response.IsSuccessStatusCode)
@@ -623,13 +630,21 @@ namespace D47_WPF_Kran
                 {
                     if (!KranStatus.Oben)
                     {
-                        kranarm.setKranarmUnten();
+					kranarm.movekranarmUnten();
                     }
                     else
                     {
                         kranarm.setKranarmOben();
                     }
                 }
+
+			  if(modeControlFlag == false)
+			  {
+				  if(KranStatus.Beladen == true  && kranarm.KisteKran == null)
+				  {
+					  Kisten kiste = new Kisten(this.Kran, this.AnsichtSeite, kranarm.XKoordinate, kranarm.YKoordinate, kranarm.ZKoordinate + 150.0, 0);
+				  }
+			  }
 
                 /*if(kranarm.KisteKran != null)
                 {
@@ -783,6 +798,7 @@ namespace D47_WPF_Kran
                 String result = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(result);
                 Console.WriteLine("PostAsJsonAsync: {0}", response.StatusCode.ToString());
+			 this.kranarm.movekranarmUnten();
             }
             else
             {
@@ -799,6 +815,7 @@ namespace D47_WPF_Kran
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             JsonObjectPosition position = new JsonObjectPosition(pos);
+
 
             HttpResponseMessage response = await client.PostAsJsonAsync("api/Crane/MoveToPlatz", position);
 
@@ -888,5 +905,98 @@ namespace D47_WPF_Kran
                      response.StatusCode.ToString(), (int)response.StatusCode);
             }
         }
+
+	   private void UpdatingUiElements()
+	   {
+		   UpdateStatusBox();
+		   UpdateLagerBelegungUi();
+	   }
+
+	    private void UpdateStatusBox()
+	   {
+		    if(this.Dispatcher.CheckAccess())
+		    {
+			    if (kranarm.armMoving())
+			    {
+				    Status.Text = "Kranarm bewegt sich";
+			    }
+			    else
+			    {
+				    Status.Text = "Ready for Input";
+			    }
+		    }
+		    else
+		    {
+			    UiUpdateHandler handler =
+				    new UiUpdateHandler(this.UpdateStatusBox);
+			    this.Kran.Dispatcher.BeginInvoke(handler);
+		    }
+	   }
+
+	    private void UpdateLagerBelegungUi()
+	    {
+		    
+		    if (this.Dispatcher.CheckAccess())
+		    {
+			    if(this.band.ZwischenlagerBelegt[0] == true)
+			    {
+				    LP1.Text = "Ja";
+			    }
+			    else
+			    {
+				    LP1.Text = "Nein";
+			    }
+			    if (this.band.ZwischenlagerBelegt[1] == true)
+			    {
+				    LP2.Text = "Ja";
+			    }
+			    else
+			    {
+				    LP2.Text = "Nein";
+			    }
+			    if (this.band.LagerBelegt[0] == true)
+			    {
+				    BP1.Text = "Ja";
+			    }
+			    else
+			    {
+				    BP1.Text = "Nein";
+			    }
+			    if (this.band.LagerBelegt[1] == true)
+			    {
+				    BP2.Text = "Ja";
+			    }
+			    else
+			    {
+				    BP2.Text = "Nein";
+			    }
+			    if (this.band.LagerBelegt[2] == true)
+			    {
+				    BP3.Text = "Ja";
+			    }
+			    else
+			    {
+				    BP3.Text = "Nein";
+			    }
+			    if (this.band.LagerBelegt[3] == true)
+			    {
+				    BP4.Text = "Ja";
+			    }
+			    else
+			    {
+				    BP4.Text = "Nein";
+			    }
+
+
+
+
+		    }
+		    else
+		    {
+			    UiUpdateHandler handler =
+				    new UiUpdateHandler(this.UpdateLagerBelegungUi);
+			    this.Kran.Dispatcher.BeginInvoke(handler);
+		    }
+	    }
     }
 }
