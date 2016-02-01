@@ -57,8 +57,9 @@ namespace D47_WPF_Kran
 
             this.Kran.setSideView(this.AnsichtSeite);
 
-            this.client.BaseAddress = new Uri("http://10.0.0.69:53161/");
+            //this.client.BaseAddress = new Uri("http://10.10.18.221:53161/");
             //this.client.BaseAddress = new Uri("http://localhost:53161/");
+            this.client.BaseAddress = new Uri("http://10.8.0.69:53161/");
 
             client.Timeout = TimeSpan.FromSeconds(2);
 
@@ -217,7 +218,7 @@ namespace D47_WPF_Kran
         private void GetCranePositionOnce()
         {
             
-            connection =  GetCranPositionAsyncFirst().Wait(3000);
+            connection =  GetCranPositionAsyncFirst().Wait(30000);
 
             if(connection == false)
             {
@@ -261,7 +262,7 @@ namespace D47_WPF_Kran
                 try
                 {
 
-                    GetCranPositionAsyncFirst().Wait();
+                    GetCranPositionAsyncFirst().Wait(10000);
 
                 }
                 catch (AggregateException Ae)
