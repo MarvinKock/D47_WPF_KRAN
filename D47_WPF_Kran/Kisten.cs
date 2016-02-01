@@ -21,6 +21,7 @@ namespace D47_WPF_Kran
         private Kiste seitKiste;
         private Kiste draufKiste;
         private int kisteID;
+        private Laufband band;
 
         public int KisteID
         {
@@ -28,11 +29,13 @@ namespace D47_WPF_Kran
             set { kisteID = value; }
         }
 
-        public Kisten(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z, int kisteID)
+        public Kisten(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z, int kisteID, Laufband band)
         {
             this.seitSicht = seit;
             this.draufSicht = drauf;
             this.kisteID = kisteID;
+
+            this.band = band;
 
             this.xKoordinate = x;
             this.yKoordinate = y;
@@ -144,15 +147,21 @@ namespace D47_WPF_Kran
             Console.WriteLine("zielX: {0}, zielY: {1}", zielX, zielY);
             while (!(this.xKoordinate == zielX && this.yKoordinate == zielY))
             {
+                
                 //Console.WriteLine("Bewege Kiste");
                 if (this.xKoordinate == zielX)
                 {
-                    if (this.yKoordinate > zielY)
-                        this.yKoordinate--;//kiste.moveKistenYNegativ();
-                    if (this.yKoordinate < zielY)
-                        this.yKoordinate++; //kiste.moveKistenYPositiv();
-                    //if (kiste.yKoordinate == kiste.getYfromPos(pos))
-                    //    this.isRunning = false;
+                    if (this.band.KistenAblageplatz[this.KisteID - 1] == null)
+                    {
+                        if (this.yKoordinate > zielY)
+                            this.yKoordinate--;//kiste.moveKistenYNegativ();
+                        if (this.yKoordinate < zielY)
+                            this.yKoordinate++; //kiste.moveKistenYPositiv();
+                        //if (kiste.yKoordinate == kiste.getYfromPos(pos))
+                        //    this.isRunning = false;
+                    }
+                    else
+                        break;
                 }
                 if (this.xKoordinate > zielX)
                 {
@@ -170,7 +179,12 @@ namespace D47_WPF_Kran
                 //Console.WriteLine("{0} ... {1} ", kiste.yKoordinate, kiste.getYfromPos(pos));
                 Thread.Sleep(30);
             }
-            this.draufSicht.BewegteKiste = false;
+            if(this.xKoordinate == zielX && this.yKoordinate == zielY)
+            {
+                this.draufSicht.BewegteKiste = false;
+                this.band.KistenAblageplatz[this.KisteID - 1] = this;
+            }
+           
         }
 
         public double getXfromID()

@@ -17,12 +17,13 @@ namespace D47_WPF_Kran
         double xKoordinate;
         double yKoordinate;
         double zKoordinate;      
-        int ueberLager;
+        public int ueberLager;
 
         private kranDraufsicht kranDrauf;
         public kranSeitsicht kranSeite;
         private bool inPosition;
         public Kisten kisteKran;
+        public Laufband band;
 
         public Kisten KisteKran
         {
@@ -61,13 +62,15 @@ namespace D47_WPF_Kran
         }
 
 
-        public Kran(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z)
+        public Kran(KranDarstellung drauf, Seitenansicht seit, double x, double y, double z, Laufband band)
         {
             this.draufsicht = drauf;
             this.seitsicht = seit;
             this.xKoordinate = x;
             this.yKoordinate = y;
             this.zKoordinate = z;
+
+            this.band = band;
 
             this.kranDrauf = new kranDraufsicht(this.draufsicht, x, y);
             this.kranSeite = new kranSeitsicht(this.seitsicht, x, z, this);

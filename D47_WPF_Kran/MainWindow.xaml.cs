@@ -57,14 +57,14 @@ namespace D47_WPF_Kran
 
             this.Kran.setSideView(this.AnsichtSeite);
 
-            //this.client.BaseAddress = new Uri("http://10.8.0.135:53161/");
-            this.client.BaseAddress = new Uri("http://localhost:53161/");
+            this.client.BaseAddress = new Uri("http://10.0.0.69:53161/");
+            //this.client.BaseAddress = new Uri("http://localhost:53161/");
 
             client.Timeout = TimeSpan.FromSeconds(2);
 
 
             band = new Laufband();
-            kranarm = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
+            kranarm = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0, this.band);
             
 
             GetCranePositionOnce();
@@ -168,7 +168,7 @@ namespace D47_WPF_Kran
             {
                 if (kranarm.UeberLager == 0)
                 {
-                    Kisten kiste = new Kisten(this.Kran, this.AnsichtSeite, this.kranarm.XKoordinate, this.kranarm.YKoordinate, this.kranarm.ZKoordinate, 0);
+                    Kisten kiste = new Kisten(this.Kran, this.AnsichtSeite, this.kranarm.XKoordinate, this.kranarm.YKoordinate, this.kranarm.ZKoordinate, 0,this.band);
                     this.kranarm.KisteKran = kiste;
                 }
                 else if (kranarm.UeberLager >= 1 && kranarm.UeberLager <= 4)
@@ -210,7 +210,7 @@ namespace D47_WPF_Kran
 
         private void erstelleKiste()
         {
-            Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, this.kisteStartX, this.kisteStartY, this.kisteStartZ, 0);
+            Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, this.kisteStartX, this.kisteStartY, this.kisteStartZ,0, this.band);
             this.ListKisten.Add(kisten);
         }
 
@@ -260,13 +260,14 @@ namespace D47_WPF_Kran
             {
                 try
                 {
-                    
-                    connection = GetCranPositionAsyncFirst().Wait(3000);
-                    
+
+                    GetCranPositionAsyncFirst().Wait();
+
                 }
                 catch (AggregateException Ae)
                 {
                     UpdatingUiElements();
+                    Console.WriteLine("Keine Verbindung");
                 }
                 Thread.Sleep(1000);
             }
@@ -382,37 +383,37 @@ namespace D47_WPF_Kran
             Kisten kisten;
             if (Lager == 1)
             {
-                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id, this.band);
                 kisten.moveKistetoLager(Lager);
                 return kisten;
             }
             if (Lager == 2)
             {
-                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id, this.band);
                 kisten.moveKistetoLager(Lager);
                 return kisten;
             }
             if (Lager == 3)
             {
-                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id, this.band);
                 kisten.moveKistetoLager(Lager);
                 return kisten;
             }
             if (Lager == 4)
             {
-                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id, this.band);
                 kisten.moveKistetoLager(Lager);
                 return kisten;
             }
             if (Lager == 5)
             {
-                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id, this.band);
                 kisten.moveKistetoLager(Lager);
                 return kisten;
             }
             if (Lager == 6)
             {
-                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, id, this.band);
                 kisten.moveKistetoLager(Lager);
                 return kisten;
             }
@@ -421,7 +422,7 @@ namespace D47_WPF_Kran
 
         private Kisten erstelleKisteInRegiter(int id)
         {
-            Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, this.kisteStartX, this.kisteStartY, this.kisteStartZ, 0);
+            Kisten kisten = new Kisten(this.Kran, this.AnsichtSeite, this.kisteStartX, this.kisteStartY, this.kisteStartZ, 0, this.band);
             return kisten;
         }
 
@@ -431,19 +432,19 @@ namespace D47_WPF_Kran
 
             if (puscher == 1)
             {
-                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, 0);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, 0, this.band);
                 kisten.setKisteToPusher(puscher);
                 return kisten;
             }
             if (puscher == 2)
             {
-                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, 0);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, 0, this.band);
                 kisten.setKisteToPusher(puscher);
                 return kisten;
             }
             if (puscher == 3)
             {
-                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, 0);
+                kisten = new Kisten(this.Kran, this.AnsichtSeite, 0, 0, 0, 0, this.band);
                 kisten.setKisteToPusher(puscher);
                 return kisten;
             }
@@ -483,7 +484,7 @@ namespace D47_WPF_Kran
                                     this.band.KisteTurm.KisteID = i + 1;
                                     this.band.KisteTurm.kisteToPos();
                                     this.band.LagerBelegt[i] = true;
-                                    this.band.KistenAblageplatz[i] = this.band.KisteTurm;
+                                    //this.band.KistenAblageplatz[i] = this.band.KisteTurm;
                                     this.band.KisteTurm = null;
                                     this.band.TurmBelegt = false;
                                 }
@@ -491,7 +492,7 @@ namespace D47_WPF_Kran
                                 {
                                     this.band.Active.KisteID = i + 1;
                                     Kisten kisteToLager = this.band.Active;
-                                    this.band.KistenAblageplatz[i] = kisteToLager;
+                                    //this.band.KistenAblageplatz[i] = kisteToLager;
                                     this.band.LagerBelegt[i] = true;
                                     this.band.Active = null;
                                     //Setzt Kiste in Lager no movement
@@ -539,6 +540,8 @@ namespace D47_WPF_Kran
                         }
                     }
 
+                    this.band.BandAn = band.An;
+
 
                     if (band.Registerlager && !this.band.TurmBelegt)
                     {
@@ -581,8 +584,43 @@ namespace D47_WPF_Kran
                             Kisten kistenTurm = erstelleKisteInRegiter(0);
                             this.band.KisteTurm = kistenTurm;
                         }
+
                         //this.band.Active.moveLeftTillStop();
 
+                    }
+
+                    if(band.Schieber[1] == true && this.band.Active.KisteID == 2)
+                    {
+                        if(band.Ablageplatz[1] == true && this.band.LagerBelegt[1] == false && !band.An)
+                        {
+                            this.band.Active.setKisteToPusher(2);
+                        }
+                        else if (band.Ablageplatz[1] == true && this.band.LagerBelegt[1] == false)
+                        {
+                            this.band.Active.moveKisteToPos();
+                        }
+                    }
+                    if (band.Schieber[2] == true && this.band.Active.KisteID == 3)
+                    {
+                        if (band.Ablageplatz[2] == true && this.band.LagerBelegt[2] == false && !band.An)
+                        {
+                            this.band.Active.setKisteToPusher(3);
+                        }
+                        else if (band.Ablageplatz[2] == true && this.band.LagerBelegt[2] == false)
+                        {
+                            this.band.Active.moveKisteToPos();
+                        }
+                    }
+                    if (band.Schieber[2] == true && this.band.Active.KisteID == 4)
+                    {
+                        if (band.Ablageplatz[3] == true && this.band.LagerBelegt[3] == false && !band.An)
+                        {
+                            this.band.Active.setKisteToPusher(3);
+                        }
+                        else if (band.Ablageplatz[3] == true && this.band.LagerBelegt[3] == false)
+                        {
+                            this.band.Active.moveKisteToPos();
+                        }
                     }
                     /*if(band.WerkstueckID != 0 && this.band.Active.KisteID != band.WerkstueckID)
                     {
@@ -590,7 +628,7 @@ namespace D47_WPF_Kran
                         this.band.Active.kisteToPos();
                     }*/
 
-                    this.band.BandAn = band.An;
+                   // this.band.BandAn = band.An;
                     this.init = false;
 
                 }
@@ -702,7 +740,7 @@ namespace D47_WPF_Kran
                     {
                         if (KranStatus.Beladen == true && kranarm.KisteKran == null)
                         {
-                            Kisten kiste = new Kisten(this.Kran, this.AnsichtSeite, kranarm.XKoordinate, kranarm.YKoordinate, kranarm.ZKoordinate + 150.0, 0);
+                            Kisten kiste = new Kisten(this.Kran, this.AnsichtSeite, kranarm.XKoordinate, kranarm.YKoordinate, kranarm.ZKoordinate + 150.0, 0, this.band);
                         }
                     }
 

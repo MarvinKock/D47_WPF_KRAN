@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 
 namespace D47_WPF_Kran
 {
-    class Laufband
+    public class Laufband
     {
         private bool[] lagerBelegt = new bool[4];
         private bool[] zwischenlagerBelegt = new bool[2];

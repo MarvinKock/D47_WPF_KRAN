@@ -126,6 +126,19 @@ namespace D47_WPF_Kran
 
         public void moveKranarmOben()
         {
+            int pos = 0;
+            switch(this.kranarmKlasse.ueberLager)
+            {
+                case 1: pos = 0; break;
+                case 2: pos = 1; break;
+                case 3: pos = 2; break;
+                case 4: pos = 3; break;
+                default: break;
+            }
+            if(this.kranarmKlasse.band.BeroPuscher[pos])
+            {
+                this.kranarmKlasse.band.Active.moveKisteToPos();
+            }
             while (!checkKranarmOben()) 
             {
                 movingkranarm = true;
