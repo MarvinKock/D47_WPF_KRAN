@@ -97,20 +97,17 @@ namespace D47_WPF_Kran
 
     class JsonObjectMoveCrane
     {
-        public bool Left = false;
-        public bool Right = false;
-        public bool Forward = false;
-        public bool Backward = false;
+        public int Richtung;
 
         public JsonObjectMoveCrane(string direction)
         {
             switch(direction)
             {
-                case "left": Left = true; break;
-                case "right": Right = true; break;
-                case "forward": Forward = true; break;
-                case "backward": Backward = true; break;
-                default: Left = false; Right = false; Forward = false; Backward = false; break;
+                case "left": Richtung = 4; break;
+                case "right": Richtung = 3; break;
+                case "forward": Richtung = 1; break;
+                case "backward": Richtung = 2; break;
+                default: Richtung = 0; break;
             }
         }
     }

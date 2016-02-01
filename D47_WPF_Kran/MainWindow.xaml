@@ -67,7 +67,15 @@
 				<TextBlock Width="70">LagerPlatz 2</TextBlock>
 					<TextBlock Width="35" TextAlignment="Center" Name="LP2">???</TextBlock>
 			</StackPanel>
-			</StackPanel>
+                <StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Width="70">X-Position</TextBlock>
+                    <TextBlock Width="35" TextAlignment="Center" Name="UIXPOS">???</TextBlock>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" Grid.Row="500" Orientation="Horizontal">
+                    <TextBlock Width="70">Y-Position</TextBlock>
+                    <TextBlock Width="35" TextAlignment="Center" Name="UIYPOS">???</TextBlock>
+                </StackPanel>
+            </StackPanel>
 
 
 			<!--<StackPanel Margin="0,0,0,0">

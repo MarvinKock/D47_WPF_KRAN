@@ -44,6 +44,8 @@ namespace D47_WPF_Kran
         private bool init = true;
         private bool vorherBeladen = false;
 
+        bool connection = false;
+
 
         Kran kranarm;
 
@@ -58,8 +60,12 @@ namespace D47_WPF_Kran
             //this.client.BaseAddress = new Uri("http://10.8.0.135:53161/");
             this.client.BaseAddress = new Uri("http://localhost:53161/");
 
-            kranarm = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
+            client.Timeout = TimeSpan.FromSeconds(2);
+
+
             band = new Laufband();
+            kranarm = new Kran(Kran, AnsichtSeite, 40.0, 70.0, 70.0);
+            
 
             GetCranePositionOnce();
 
@@ -210,7 +216,15 @@ namespace D47_WPF_Kran
 
         private void GetCranePositionOnce()
         {
-            GetCranPositionAsyncFirst();
+            
+            connection =  GetCranPositionAsyncFirst().Wait(3000);
+
+            if(connection == false)
+            {
+                GetCranePosition();
+            }
+            
+           
         }
 
         private void GetCranePosition()
@@ -226,12 +240,35 @@ namespace D47_WPF_Kran
 
         private void GetCranePositionThread()
         {
-            while (true)
+            while (connection)
             {
-                GetCraneStatus().Wait();
-                GetBandStatusAsync().Wait();
-			 UpdatingUiElements();
-                Thread.Sleep(250);
+                try
+                {
+                    GetCraneStatus().Wait(3000);
+                    GetBandStatusAsync().Wait(3000);
+                    UpdatingUiElements();
+                    Thread.Sleep(250);
+                    
+                }
+                catch (AggregateException Ae)
+                {
+                    connection = false;
+                }
+                
+            }
+            while(!connection)
+            {
+                try
+                {
+                    
+                    connection = GetCranPositionAsyncFirst().Wait(3000);
+                    
+                }
+                catch (AggregateException Ae)
+                {
+                    UpdatingUiElements();
+                }
+                Thread.Sleep(1000);
             }
         }
 
@@ -421,144 +458,151 @@ namespace D47_WPF_Kran
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = await client.GetAsync("api/Band/Status");
-            if (response.IsSuccessStatusCode)
+            try
             {
-                JsonObjectBandStatus band = await response.Content.ReadAsAsync<JsonObjectBandStatus>();
-
-                for (int i = 0; i < 4; i++)
+                HttpResponseMessage response = await client.GetAsync("api/Band/Status");
+                if (response.IsSuccessStatusCode)
                 {
+                    JsonObjectBandStatus band = await response.Content.ReadAsAsync<JsonObjectBandStatus>();
 
-                    if (band.Ablageplatz[i] == true && this.band.LagerBelegt[i] == false && !this.kranarm.armMoving())
-                    {
-                        if (init)
-                        {
-                            this.band.LagerBelegt[i] = band.Ablageplatz[i];
-                            Kisten kisteLager = erstelleKisteInLager(i + 1, 1);
-                            this.band.KistenAblageplatz[i] = kisteLager;
-                        }
-                        else
-                        {
-                            if (this.band.Active == null)
-                            {
-                                this.band.KisteTurm.KisteID = i + 1;
-                                this.band.KisteTurm.kisteToPos();
-                                this.band.LagerBelegt[i] = true;
-                                this.band.KistenAblageplatz[i] = this.band.KisteTurm;
-                                this.band.KisteTurm = null;
-                                this.band.TurmBelegt = false;
-                            }
-                            else
-                            {
-                                this.band.Active.KisteID = i + 1;
-                                Kisten kisteToLager = this.band.Active;
-                                this.band.KistenAblageplatz[i] = kisteToLager;
-                                this.band.LagerBelegt[i] = true;
-                                this.band.Active = null;
-                                //Setzt Kiste in Lager no movement
-                                /*this.band.Active.moveKistetoLager(this.band.Active.KisteID);
-                                this.band.KistenAblageplatz[i] = this.band.Active;
-                                this.band.LagerBelegt[i] = true;
-                                this.band.Active = null;*/
-                            }
-
-                        }
-                    }
-                    if (i < 2)
+                    for (int i = 0; i < 4; i++)
                     {
 
-                        if (band.Einlagerplatz[i] == true && this.band.ZwischenlagerBelegt[i] == false)
+                        if (band.Ablageplatz[i] == true && this.band.LagerBelegt[i] == false && !this.kranarm.armMoving())
                         {
-
                             if (init)
                             {
-                                Kisten kisteLager = erstelleKisteInLager(i + 4, 1);
-                                this.band.KistenLager[i] = kisteLager;
-                                this.band.ZwischenlagerBelegt[i] = band.Einlagerplatz[i];
+                                this.band.LagerBelegt[i] = band.Ablageplatz[i];
+                                Kisten kisteLager = erstelleKisteInLager(i + 1, 1);
+                                this.band.KistenAblageplatz[i] = kisteLager;
                             }
                             else
                             {
-                                /*this.band.KistenAblageplatz[i] = this.kranarm.KisteKran;
-                                this.kranarm.KisteKran = null;
-                                this.band.ZwischenlagerBelegt[i] = true;*/
+                                if (this.band.Active == null)
+                                {
+                                    this.band.KisteTurm.KisteID = i + 1;
+                                    this.band.KisteTurm.kisteToPos();
+                                    this.band.LagerBelegt[i] = true;
+                                    this.band.KistenAblageplatz[i] = this.band.KisteTurm;
+                                    this.band.KisteTurm = null;
+                                    this.band.TurmBelegt = false;
+                                }
+                                else
+                                {
+                                    this.band.Active.KisteID = i + 1;
+                                    Kisten kisteToLager = this.band.Active;
+                                    this.band.KistenAblageplatz[i] = kisteToLager;
+                                    this.band.LagerBelegt[i] = true;
+                                    this.band.Active = null;
+                                    //Setzt Kiste in Lager no movement
+                                    /*this.band.Active.moveKistetoLager(this.band.Active.KisteID);
+                                    this.band.KistenAblageplatz[i] = this.band.Active;
+                                    this.band.LagerBelegt[i] = true;
+                                    this.band.Active = null;*/
+                                }
 
-                                Console.WriteLine("Troublemaker...................................");
                             }
                         }
-                    }
-                    if (i < 3)
-                    {
-                        if (band.Schieber[i] == true)
+                        if (i < 2)
                         {
-                            if (this.init)
+
+                            if (band.Einlagerplatz[i] == true && this.band.ZwischenlagerBelegt[i] == false)
                             {
-                                this.band.BeroPuscher[i] = band.Schieber[i];
-                                Kisten kisteToLager = this.erstelleKisteVorPuscher(i + 1);
-                                this.band.Active = kisteToLager;
+
+                                if (init)
+                                {
+                                    Kisten kisteLager = erstelleKisteInLager(i + 4, 1);
+                                    this.band.KistenLager[i] = kisteLager;
+                                    this.band.ZwischenlagerBelegt[i] = band.Einlagerplatz[i];
+                                }
+                                else
+                                {
+                                    /*this.band.KistenAblageplatz[i] = this.kranarm.KisteKran;
+                                    this.kranarm.KisteKran = null;
+                                    this.band.ZwischenlagerBelegt[i] = true;*/
+
+                                    //Console.WriteLine("Troublemaker...................................");
+                                }
+                            }
+                        }
+                        if (i < 3)
+                        {
+                            if (band.Schieber[i] == true)
+                            {
+                                if (this.init)
+                                {
+                                    this.band.BeroPuscher[i] = band.Schieber[i];
+                                    Kisten kisteToLager = this.erstelleKisteVorPuscher(i + 1);
+                                    this.band.Active = kisteToLager;
+                                }
                             }
                         }
                     }
-                }
 
 
-                if (band.Registerlager && !this.band.TurmBelegt)
-                {
-                    this.band.TurmBelegt = band.Registerlager;
-                    Kisten kistenTurm = erstelleKisteInRegiter(0);
-                    this.band.KisteTurm = kistenTurm;
-                }
-
-                if (band.Schieber[0] == true && this.band.Active == null)
-                {
-                    if (band.Ablageplatz[0] == true && this.band.LagerBelegt[0] == true && !band.An)
+                    if (band.Registerlager && !this.band.TurmBelegt)
                     {
-                        this.band.KisteTurm.KisteID = 1;
-                        this.band.Active = this.band.KisteTurm;
-                        this.band.TurmBelegt = false;
-                        this.band.KisteTurm = null;
-                        this.band.Active.setKisteToPusher(1);
-                    }
-
-                    if (band.Ablageplatz[0] == true && this.band.LagerBelegt[0] == false && band.WerkstueckID == 1)
-                    {
-                        this.band.KisteTurm.KisteID = 1;
-                        this.band.Active = this.band.KisteTurm;
-                        this.band.TurmBelegt = false;
-                        this.band.KisteTurm = null;
-                        this.band.Active.moveKisteToPos();
-                    }
-
-                    if (band.WerkstueckID != 1)
-                    {
-                        this.band.KisteTurm.KisteID = band.WerkstueckID;
-                        this.band.KisteTurm.kisteToPos();
-                        this.band.Active = this.band.KisteTurm;
-                        this.band.TurmBelegt = false;
-                        this.band.KisteTurm = null;
-                    }
-
-                    if (band.Registerlager)
-                    {
+                        this.band.TurmBelegt = band.Registerlager;
                         Kisten kistenTurm = erstelleKisteInRegiter(0);
                         this.band.KisteTurm = kistenTurm;
                     }
-                    //this.band.Active.moveLeftTillStop();
+
+                    if (band.Schieber[0] == true && this.band.Active == null)
+                    {
+                        if (band.Ablageplatz[0] == true && this.band.LagerBelegt[0] == true && !band.An)
+                        {
+                            this.band.KisteTurm.KisteID = 1;
+                            this.band.Active = this.band.KisteTurm;
+                            this.band.TurmBelegt = false;
+                            this.band.KisteTurm = null;
+                            this.band.Active.setKisteToPusher(1);
+                        }
+
+                        if (band.Ablageplatz[0] == true && this.band.LagerBelegt[0] == false && band.WerkstueckID == 1)
+                        {
+                            this.band.KisteTurm.KisteID = 1;
+                            this.band.Active = this.band.KisteTurm;
+                            this.band.TurmBelegt = false;
+                            this.band.KisteTurm = null;
+                            this.band.Active.moveKisteToPos();
+                        }
+
+                        if (band.WerkstueckID != 1)
+                        {
+                            this.band.KisteTurm.KisteID = band.WerkstueckID;
+                            this.band.KisteTurm.kisteToPos();
+                            this.band.Active = this.band.KisteTurm;
+                            this.band.TurmBelegt = false;
+                            this.band.KisteTurm = null;
+                        }
+
+                        if (band.Registerlager)
+                        {
+                            Kisten kistenTurm = erstelleKisteInRegiter(0);
+                            this.band.KisteTurm = kistenTurm;
+                        }
+                        //this.band.Active.moveLeftTillStop();
+
+                    }
+                    /*if(band.WerkstueckID != 0 && this.band.Active.KisteID != band.WerkstueckID)
+                    {
+                        this.band.Active.KisteID = band.WerkstueckID;
+                        this.band.Active.kisteToPos();
+                    }*/
+
+                    this.band.BandAn = band.An;
+                    this.init = false;
 
                 }
-                /*if(band.WerkstueckID != 0 && this.band.Active.KisteID != band.WerkstueckID)
+                if (response.IsSuccessStatusCode == false)
                 {
-                    this.band.Active.KisteID = band.WerkstueckID;
-                    this.band.Active.kisteToPos();
-                }*/
+                    Console.WriteLine("No Connection");
 
-                this.band.BandAn = band.An;
-                this.init = false;
-
+                }
             }
-            if (response.IsSuccessStatusCode == false)
+            catch (HttpRequestException)
             {
-                Console.WriteLine("No Connection");
-
+                Console.WriteLine("Server nicht verfügbar. Bitte Starten sie die Anwendung neu und ihren Server neu");
             }
         }
 
@@ -567,23 +611,36 @@ namespace D47_WPF_Kran
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            // HTTP GET
-            HttpResponseMessage response = await client.GetAsync("api/Crane/GetPosition");
-            if (response.IsSuccessStatusCode)
+
+
+            try
             {
-                JsonObjectXYPos coord = await response.Content.ReadAsAsync<JsonObjectXYPos>();
 
-                double[] coords = new double[2];
-                coords = getCanvasCoord(coord.X_pos, coord.Y_pos);
-                kranarm.setKranPosition(coords[0], coords[1]);
+                
+                // HTTP GET
+                HttpResponseMessage response = await client.GetAsync("api/Crane/GetPosition");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonObjectXYPos coord = await response.Content.ReadAsAsync<JsonObjectXYPos>();
 
-                GetCranePosition();
+                    double[] coords = new double[2];
+                    coords = getCanvasCoord(coord.X_pos, coord.Y_pos);
+                    kranarm.setKranPosition(coords[0], coords[1]);
 
+                    GetCranePosition();
+
+                    connection = true;
+
+                }
+                if (response.IsSuccessStatusCode == false)
+                {
+                    Console.WriteLine("No Connection");
+
+                }
             }
-            if (response.IsSuccessStatusCode == false)
+            catch(TimeoutException)
             {
-                Console.WriteLine("No Connection");
-
+                Console.WriteLine("Server nicht erreichbar");
             }
         }
 
@@ -594,82 +651,90 @@ namespace D47_WPF_Kran
 
 	
             // HTTP GET
-            HttpResponseMessage response = await client.GetAsync("api/Crane/Status");
-            if (response.IsSuccessStatusCode)
+            try
             {
-                JsonObjectKranStatus KranStatus = await response.Content.ReadAsAsync<JsonObjectKranStatus>();
-
-
-                double[] coords = new double[2];
-                coords = getCanvasCoord(KranStatus.X_Pos, KranStatus.Y_Pos);
-                kranarm.setKranPosition(coords[0], coords[1]);
-
-                if (KranStatus.Oben && !this.kranarm.armMoving())
+                HttpResponseMessage response = await client.GetAsync("api/Crane/Status");
+                if (response.IsSuccessStatusCode)
                 {
-                    this.kranarm.setKranarmOben();
-                    vorherBeladen = false;
-                }
+                    JsonObjectKranStatus KranStatus = await response.Content.ReadAsAsync<JsonObjectKranStatus>();
 
-                int KranUeberLager = kranarm.isUeberLager();
 
-                if (KranStatus.Beladen == true && kranarm.KisteKran == null)
-                {
-                    //removeKisteInSeitAnsicht(KranUeberLager);
-                    //removeKisteInDraufsicht(KranUeberLager);                  
-                    //this.band.LagerBelegt[KranUeberLager - 2] = false ;
-                    //this.kranarm.KisteKran = new Kisten(this.Kran, this.AnsichtSeite, 50.0,50.0,50.0,2);
-                    //this.band.KistenAblageplatz[KranUeberLager - 2] = null;
-                    //this.AnsichtSeite,
+                    double[] coords = new double[2];
+                    coords = getCanvasCoord(KranStatus.X_Pos, KranStatus.Y_Pos);
+                    kranarm.setKranPosition(coords[0], coords[1]);
 
-                }
-                else
-                {
-                    //kranarm.KisteKran 
-                }
-
-                if (!this.kranarm.armMoving())
-                {
-                    if (!KranStatus.Oben)
+                    if (KranStatus.Oben && !this.kranarm.armMoving())
                     {
-					kranarm.movekranarmUnten();
+                        this.kranarm.setKranarmOben();
+                        vorherBeladen = false;
+                    }
+
+                    int KranUeberLager = kranarm.isUeberLager();
+
+                    if (KranStatus.Beladen == true && kranarm.KisteKran == null)
+                    {
+                        //removeKisteInSeitAnsicht(KranUeberLager);
+                        //removeKisteInDraufsicht(KranUeberLager);                  
+                        //this.band.LagerBelegt[KranUeberLager - 2] = false ;
+                        //this.kranarm.KisteKran = new Kisten(this.Kran, this.AnsichtSeite, 50.0,50.0,50.0,2);
+                        //this.band.KistenAblageplatz[KranUeberLager - 2] = null;
+                        //this.AnsichtSeite,
+
                     }
                     else
                     {
-                        kranarm.setKranarmOben();
+                        //kranarm.KisteKran 
                     }
+
+                    if (!this.kranarm.armMoving())
+                    {
+                        if (!KranStatus.Oben)
+                        {
+                            kranarm.movekranarmUnten();
+                        }
+                        else
+                        {
+                            kranarm.setKranarmOben();
+                        }
+                    }
+
+                    if (modeControlFlag == false)
+                    {
+                        if (KranStatus.Beladen == true && kranarm.KisteKran == null)
+                        {
+                            Kisten kiste = new Kisten(this.Kran, this.AnsichtSeite, kranarm.XKoordinate, kranarm.YKoordinate, kranarm.ZKoordinate + 150.0, 0);
+                        }
+                    }
+
+                    /*if(kranarm.KisteKran != null)
+                    {
+                        kranarm.KisteKran.setKistenPosition(kranarm.XKoordinate - 10.0, kranarm.YKoordinate - 10.0);
+                        kranarm.KisteKran.setKisteHoehe(kranarm.ZKoordinate);
+                    }*/
+
+
+                    /* if(KranStatus.Beladen && !KranStatus.Oben && !vorherBeladen)
+                     {
+                         this.kranarm.movekranarmOben();
+                         vorherBeladen = true;
+                     }
+                     if(KranStatus.Oben && !this.kranarm.armMoving())
+                     {
+                         this.kranarm.setKranarmOben();
+                         vorherBeladen = false;
+                     }*/
                 }
-
-			  if(modeControlFlag == false)
-			  {
-				  if(KranStatus.Beladen == true  && kranarm.KisteKran == null)
-				  {
-					  Kisten kiste = new Kisten(this.Kran, this.AnsichtSeite, kranarm.XKoordinate, kranarm.YKoordinate, kranarm.ZKoordinate + 150.0, 0);
-				  }
-			  }
-
-                /*if(kranarm.KisteKran != null)
+                else
                 {
-                    kranarm.KisteKran.setKistenPosition(kranarm.XKoordinate - 10.0, kranarm.YKoordinate - 10.0);
-                    kranarm.KisteKran.setKisteHoehe(kranarm.ZKoordinate);
-                }*/
+                    Console.WriteLine("PostAsJsonAsync Error: {0} [{1}]",
+                         response.StatusCode.ToString(), (int)response.StatusCode);
 
-
-                /* if(KranStatus.Beladen && !KranStatus.Oben && !vorherBeladen)
-                 {
-                     this.kranarm.movekranarmOben();
-                     vorherBeladen = true;
-                 }
-                 if(KranStatus.Oben && !this.kranarm.armMoving())
-                 {
-                     this.kranarm.setKranarmOben();
-                     vorherBeladen = false;
-                 }*/
+                }
             }
-            else
-            {
-                Console.WriteLine("PostAsJsonAsync Error: {0} [{1}]",
-                     response.StatusCode.ToString(), (int)response.StatusCode);
-
+            catch(HttpRequestException)
+            {               
+                Console.WriteLine("Server nicht verfügbar. Bitte Starten sie die Anwendung neu und ihren Server neu");
+                connection = false;
             }
 
         }
@@ -911,20 +976,29 @@ namespace D47_WPF_Kran
 	   {
 		   UpdateStatusBox();
 		   UpdateLagerBelegungUi();
+           UpdatePositionUI();
 	   }
 
 	    private void UpdateStatusBox()
 	   {
 		    if(this.Dispatcher.CheckAccess())
 		    {
-			    if (kranarm.armMoving())
-			    {
-				    Status.Text = "Kranarm bewegt sich";
-			    }
-			    else
-			    {
-				    Status.Text = "Ready for Input";
-			    }
+                if(connection == true)
+                {
+                    if (kranarm.armMoving())
+                    {
+                        Status.Text = "Kranarm bewegt sich";
+                    }
+                    else
+                    {
+                        Status.Text = "Ready for Input";
+                    }
+                }
+                else
+                {
+                    Status.Text = "No Connection: Reconnect";
+                }
+			    
 		    }
 		    else
 		    {
@@ -999,5 +1073,20 @@ namespace D47_WPF_Kran
 			    this.Kran.Dispatcher.BeginInvoke(handler);
 		    }
 	    }
+
+        private void UpdatePositionUI()
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                UIYPOS.Text = kranarm.YKoordinate.ToString();
+                UIXPOS.Text = kranarm.XKoordinate.ToString();
+            }
+            else
+            {
+                UiUpdateHandler handler =
+                    new UiUpdateHandler(this.UpdatePositionUI);
+                this.Kran.Dispatcher.BeginInvoke(handler);
+            }
+        }
     }
 }
